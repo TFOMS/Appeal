@@ -1,0 +1,45 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<http access-denied-page="/error403.jsp">
+		<intercept-url pattern="/" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO" />
+		<intercept-url pattern="/index*" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO" />
+		<intercept-url pattern="/add*" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO" />
+		<intercept-url pattern="/searching" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO" />
+		<intercept-url pattern="/reporting" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO" />
+		<intercept-url pattern="/delete/*" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO" />
+		<form-login login-page="/login.jsp" default-target-url="/index"
+			authentication-failure-url="/login.jsp?error=true" />
+		<logout logout-url="/logout" logout-success-url="/index" />
+		
+		<anonymous username="guest" granted-authority="ROLE_ANONYMOUS" />
+		<remember-me />
+	</http>
+	
+   
+	<beans:bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" /> 
+	
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="sasha" password="kjh987" authorities="ROLE_ADMIN,ROLE_TFOMS" />
+				<user name="smo_simaz" password="uyt765" authorities="ROLE_SMO" />
+				<user name="smo_rosno" password="wer456" authorities="ROLE_SMO" />
+				<user name="smo_ingos" password="rty579" authorities="ROLE_SMO" />
+				<user name="mityanina" password="tre456" authorities="ROLE_TFOMS" />
+				<user name="vasilyeva" password="uhb567" authorities="ROLE_TFOMS" />
+				<user name="popova" password="fds321" authorities="ROLE_TFOMS" />
+				<user name="eremina" password="nbv654" authorities="ROLE_TFOMS" />
+				<user name="hamitov" password="zxc234" authorities="ROLE_TFOMS" />
+				<user name="filimonova" password="lkj098" authorities="ROLE_TFOMS" />
+				<user name="osipova" password="jkl890" authorities="ROLE_TFOMS" />
+				
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>

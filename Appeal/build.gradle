@@ -1,0 +1,76 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'jetty'
+
+webAppDirName = 'WebContent'
+
+sourceCompatibility = 1.7
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ["src"]
+		}
+	}
+}
+
+repositories {
+	mavenCentral()
+	flatDir { dirs "WebContent/WEB-INF/lib","libs"}
+}
+
+dependencies {
+	testCompile group: 'junit', name: 'junit', version: '4.+'
+
+	/* Embedded Jetty */
+	/*
+	compile 'org.eclipse.jetty:jetty-server:9.2.2.v20140723'
+	compile 'org.eclipse.jetty:jetty-webapp:9.2.2.v20140723'
+	compile 'org.eclipse.jetty:jetty-jsp:9.2.2.v20140723'
+	/**/
+	
+	compile 'net.sourceforge.htmlunit:htmlunit:2.15'
+
+	runtime 'javax.servlet:jstl:1.2'
+	compile 'javax.servlet:jstl:1.2'
+	compile 'org.eclipse.jetty:jetty-servlet:9.2.2.v20140723'
+	compile 'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final'
+	compile 'javax.inject:javax.inject-tck:1'
+	compile 'javax.validation:validation-api:1.0.0.GA'
+	compile 'org.springframework:spring-webmvc:4.0.6.RELEASE'
+	compile 'org.springframework:spring-core:4.0.6.RELEASE'
+	compile 'org.springframework:spring-aop:4.0.6.RELEASE'
+	compile 'org.springframework:spring-web:4.0.6.RELEASE'
+	compile 'org.springframework:spring-beans:4.0.6.RELEASE'
+	compile 'org.springframework:spring-context:4.0.6.RELEASE'
+	compile 'org.springframework:spring-tx:4.0.6.RELEASE'
+	compile 'org.springframework:spring-orm:4.0.6.RELEASE'
+	compile 'org.springframework.security:spring-security-config:3.2.4.RELEASE'
+	compile 'org.springframework.security:spring-security-web:3.2.4.RELEASE'
+	compile 'org.springframework.security:spring-security-core:3.2.4.RELEASE'
+	compile 'org.springframework.security:spring-security-taglibs:3.2.5.RELEASE'
+	compile 'org.hibernate:hibernate-gradle-plugin:4.2.8.Final'
+	compile 'org.hibernate:hibernate-validator:5.1.2.Final'
+	//compile 'org.slf4j:slf4j-simple:1.6.1' 
+	compile 'org.mockito:mockito-all:1.8.4'
+	//compile 'log4j:log4j:1.2.17'
+	
+	
+	runtime files('lib/ojdbc6.jar')
+	//runtime files('lib/mysql-connector-java-5.1.32-bin.jar')
+	runtime files('lib/olap4j-0.9.7.309-JS-3.jar')
+	runtime fileTree(dir: 'lib', include: '*.jar')
+	compile fileTree(dir: 'lib', include: '*.jar')
+
+	compile 'org.codehaus.jackson:jackson-mapper-asl:1.8.1'
+	compile 'net.sf.jasperreports:jasperreports:5.6.1'
+	compile 'org.apache.poi:poi:3.10.1'
+	//compile 'net.sf.jasperreports:jasperreports:4.1.2'
+	compile 'com.lowagie:itext:2.1.7'
+	compile 'net.sf.squirrel-sql.thirdparty-non-maven:treetable:20040121'
+	
+	providedCompile fileTree(dir:'WebContent/WEB-INF/lib', include:'*.jar')
+	providedCompile fileTree(dir:'libs', include:'*.jar')
+}

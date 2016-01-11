@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
+<!-- 2015-02-02T10:04:17 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="appeal_pay" pageWidth="1400" pageHeight="1200" columnWidth="960" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" whenResourceMissingType="Empty" isIgnorePagination="true" uuid="c8962692-6307-4e22-8ed8-52d31ab6f776">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="dateBegin" class="java.lang.String"/>
+	<parameter name="dateEnd" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select 
+			case row_number() over(partition by ty.type order by ty.type) when 1 then ty.type end type,
+			c.cause, r1.rectif1,r2.rectif2,r3.rectif3,r4.rectif4,
+      sum(case when (t.present_id=2)and(t.source_id=1) then 1 else 0 end) wrt_tfm,
+      sum(case when (t.present_id=2)and(t.source_id=2) then 1 else 0 end) wrt_smo,
+      sum(case when (t.present_id=2) then 1 else 0 end) wrt,
+      sum(case when (t.present_id=1)and(t.source_id=1) then 1 else 0 end) spk_tfm,
+      sum(case when (t.present_id=1)and(t.source_id=2) then 1 else 0 end) spk_smo,
+      sum(case when (t.present_id=1) then 1 else 0 end) spk,
+      sum(case when (t.valid_id=1)and(t.source_id=1) then 1 else 0 end) vld_tfm,
+      sum(case when (t.valid_id=1)and(t.source_id=2) then 1 else 0 end) vld_smo,
+      sum(case when (t.valid_id=1) then 1 else 0 end) vld,
+      sum(case when (t.source_id=1) then 1 else 0 end) tfm,
+      sum(case when (t.source_id=2) then 1 else 0 end) smo,
+      count(*) allc
+			  from t_petit t 
+			left join t_type ty on ty.type_id = t.type_id
+			left join t_cause c on c.cause_id = t.cause_id
+			left join t_rectif1 r1 on r1.rectif1_id = t.rectif1_id
+			left join t_rectif2 r2 on r2.rectif2_id = t.rectif2_id
+			left join t_rectif3 r3 on r3.rectif3_id = t.rectif3_id
+			left join t_rectif4 r4 on r4.rectif4_id = t.rectif4_id    
+			where t.date_input between $P{dateBegin} and $P{dateEnd} and t.hsp_id=1
+			group by ty.type, c.cause, r1.rectif1, r2.rectif2, r3.rectif3, r4.rectif4]]>
+	</queryString>
+	<field name="type" class="java.lang.String"/>
+	<field name="cause" class="java.lang.String"/>
+	<field name="rectif1" class="java.lang.String"/>
+	<field name="rectif2" class="java.lang.String"/>
+	<field name="rectif3" class="java.lang.String"/>
+	<field name="rectif4" class="java.lang.String"/>
+	<field name="wrt_tfm" class="java.lang.String"/>
+	<field name="wrt_smo" class="java.lang.String"/>
+	<field name="wrt" class="java.lang.String"/>
+	<field name="spk_tfm" class="java.lang.String"/>
+	<field name="spk_smo" class="java.lang.String"/>
+	<field name="spk" class="java.lang.String"/>
+	<field name="vld_tfm" class="java.lang.String"/>
+	<field name="vld_smo" class="java.lang.String"/>
+	<field name="vld" class="java.lang.String"/>
+	<field name="tfm" class="java.lang.String"/>
+	<field name="smo" class="java.lang.String"/>
+	<field name="allc" class="java.lang.String"/>
+	<title>
+		<band height="130">
+			<textField>
+				<reportElement x="-1" y="0" width="241" height="30" uuid="408238bc-578c-4eef-8d17-82738aaa6164"/>
+				<box>
+					<pen lineWidth="0.1" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Количество обращений по подробным причинам по поликлиникам"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="379" y="0" width="20" height="20" uuid="59ae5968-8d45-44f8-ad5a-cea55bb892e3"/>
+				<box>
+					<pen lineWidth="0.1" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA["-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="0" width="100" height="20" uuid="ba940ec4-0f47-49fa-96f4-e2e7f4757abe"/>
+				<box>
+					<pen lineWidth="0.1" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dateBegin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="399" y="0" width="100" height="20" uuid="74414560-6a64-4ead-ae6b-4f73890279cd"/>
+				<box>
+					<pen lineWidth="0.1" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dateEnd}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="70" height="90" uuid="630c6887-7650-4b9f-b47b-2aec46d8a872"/>
+				<box>
+					<pen lineWidth="0.1" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Тип]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="540" y="100" width="50" height="30" uuid="a32dfb70-6580-4f26-b8bd-fa3d50144c9e"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[ТФОМС]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="40" width="70" height="90" uuid="757c6689-b251-44eb-8818-aa7da26816a4"/>
+				<box>
+					<pen lineWidth="0.1" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Причина]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="40" width="100" height="90" uuid="8aec53eb-b8df-4b18-a4b8-57412c3b23c4"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Уточнение 1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="40" width="100" height="90" uuid="90d18279-2dbe-4b38-81f3-af383e4cb071"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Уточнение 3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="40" width="100" height="90" uuid="2847f34e-bda6-4a21-8477-7e7c1dc12a93"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Уточнение 4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="40" width="100" height="90" uuid="c5e13826-05e1-4b39-a846-99190913d0f9"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Уточнение 2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="590" y="100" width="50" height="30" uuid="4e4d5e8d-c5dd-497f-8fc0-e65257b9f52c"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[СМО]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="640" y="100" width="50" height="30" uuid="60f667eb-f39b-4a2a-a487-a799365b921b"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Всего]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="540" y="70" width="150" height="30" uuid="f9bc4af1-e733-4740-bbc5-0ba0f0f9e80e"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Письменных]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="690" y="70" width="150" height="30" uuid="855d3e87-e2e2-4961-815e-ab9ec1c72756"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Устных]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="790" y="100" width="50" height="30" uuid="91809d5a-58c1-4327-ae0e-87011bd45c0e"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Всего]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="690" y="100" width="50" height="30" uuid="0e8b7cc9-a0d9-49c1-ba17-f202d73c20e5"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[ТФОМС]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="740" y="100" width="50" height="30" uuid="608fe9ba-009d-4c81-b2e6-9f87a56d3873"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[СМО]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="840" y="70" width="150" height="30" uuid="341f32f9-545f-45e4-bb26-3059cc813921"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Из них обоснованных]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="890" y="100" width="50" height="30" uuid="dfdb14c8-3210-4c7d-a23d-ddf76968da92"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[СМО]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="840" y="100" width="50" height="30" uuid="17870cae-964f-46ec-a58d-7894af663ef7"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[ТФОМС]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="940" y="100" width="50" height="30" uuid="e35a0e43-9cd2-4e9a-bed6-20e1b066c69a"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Всего]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="990" y="70" width="150" height="30" uuid="0c7c86d7-07ac-4e86-94bc-656ea8f27212"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Всего]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1090" y="100" width="50" height="30" uuid="62fbf505-c079-4f85-bf63-ad5136fca920"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Всего]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1040" y="100" width="50" height="30" uuid="5f69b71f-45d4-46c4-9a49-f8a3fd835e5f"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[СМО]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="990" y="100" width="50" height="30" uuid="a1fe75ea-90ea-4744-955a-55133715712a"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[ТФОМС]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="540" y="40" width="600" height="30" uuid="7eb1f973-16ba-4c3d-bfe7-de06f5b901bc"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Количество обращений за отчетный период]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="80">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="240" y="0" width="100" height="80" uuid="2fb6e38e-57bf-4e5d-80f8-f71cc99c554b"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rectif2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="340" y="0" width="100" height="80" uuid="80f920ec-1d9c-435c-ab44-1cda6b3f9eae"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rectif3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="140" y="0" width="100" height="80" uuid="59bc8325-2fea-44f9-8ce1-e44cf8c8bf9c"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rectif1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="70" y="0" width="70" height="80" uuid="1ec65416-fe40-4342-9001-4bed15fcdb3e"/>
+				<box>
+					<pen lineWidth="0.1" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cause}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="540" y="0" width="50" height="80" uuid="d719f7db-8cc4-4756-8b7e-444a327c9db1"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{wrt_tfm}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="440" y="0" width="100" height="80" uuid="1e6ab317-ad2d-40f0-81e3-9bf59b005beb"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rectif4}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="0" width="70" height="80" uuid="a52c2bef-9e5d-4cc8-87e7-36802fb4e141"/>
+				<box>
+					<pen lineWidth="0.1" lineStyle="Dotted"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="590" y="0" width="50" height="80" uuid="8c243039-ed37-46c8-8798-04a7bb76fa66"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{wrt_smo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="640" y="0" width="50" height="80" uuid="cca11376-71ad-44f1-a17f-b5a220569831"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{wrt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="740" y="0" width="50" height="80" uuid="519672f5-5616-4d18-986c-930287d5eeb8"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{spk_smo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="690" y="0" width="50" height="80" uuid="9ae74425-64c5-454d-b98c-a3a66041c3d3"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{spk_tfm}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="790" y="0" width="50" height="80" uuid="10239b2e-5e54-4cd6-afdf-242510b387d1"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{spk}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="840" y="0" width="50" height="80" uuid="079d2524-9014-4666-b916-b4ff5e4397fd"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vld_tfm}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="890" y="0" width="50" height="80" uuid="dc6d2232-694a-4e66-bc0d-d1623bb16bd6"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vld_smo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="940" y="0" width="50" height="80" uuid="d14602ce-2eb4-44e8-80fa-86201960e59b"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vld}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1090" y="0" width="50" height="80" uuid="6166930d-293d-48f8-8a12-0fd152369fce"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{allc}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="990" y="0" width="50" height="80" uuid="b5bc72c9-d88b-4b97-89c9-46c472b5b93f"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tfm}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1040" y="0" width="50" height="80" uuid="9de910ab-7695-454f-bb87-eee0842cad2c"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{smo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
