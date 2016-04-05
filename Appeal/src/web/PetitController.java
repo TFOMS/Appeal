@@ -82,7 +82,12 @@ public class PetitController {
 
     	map.put("petit", new Petit());
     	List<Petit> pl = petitService.listPetit(getUserName());
-    	for(Petit pt : pl) pt.setDateInput(pt.getDateInput().substring(8, 10) + "." + pt.getDateInput().substring(5, 7) + "." + pt.getDateInput().substring(0, 4));
+    	
+    	for(Petit pt : pl)
+    	{
+    		if(pt.getDateInput() !=null)
+    		pt.setDateInput(pt.getDateInput().substring(8, 10) + "." + pt.getDateInput().substring(5, 7) + "." + pt.getDateInput().substring(0, 4));
+    	}
         map.put("petitList", pl);
 		if(getUserName().equals("sasha") ||
 				getUserName().equals("mityanina") ||
@@ -157,11 +162,11 @@ public class PetitController {
 	}
 
 	synchronized private void checkID(Petit petit) {
-		int num = PetitID.readPetitID().getNum();
+		int num = new PetitID().readPetitID().getNum();
 		//int num = 2748;
 		if(petit.getId() == null || petit.getId() <= 0 || petit.getId() > num) {
 			petit.setId(++num);
-			 PetitID.writePetitID(num);
+			 new PetitID().writePetitID(num);
 		}
 	}
 	

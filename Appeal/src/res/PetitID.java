@@ -21,7 +21,7 @@ public class PetitID extends Object implements Serializable {
 		this.num = num;
 	}
 	
-	public static PetitID readPetitID() {
+	public  PetitID readPetitID() {
 		try{
 	        FileInputStream fileOut = new FileInputStream("D:\\Appeals3\\Appeal\\res\\PetitID.bin");
 	        ObjectInputStream in = new ObjectInputStream(fileOut);
@@ -37,7 +37,7 @@ public class PetitID extends Object implements Serializable {
 		return null;
 	}
 
-	public static void writePetitID(int num) {
+	public  void writePetitID(int num) {
 		try{
 			PetitID object = new PetitID();
 			object.setNum(num);

@@ -1,3 +1,4 @@
-/hibernate.cfg.xml
-/log4j.xml
-/messages_ru.properties
+/dao/
+/domain/
+/web/
+/app/

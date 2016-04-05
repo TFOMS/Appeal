@@ -51,6 +51,7 @@ public class PetitDAOImpl implements PetitDAO {
     	Method[] methods = Petit.class.getMethods();
     	for (Method method : methods) {
     		if (isGetter(method)) {
+    			
         		if(method.invoke(petit) != null && !"".equals(method.invoke(petit)) && !"getClass".equals(method.getName()) 
         				&& !"0".equals(method.invoke(petit).toString())
         				&& !"getDateBegin".equals(method.getName()) && !"getDateEnd".equals(method.getName())) {

@@ -44,7 +44,7 @@ public class Petit {
 				+ ter + ", terAnswer=" + terAnswer + ", valid=" + valid
 				+ ", cause=" + cause + ", rectif1=" + rectif1 + ", rectif2="
 				+ rectif2 + ", rectif3=" + rectif3 + ", rectif4=" + rectif4
-				+ ", insur=" + insur + ", mo=" + mo + ", hsp=" + hsp + "]";
+				+ ", insur=" +insur + ", mo=" + mo + ", hsp=" + hsp + "]";
 	}
 
 	@Id
