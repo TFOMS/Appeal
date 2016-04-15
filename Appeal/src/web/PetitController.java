@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import res.Fields;
 import res.PetitID;
 import service.PetitService;
+import domain.BlockGER2016;
 import domain.Cause;
 import domain.CauseL;
 import domain.Conect;
@@ -87,8 +89,10 @@ public class PetitController {
     	{
     		if(pt.getDateInput() !=null)
     		pt.setDateInput(pt.getDateInput().substring(8, 10) + "." + pt.getDateInput().substring(5, 7) + "." + pt.getDateInput().substring(0, 4));
+    		//pt.getBlockger2016().setDate_close(pt.getBlockger2016().getDate_close().substring(8, 10) + "."+pt.getBlockger2016().getDate_close().substring(5, 7) + "."+pt.getBlockger2016().getDate_close().substring(0, 4));
     	}
         map.put("petitList", pl);
+        System.out.println("@@TEST "+pl);
 		if(getUserName().equals("sasha") ||
 				getUserName().equals("mityanina") ||
 				getUserName().equals("vasilyeva") ||
@@ -146,10 +150,20 @@ public class PetitController {
 		if(bindingResult.hasErrors()) {
 			return "petit";
 		} else {
-			checkID(petit);
+			//checkID(petit);
 		}
+		
 	    petit.setUsername(getUserName());
-	   
+	    petit.getBlockger2016().setPetit(petit);
+	    //BlockGER2016 block =  petit.getBlockger2016();
+	   // System.out.println("@@@ "+ block);
+	    System.out.println("@@@2 "+ petit);
+	    //block.setIdblockger2016(25);
+	    //block.setState(999);
+	    //block.setDate_close(new Date());
+	   // block.setPetit(petit);
+	    //petit.setBlockger2016(block);
+	    
 		petitService.addPetit(petit);
 		return "redirect:/index";
 	}
@@ -161,14 +175,14 @@ public class PetitController {
 		return name;
 	}
 
-	synchronized private void checkID(Petit petit) {
+/*	synchronized private void checkID(Petit petit) {
 		int num = new PetitID().readPetitID().getNum();
 		//int num = 2748;
 		if(petit.getId() == null || petit.getId() <= 0 || petit.getId() > num) {
 			petit.setId(++num);
 			 new PetitID().writePetitID(num);
 		}
-	}
+	}*/
 	
 	@RequestMapping("/delete/{petitId}")
     public String deletePetit(@PathVariable("petitId") Integer petitId) {

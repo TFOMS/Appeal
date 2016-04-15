@@ -10,8 +10,18 @@ import javax.persistence.Table;
 public class Mo {
 	
 	private int moId;	
-	private String moName;	
+	private String moName;
+	private String mocode;
 	
+	@Column(name="MO_CODE")
+	public String getMocode() {
+		return mocode;
+	}
+
+	public void setMocode(String mocode) {
+		this.mocode = mocode;
+	}
+
 	public Mo() {
 		this.moId = 0;
 	}	

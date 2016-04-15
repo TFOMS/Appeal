@@ -29,8 +29,8 @@ public class PetitDAOImpl implements PetitDAO {
     @SuppressWarnings("unchecked")
     public List<Petit> listPetit(String username) {
     	Query query = sessionFactory.getCurrentSession().createQuery(
-    		//	"from Petit where username = :username and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by substr(num,0,2) desc,to_number(substr(num,4)) desc");
-    			"from Petit where username = :username  order by substr(num,0,2) desc,to_number(substr(num,4)) desc");
+    			"from Petit where username = :username and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by substr(num,0,2) desc,to_number(substr(num,4)) desc");
+    			//"from Petit where username = :username  order by substr(num,0,2) desc,to_number(substr(num,4)) desc");
         query.setParameter("username", username);
         return query.list();
     }
@@ -91,8 +91,10 @@ public class PetitDAOImpl implements PetitDAO {
 
 	public Petit getPetit(Integer petitId) {
 	 	Petit petit = (Petit) sessionFactory.getCurrentSession().get(Petit.class, petitId);
-    	String date = petit.getDateInput().substring(8, 10) + "." + petit.getDateInput().substring(5, 7) + "." + petit.getDateInput().substring(0, 4);
-    	petit.setDateInput(date);
+    	
+	 	if(petit.getDateInput() !=null)
+		petit.setDateInput(petit.getDateInput().substring(8, 10) + "." + petit.getDateInput().substring(5, 7) + "." + petit.getDateInput().substring(0, 4));
+	 	petit.getBlockger2016().setDate_close(petit.getBlockger2016().getDate_close().substring(8, 10) + "."+petit.getBlockger2016().getDate_close().substring(5, 7) + "."+petit.getBlockger2016().getDate_close().substring(0, 4));
 		return petit;
 	}
 }

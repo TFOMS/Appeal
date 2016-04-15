@@ -22,6 +22,7 @@
  		<mapping class="domain.Rectif2" />
  		<mapping class="domain.Rectif3" />
  		<mapping class="domain.Rectif4" />
- 		<mapping class="domain.Insur" /> 		
+ 		<mapping class="domain.Insur" />
+ 		<mapping class="domain.BlockGER2016" /> 		
 	</session-factory>
 </hibernate-configuration>

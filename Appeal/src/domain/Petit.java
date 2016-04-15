@@ -1,14 +1,16 @@
 package domain;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -18,36 +20,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "T_PETIT")
 public class Petit {
-	
-	@Override
-	public String toString() {
-		return "Petit [id=" + id + ", dateInput=" + dateInput + ", sourceId="
-				+ sourceId + ", presentId=" + presentId + ", conectId="
-				+ conectId + ", intermedId=" + intermedId + ", typeId="
-				+ typeId + ", name=" + name + ", surname=" + surname
-				+ ", patrony=" + patrony + ", policy=" + policy + ", tel="
-				+ tel + ", adress=" + adress + ", terId=" + terId
-				+ ", terAnswerId=" + terAnswerId + ", last1=" + last1
-				+ ", last2=" + last2 + ", moId=" + moId + ", hspId=" + hspId
-				+ ", insurId=" + insurId + ", placeId=" + placeId
-				+ ", username=" + username + ", causeId=" + causeId
-				+ ", rectif1Id=" + rectif1Id + ", rectif2Id=" + rectif2Id
-				+ ", rectif3Id=" + rectif3Id + ", rectif4Id=" + rectif4Id
-				+ ", validId=" + validId + ", compens=" + compens + ", satisf="
-				+ satisf + ", compensSource=" + compensSource
-				+ ", compensCode=" + compensCode + ", compensSum=" + compensSum
-				+ ", propos=" + propos + ", letterNum=" + letterNum
-				+ ", letterDate=" + letterDate + ", dateBegin=" + dateBegin
-				+ ", dateEnd=" + dateEnd + ", causeNote=" + causeNote
-				+ ", num=" + num + ", source=" + source + ", present="
-				+ present + ", conect=" + conect + ", type=" + type + ", ter="
-				+ ter + ", terAnswer=" + terAnswer + ", valid=" + valid
-				+ ", cause=" + cause + ", rectif1=" + rectif1 + ", rectif2="
-				+ rectif2 + ", rectif3=" + rectif3 + ", rectif4=" + rectif4
-				+ ", insur=" +insur + ", mo=" + mo + ", hsp=" + hsp + "]";
-	}
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "ID")
     private Integer id;
 	
@@ -139,9 +114,9 @@ public class Petit {
     @Column(name = "VALID_ID")
     private int validId;
     
-    @Pattern(regexp = "(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}", message="Дата компенсации должна быть в формате дд.мм.гггг")
+    //@Pattern(regexp = "(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}", message="Дата компенсации должна быть в формате дд.мм.гггг")
 	@Column(name = "COMPENS")
-    private String compens = new SimpleDateFormat("dd.MM.yyyy").format(new Date());;
+    private String compens;// new SimpleDateFormat("dd.MM.yyyy").format(new Date());
     
     @Column(name = "SATISF")
     private String satisf;
@@ -227,7 +202,19 @@ public class Petit {
 	        return type;
 	}
 	
-    @ManyToOne(fetch = FetchType.EAGER)
+	@OneToOne(mappedBy="petit",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private BlockGER2016 blockger2016;
+	
+	
+    public BlockGER2016 getBlockger2016() {
+		return blockger2016;
+	}
+
+	public void setBlockger2016(BlockGER2016 blockger2016) {
+		this.blockger2016 = blockger2016;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="TER_ID", referencedColumnName = "TER_ID", insertable = false, updatable = false)
 	private Ter ter;
 	
@@ -677,6 +664,35 @@ public class Petit {
 
 	public void setNum(String num) {
 		this.num = num;
+	}
+
+	@Override
+	public String toString() {
+		return "Petit [id=" + id + ", dateInput=" + dateInput + ", sourceId="
+				+ sourceId + ", presentId=" + presentId + ", conectId="
+				+ conectId + ", intermedId=" + intermedId + ", typeId="
+				+ typeId + ", name=" + name + ", surname=" + surname
+				+ ", patrony=" + patrony + ", policy=" + policy + ", tel="
+				+ tel + ", adress=" + adress + ", terId=" + terId
+				+ ", terAnswerId=" + terAnswerId + ", last1=" + last1
+				+ ", last2=" + last2 + ", moId=" + moId + ", hspId=" + hspId
+				+ ", insurId=" + insurId + ", placeId=" + placeId
+				+ ", username=" + username + ", causeId=" + causeId
+				+ ", rectif1Id=" + rectif1Id + ", rectif2Id=" + rectif2Id
+				+ ", rectif3Id=" + rectif3Id + ", rectif4Id=" + rectif4Id
+				+ ", validId=" + validId + ", compens=" + compens + ", satisf="
+				+ satisf + ", compensSource=" + compensSource
+				+ ", compensCode=" + compensCode + ", compensSum=" + compensSum
+				+ ", propos=" + propos + ", letterNum=" + letterNum
+				+ ", letterDate=" + letterDate + ", dateBegin=" + dateBegin
+				+ ", dateEnd=" + dateEnd + ", causeNote=" + causeNote
+				+ ", num=" + num + ", source=" + source + ", present="
+				+ present + ", conect=" + conect + ", type=" + type
+				+ ", blockger2016=" + blockger2016 + ", ter=" + ter
+				+ ", terAnswer=" + terAnswer + ", valid=" + valid + ", cause="
+				+ cause + ", rectif1=" + rectif1 + ", rectif2=" + rectif2
+				+ ", rectif3=" + rectif3 + ", rectif4=" + rectif4 + ", insur="
+				+ insur + ", mo=" + mo + ", hsp=" + hsp + "]";
 	}
 	
 }

@@ -53,9 +53,15 @@ dependencies {
 	compile 'org.springframework.security:spring-security-taglibs:3.2.5.RELEASE'
 	compile 'org.hibernate:hibernate-gradle-plugin:4.2.8.Final'
 	compile 'org.hibernate:hibernate-validator:5.1.2.Final'
-	//compile 'org.slf4j:slf4j-simple:1.6.1' 
-	compile 'org.mockito:mockito-all:1.8.4'
-	//compile 'log4j:log4j:1.2.17'
+	compile 'org.slf4j:slf4j-simple:1.6.1' 
+	//compile 'org.mockito:mockito-all:1.8.4'
+	compile 'log4j:log4j:1.2.17'
+	
+
+
+
+
+
 	
 	
 	runtime files('lib/ojdbc6.jar')
@@ -64,7 +70,7 @@ dependencies {
 	runtime fileTree(dir: 'lib', include: '*.jar')
 	compile fileTree(dir: 'lib', include: '*.jar')
 
-	compile 'org.codehaus.jackson:jackson-mapper-asl:1.8.1'
+	compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
 	compile 'net.sf.jasperreports:jasperreports:5.6.1'
 	compile 'org.apache.poi:poi:3.10.1'
 	//compile 'net.sf.jasperreports:jasperreports:4.1.2'

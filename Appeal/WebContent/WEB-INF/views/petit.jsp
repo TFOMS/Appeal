@@ -3,6 +3,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
@@ -269,13 +270,17 @@
 				<spring:message code="label.id" /></form:label></td>-->
 		
 			<form:hidden path="id" name='id'/>
+			<form:hidden path="blockger2016.idblockger2016"/>
 			<form:hidden path="num"/>
+		
+			<form:input path="blockger2016.date_close" />	
 				
 			<c:if test="${petit.id eq null}"><td><form:label path="dateInput"><spring:message code="label.dateInput" /></form:label></td>
-			<td><form:input id="dateInput" path="dateInput"/></td></c:if>
+				<td><form:input id="dateInput" path="dateInput"/></td>
+				</c:if>
 			<c:if test="${petit.id ne null}">
-			<form:hidden id="dateInput" path="dateInput"/>
-			<spring:message code="label.id" />&nbsp<c:out value="${petit.num}" />&nbsp&nbsp&nbsp&nbsp<spring:message code="label.dateInput" />&nbsp<c:out value="${petit.dateInput}" /><!--<form:input path="dateInput" />-->
+				<form:hidden id="dateInput" path="dateInput"/>
+				<spring:message code="label.id" />&nbsp<c:out value="${petit.num}" />&nbsp&nbsp&nbsp&nbsp<spring:message code="label.dateInput" />&nbsp<c:out value="${petit.dateInput}" /><!--<form:input path="dateInput" />-->
 			</c:if>
 			
 			<!-- <td><form:label path="dateBegin"><spring:message code="label.dateBegin" /></form:label></td>
@@ -480,10 +485,11 @@
 	</div>
 	<div class='hide'>
 	<table>		
-		<tr>
+<!-- 	<tr>
 			<td><form:label path="propos"><spring:message code="label.propos" /></form:label></td>
 			<td><form:textarea rows="2" cols="100" value="0" path="propos" /></td>
 		</tr>
+-->		
 		<tr>
 			<td><form:label path="causeNote"><spring:message code="label.causeNote" /></form:label></td>
 			<td><form:textarea rows="2" cols="100" value="0" path="causeNote" /></td>
