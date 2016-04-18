@@ -3,6 +3,9 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+<sec:authentication var="principal" property="principal" />
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -20,6 +23,7 @@
 	
 	<script type="text/javascript">
 	$(document).ready(
+			
 		function() {
 			$.getJSON('${findTypesURL}', {
 				ajax : 'true'
@@ -33,7 +37,17 @@
 
 				$('#type').html(html);
 			});
-		});
+		}
+	);
+		
+	</script>
+	<script type="text/javascript">
+	
+			 /*function a_onClick() {
+				   $("input[name='ok_button']").val('Изменить');
+				   console.log($local.path);
+				  }*/
+	
 	</script>
 	
 	<script type="text/javascript">
@@ -230,6 +244,7 @@
 	<title><spring:message code="label.title" /></title>
 	
 	<link rel="stylesheet" href="<c:url value="/resources/css/styles.css"/>" type="text/css"/>
+	<link rel="stylesheet" href="<c:url value="/resources/css/style2.css"/>" type="text/css"/>
 	<link rel="stylesheet" href="<c:url value="/resources/jquery/ui/1.11.2/themes/smoothness/jquery-ui.css"/>">
 	<script src="<c:url value="/resources/jquery/jquery-1.10.2.js"/>"></script>
 	<script src="<c:url value="/resources/jquery/ui/1.11.2/jquery-ui.js"/>"></script>
@@ -270,17 +285,36 @@
 				<spring:message code="label.id" /></form:label></td>-->
 		
 			<form:hidden path="id" name='id'/>
-			<form:hidden path="blockger2016.idblockger2016"/>
 			<form:hidden path="num"/>
-		
-			<form:input path="blockger2016.date_close" />	
+			
+			
 				
-			<c:if test="${petit.id eq null}"><td><form:label path="dateInput"><spring:message code="label.dateInput" /></form:label></td>
-				<td><form:input id="dateInput" path="dateInput"/></td>
-				</c:if>
+			<c:if test="${petit.id eq null}">
+				<td>
+					<form:label path="dateInput"><spring:message code="label.dateInput" /></form:label>
+				</td>
+				<td>
+					<form:input id="dateInput" path="dateInput"/>
+				</td>
+				
+				<form:hidden path="blockger2016.state" value="${1}" />
+				
+				<sec:authorize access="hasRole('ROLE_TFOMS')">
+					<form:hidden path="blockger2016.regsource_id" value="${1}" />
+					<form:hidden path="blockger2016.regname" value="${principal.username}" />
+				</sec:authorize>
+			</c:if>
+		
+				
 			<c:if test="${petit.id ne null}">
 				<form:hidden id="dateInput" path="dateInput"/>
 				<spring:message code="label.id" />&nbsp<c:out value="${petit.num}" />&nbsp&nbsp&nbsp&nbsp<spring:message code="label.dateInput" />&nbsp<c:out value="${petit.dateInput}" /><!--<form:input path="dateInput" />-->
+				
+				<form:hidden path="blockger2016.idblockger2016"/>
+				<form:hidden path="blockger2016.state" value="${2}" />
+				<form:hidden path="blockger2016.regsource_id"/>
+				<form:hidden path="blockger2016.regname"/>
+				
 			</c:if>
 			
 			<!-- <td><form:label path="dateBegin"><spring:message code="label.dateBegin" /></form:label></td>
@@ -502,9 +536,17 @@
 				<input class='btn-slide' type="button" value="<spring:message code="label.more"/>"/>
 			</td>
 			<td>
-				<input name="ok_button" type="submit" value="<spring:message code="label.addpetit"/>" 
-					onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
-				/>
+				<c:if test="${petit.id ne null}">
+					<input name="ok_button" type="submit" value="<spring:message code="label.editpetit"/>" 
+						onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
+					/>
+				</c:if>
+				
+				<c:if test="${petit.id eq null}">
+					<input name="ok_button" type="submit" value="<spring:message code="label.addpetit"/>" 
+						onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
+					/>
+				</c:if>
 			</td>
 		</tr>
 	</table>
@@ -597,11 +639,258 @@
 			    <td>${petit.propos}</td>-->
 			    <td>${petit.username}</td>
 				<td><a href="delete/${petit.id}"><spring:message code="label.delete" /></a></td>
-				<td><a href="refresh/${petit.id}"><spring:message code="label.correct" /></a></td>
+				<td><a  onclick="a_onClick()" href="refresh/${petit.id}"><spring:message code="label.correct" /></a></td>
 			</tr>
 		</c:forEach>
 	</table>
 </c:if>
 </div>
+
+<section> <!--for demo wrap-->
+<h1>Fixed Table header</h1>  
+<div  class="tbl-header">
+<table class="tabmy" cellpadding="0" cellspacing="0" border="0">
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Company</th>
+      <th>Price</th>
+      <th>Change</th>
+      <th>Change %</th>
+    </tr>
+  </thead>
+</table>
+</div>
+<div  class="tbl-content">
+<table class="tabmy" cellpadding="0" cellspacing="0" border="0">
+  <tbody>
+    <tr>
+      <td>AAC</td>
+      <td>AUSTRALIAN COMPANY </td>
+      <td>$1.38</td>
+      <td>+2.01</td>
+      <td>-0.36%</td>
+    </tr>
+    <tr>
+      <td>AAD</td>
+      <td>AUSENCO</td>
+      <td>$2.38</td>
+      <td>-0.01</td>
+      <td>-1.36%</td>
+    </tr>
+    <tr>
+      <td>AAX</td>
+      <td>ADELAIDE</td>
+      <td>$3.22</td>
+      <td>+0.01</td>
+      <td>+1.36%</td>
+    </tr>
+    <tr>
+      <td>XXD</td>
+      <td>ADITYA BIRLA</td>
+      <td>$1.02</td>
+      <td>-1.01</td>
+      <td>+2.36%</td>
+    </tr>
+    <tr>
+      <td>AAC</td>
+      <td>AUSTRALIAN COMPANY </td>
+      <td>$1.38</td>
+      <td>+2.01</td>
+      <td>-0.36%</td>
+    </tr>
+    <tr>
+      <td>AAD</td>
+      <td>AUSENCO</td>
+      <td>$2.38</td>
+      <td>-0.01</td>
+      <td>-1.36%</td>
+    </tr>
+    <tr>
+      <td>AAX</td>
+      <td>ADELAIDE</td>
+      <td>$3.22</td>
+      <td>+0.01</td>
+      <td>+1.36%</td>
+    </tr>
+    <tr>
+      <td>XXD</td>
+      <td>ADITYA BIRLA</td>
+      <td>$1.02</td>
+      <td>-1.01</td>
+      <td>+2.36%</td>
+    </tr>
+    <tr>
+      <td>AAC</td>
+      <td>AUSTRALIAN COMPANY </td>
+      <td>$1.38</td>
+      <td>+2.01</td>
+      <td>-0.36%</td>
+    </tr>
+    <tr>
+      <td>AAD</td>
+      <td>AUSENCO</td>
+      <td>$2.38</td>
+      <td>-0.01</td>
+      <td>-1.36%</td>
+    </tr>
+    <tr>
+      <td>AAX</td>
+      <td>ADELAIDE</td>
+      <td>$3.22</td>
+      <td>+0.01</td>
+      <td>+1.36%</td>
+    </tr>
+    <tr>
+      <td>XXD</td>
+      <td>ADITYA BIRLA</td>
+      <td>$1.02</td>
+      <td>-1.01</td>
+      <td>+2.36%</td>
+    </tr>
+    <tr>
+      <td>AAC</td>
+      <td>AUSTRALIAN COMPANY </td>
+      <td>$1.38</td>
+      <td>+2.01</td>
+      <td>-0.36%</td>
+    </tr>
+    <tr>
+      <td>AAD</td>
+      <td>AUSENCO</td>
+      <td>$2.38</td>
+      <td>-0.01</td>
+      <td>-1.36%</td>
+    </tr>
+    <tr>
+      <td>AAX</td>
+      <td>ADELAIDE</td>
+      <td>$3.22</td>
+      <td>+0.01</td>
+      <td>+1.36%</td>
+    </tr>
+    <tr>
+      <td>XXD</td>
+      <td>ADITYA BIRLA</td>
+      <td>$1.02</td>
+      <td>-1.01</td>
+      <td>+2.36%</td>
+    </tr>
+    <tr>
+      <td>AAC</td>
+      <td>AUSTRALIAN COMPANY </td>
+      <td>$1.38</td>
+      <td>+2.01</td>
+      <td>-0.36%</td>
+    </tr>
+    <tr>
+      <td>AAD</td>
+      <td>AUSENCO</td>
+      <td>$2.38</td>
+      <td>-0.01</td>
+      <td>-1.36%</td>
+    </tr>
+    <tr>
+      <td>AAX</td>
+      <td>ADELAIDE</td>
+      <td>$3.22</td>
+      <td>+0.01</td>
+      <td>+1.36%</td>
+    </tr>
+    <tr>
+      <td>XXD</td>
+      <td>ADITYA BIRLA</td>
+      <td>$1.02</td>
+      <td>-1.01</td>
+      <td>+2.36%</td>
+    </tr>
+    <tr>
+      <td>AAC</td>
+      <td>AUSTRALIAN COMPANY </td>
+      <td>$1.38</td>
+      <td>+2.01</td>
+      <td>-0.36%</td>
+    </tr>
+    <tr>
+      <td>AAD</td>
+      <td>AUSENCO</td>
+      <td>$2.38</td>
+      <td>-0.01</td>
+      <td>-1.36%</td>
+    </tr>
+    <tr>
+      <td>AAX</td>
+      <td>ADELAIDE</td>
+      <td>$3.22</td>
+      <td>+0.01</td>
+      <td>+1.36%</td>
+    </tr>
+    <tr>
+      <td>XXD</td>
+      <td>ADITYA BIRLA</td>
+      <td>$1.02</td>
+      <td>-1.01</td>
+      <td>+2.36%</td>
+    </tr>
+    <tr>
+      <td>AAC</td>
+      <td>AUSTRALIAN COMPANY </td>
+      <td>$1.38</td>
+      <td>+2.01</td>
+      <td>-0.36%</td>
+    </tr>
+    <tr>
+      <td>AAD</td>
+      <td>AUSENCO</td>
+      <td>$2.38</td>
+      <td>-0.01</td>
+      <td>-1.36%</td>
+    </tr>
+    <tr>
+      <td>AAX</td>
+      <td>ADELAIDE</td>
+      <td>$3.22</td>
+      <td>+0.01</td>
+      <td>+1.36%</td>
+    </tr>
+    <tr>
+      <td>XXD</td>
+      <td>ADITYA BIRLA</td>
+      <td>$1.02</td>
+      <td>-1.01</td>
+      <td>+2.36%</td>
+    </tr>
+    <tr>
+      <td>AAC</td>
+      <td>AUSTRALIAN COMPANY </td>
+      <td>$1.38</td>
+      <td>+2.01</td>
+      <td>-0.36%</td>
+    </tr>
+    <tr>
+      <td>AAD</td>
+      <td>AUSENCO</td>
+      <td>$2.38</td>
+      <td>-0.01</td>
+      <td>-1.36%</td>
+    </tr>
+    <tr>
+      <td>AAX</td>
+      <td>ADELAIDE</td>
+      <td>$3.22</td>
+      <td>+0.01</td>
+      <td>+1.36%</td>
+    </tr>
+    <tr>
+      <td>XXD</td>
+      <td>ADITYA BIRLA</td>
+      <td>$1.02</td>
+      <td>-1.01</td>
+      <td>+2.36%</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</section>
 </body>
 </html>

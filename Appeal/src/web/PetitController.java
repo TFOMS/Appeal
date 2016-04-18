@@ -155,13 +155,14 @@ public class PetitController {
 		
 	    petit.setUsername(getUserName());
 	    petit.getBlockger2016().setPetit(petit);
+	    
 	    //BlockGER2016 block =  petit.getBlockger2016();
-	   // System.out.println("@@@ "+ block);
+	    // System.out.println("@@@ "+ block);
 	    System.out.println("@@@2 "+ petit);
 	    //block.setIdblockger2016(25);
 	    //block.setState(999);
 	    //block.setDate_close(new Date());
-	   // block.setPetit(petit);
+	    // block.setPetit(petit);
 	    //petit.setBlockger2016(block);
 	    
 		petitService.addPetit(petit);

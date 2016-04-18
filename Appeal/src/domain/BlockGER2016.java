@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -24,20 +25,30 @@ public class BlockGER2016 {
 	
 	private Petit petit;
 	
+	public BlockGER2016() {
+	}
+	
 	//дата завершения обращения
 	private Date date_end;
 	// Дата Закрытия обращения
-	private String date_close = "15.04.2099";
+	private String date_close;
 	// Номер письма (исходящее)
 	private String letter_out_num;
 	// Дата письма (исходящее)
 	private Date letter_out_date;
 	
-	public BlockGER2016() {
-	}
+	// Тип регистратора
+	private Integer regsource_id;
+	// Регистратор (по именим) кто создал зарегистрировал
+	private String regname;
+	// Номер регистрации (запослняется для взаимодествия различных структур - 1-м и 2-м уровнем)
+	private String regnum;
+	// Дата создания обращения в бд (не путать с date_input)
+	private String date_create;
 
 	// Дата изменения редактирования
 	private Date date_change;
+	
 	public Date getDate_end() {
 		return date_end;
 	}
@@ -78,11 +89,11 @@ public class BlockGER2016 {
 		this.date_change = date_change;
 	}
 
-	public int getState() {
+	public Integer getState() {
 		return state;
 	}
 
-	public void setState(int state) {
+	public void setState(Integer state) {
 		this.state = state;
 	}
 
@@ -91,8 +102,9 @@ public class BlockGER2016 {
 	   1-создан
 	   2-в работе
 	   3-завершен
+	   4-закрыт
 	 */
-	private int state;
+	private Integer state;
 	
 
 	@GenericGenerator(name = "gen", strategy = "foreign", parameters = @Parameter(name = "property", value = "petit"))
@@ -116,16 +128,52 @@ public class BlockGER2016 {
 		this.petit = petit;
 	}
 
+
+	public void setIdblockger2016(Integer idblockger2016) {
+		this.idblockger2016 = idblockger2016;
+	}
+
+	public Integer getRegsource_id() {
+		return regsource_id;
+	}
+
+	public void setRegsource_id(Integer regsource_id) {
+		this.regsource_id = regsource_id;
+	}
+
+	public String getRegname() {
+		return regname;
+	}
+
+	public void setRegname(String regname) {
+		this.regname = regname;
+	}
+
+	public String getRegnum() {
+		return regnum;
+	}
+
+	public void setRegnum(String regnum) {
+		this.regnum = regnum;
+	}
+
+	@Transient
+	public String getDate_create() {
+		return date_create;
+	}
+
+	public void setDate_create(String date_create) {
+		this.date_create = date_create;
+	}
+
 	@Override
 	public String toString() {
 		return "BlockGER2016 [idblockger2016=" + idblockger2016 + ", date_end=" + date_end + ", date_close="
 				+ date_close + ", letter_out_num=" + letter_out_num
-				+ ", letter_out_date=" + letter_out_date + ", date_change="
+				+ ", letter_out_date=" + letter_out_date + ", regsource_id="
+				+ regsource_id + ", regname=" + regname + ", regnum=" + regnum
+				+ ", date_create=" + date_create + ", date_change="
 				+ date_change + ", state=" + state + "]";
-	}
-
-	public void setIdblockger2016(Integer idblockger2016) {
-		this.idblockger2016 = idblockger2016;
 	}
 
 }
