@@ -10,10 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
@@ -29,6 +32,7 @@ public class BlockGER2016 {
 	}
 	
 	//дата завершения обращения
+	@Temporal(TemporalType.DATE)
 	private Date date_end;
 	// Дата Закрытия обращения
 	private String date_close;

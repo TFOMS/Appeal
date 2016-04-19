@@ -11,10 +11,10 @@ h1{
  .tbl-header table,.tbl-content table{
   width:100%;
   table-layout: fixed;
-  background: -webkit-linear-gradient(left, #25c481, #25b7c4);
-  background: linear-gradient(to right, #25c481, #25b7c4);
   font-family: 'Roboto', sans-serif;
+  //font-family: Verdana, sans-serif;
 }
+
 .tbl-header{
   background-color: rgba(255,255,255,0.3);
  }
@@ -25,14 +25,23 @@ h1{
   border: 2px solid rgba(255,255,255,0.3);
 }
 .tbl-header th,.tbl-content th{
-  padding: 20px 15px;
+  padding: 10px 10px;
   text-align: left;
-  font-weight: 500;
+  font-weight: 300;
   font-size: 12px;
   color: #fff;
   text-transform: uppercase;
-  background-color: red;
+}
 
+
+
+.tbl-header th,.tbl-header td{
+	background-color: #8211EF;
+	
+}
+
+.tbl-content td,.tbl-content th{
+	background-color: rgb(230, 231, 236);	
 }
 //tr:nth-child(even) {background-color: #f2f2f2}
 .tbl-header td,.tbl-content td{
@@ -41,16 +50,16 @@ h1{
   vertical-align:middle;
   font-weight: 300;
   font-size: 12px;
-  color: #fff;
-  border-bottom: solid 1px rgba(255,255,255,0.5);
-  background-color: red;
-  
+  border-bottom: solid 1px rgba(255,255,255,0.9);
+}
+.tbl-content td{
+	color: #0000;
+	padding: 5px;
+	font-weight: 300;
 }
 
 /* demo styles */
-body{
-background: #fff;
-}
+
 section{
   margin: 50px;
 }
@@ -66,4 +75,19 @@ section{
 } 
 ::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+}
+
+.tabmy thead { 
+    background: -webkit-linear-gradient(left, rgb(0, 0, 0) 0%, rgb(130, 135, 140) 20%, rgb(148, 190, 239) 80%, rgb(0, 103, 220) 100%); 
+    background-attachment:fixed;}
+
+.tabmy thead tr, .tabmy thead th { background:transparent; }
+
+.someclass{
+	padding: 10px 10px;
+  text-align: left;
+  font-weight: 300;
+  font-size: 12px;
+  color: #000;
+  text-transform: uppercase;	
 }

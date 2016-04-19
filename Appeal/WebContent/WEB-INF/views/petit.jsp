@@ -2,8 +2,10 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 
 <sec:authentication var="principal" property="principal" />
 
@@ -21,7 +23,13 @@
 	<c:url var="findRectifs3URL" value="/rectifs3" />
 	<c:url var="findRectifs4URL" value="/rectifs4" />
 	
-	<script type="text/javascript">
+	<script>
+	
+	function cancelback() {
+		parent.history.back();
+		};
+
+		
 	$(document).ready(
 			
 		function() {
@@ -38,7 +46,8 @@
 				$('#type').html(html);
 			});
 		}
-	);
+
+	)
 		
 	</script>
 	<script type="text/javascript">
@@ -246,6 +255,8 @@
 	<link rel="stylesheet" href="<c:url value="/resources/css/styles.css"/>" type="text/css"/>
 	<link rel="stylesheet" href="<c:url value="/resources/css/style2.css"/>" type="text/css"/>
 	<link rel="stylesheet" href="<c:url value="/resources/jquery/ui/1.11.2/themes/smoothness/jquery-ui.css"/>">
+	<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="<c:url value="/resources/css/bliking.css"/>" type="text/css"/>
 	<script src="<c:url value="/resources/jquery/jquery-1.10.2.js"/>"></script>
 	<script src="<c:url value="/resources/jquery/ui/1.11.2/jquery-ui.js"/>"></script>
 	<script>
@@ -275,7 +286,12 @@
 <h2><spring:message code="label.title" /></h2>
 </div>
 <div id = main>
+<c:if test="${petit.id eq null}">
 <h3><spring:message code="label.petits" /></h3>
+</c:if>
+<c:if test="${petit.id ne null}">
+<h3><spring:message code="label.nepetits" /></h3>
+</c:if>
 
 <form:form method="post" action="add" commandName="petit" name='petit_form'>
 <form:errors path="*" cssClass="errorblock" element="div" />
@@ -303,6 +319,9 @@
 					<form:hidden path="blockger2016.regsource_id" value="${1}" />
 					<form:hidden path="blockger2016.regname" value="${principal.username}" />
 				</sec:authorize>
+				
+				
+				
 			</c:if>
 		
 				
@@ -314,6 +333,11 @@
 				<form:hidden path="blockger2016.state" value="${2}" />
 				<form:hidden path="blockger2016.regsource_id"/>
 				<form:hidden path="blockger2016.regname"/>
+				
+				<!-- Если пользователь проваливается в форму редактирования  при state =3 (завершен)
+				то передаем тот же самый date_end по новой и в базе срабатывает триггер иначе в базу добавить пустая date_end-->
+				<input type="hidden" name="fil" value="${petit.blockger2016.date_end}"/>
+				
 				
 			</c:if>
 			
@@ -537,13 +561,25 @@
 			</td>
 			<td>
 				<c:if test="${petit.id ne null}">
-					<input name="ok_button" type="submit" value="<spring:message code="label.editpetit"/>" 
+					<input name="cancel_button" onclick="cancelback()" type="button" value="<spring:message code="label.cancelpetit"/>"/>
+					<input name="submit" type="submit" value="<spring:message code="label.editpetit"/>" 
 						onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
 					/>
+					
+					<c:set var="gu" value="${petit.blockger2016.state}"/>
+					<c:if test="${(gu < 3)}">	
+						<input name="submit" type="submit" value="<spring:message code="label.endpetit"/>" 
+							onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
+						/>
+					</c:if>	
 				</c:if>
 				
 				<c:if test="${petit.id eq null}">
-					<input name="ok_button" type="submit" value="<spring:message code="label.addpetit"/>" 
+					<input type="submit" name="submit" value="<spring:message code="label.addpetit"/>" 
+						onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
+					/>
+					
+					<input name="submit" type="submit" value="<spring:message code="label.endpetit"/>" 
 						onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
 					/>
 				</c:if>
@@ -553,10 +589,14 @@
 
 </form:form>
 
-<h3><spring:message code="label.title" /></h3>
-<c:if test="${!empty petitList}">
-	<table class="data">
-		<tr>
+
+<hr>
+<c:if test="${petit.id eq null}">
+<section> <!--for demo wrap-->
+<div  class="tbl-header">
+<table class="tabmy" cellpadding="0" cellspacing="0" border="0">
+  <thead>
+  <tr>
 			<th><spring:message code="label.id" /></th>      
 		    <th><spring:message code="label.dateInput" /></th>
 		    <!-- <th><spring:message code="label.dateBegin" /></th>
@@ -596,10 +636,25 @@
 		    <th><spring:message code="label.propos" /></th>-->
 		    <th><spring:message code="label.username" /></th>
 			<th>&nbsp;</th>
-		</tr>
-		<c:forEach items="${petitList}" var="petit">
-			<tr>
-				<!--<td>${petit.id}</td>-->
+			<th>&nbsp;</th>
+    </tr>
+      
+  </thead>
+</table>
+</div>
+<div  class="tbl-content">
+<table class="tabmy" cellpadding="0" cellspacing="0" border="0">
+  <tbody>
+  <c:forEach items="${petitList}" var="petit">
+  <c:set var="statecl" value="${petit.blockger2016.state}"/>
+		<c:if test="${(statecl == 1)}">
+	  		<c:set value="someclass blink" var="cssClass"></c:set>
+		</c:if> 
+		<c:if test="${(statecl != 1)}">
+	  		<c:set value="someclass2" var="cssClass"></c:set>
+		</c:if> 
+    <tr class="${cssClass}">
+      			<!--<td>${petit.id}</td>-->
 				<td>${petit.num}</td>      
 			    <td>${petit.dateInput}</td>         
 			    <!-- <td>${petit.dateBegin}</td>
@@ -638,259 +693,17 @@
 			    <td>${petit.compensSum}</td>
 			    <td>${petit.propos}</td>-->
 			    <td>${petit.username}</td>
-				<td><a href="delete/${petit.id}"><spring:message code="label.delete" /></a></td>
-				<td><a  onclick="a_onClick()" href="refresh/${petit.id}"><spring:message code="label.correct" /></a></td>
-			</tr>
-		</c:forEach>
-	</table>
-</c:if>
-</div>
+				<td><a href="delete/${petit.id}" title="Удалить"><i class="fa fa-trash-o fa-3x"></i></a></td>
+				<td><a  href="refresh/${petit.id}" title="Редактировать"><i class="fa fa-pencil-square-o  fa-3x" aria-hidden="true"></i></a></td>
 
-<section> <!--for demo wrap-->
-<h1>Fixed Table header</h1>  
-<div  class="tbl-header">
-<table class="tabmy" cellpadding="0" cellspacing="0" border="0">
-  <thead>
-    <tr>
-      <th>Code</th>
-      <th>Company</th>
-      <th>Price</th>
-      <th>Change</th>
-      <th>Change %</th>
+			    
+			    
     </tr>
-  </thead>
-</table>
-</div>
-<div  class="tbl-content">
-<table class="tabmy" cellpadding="0" cellspacing="0" border="0">
-  <tbody>
-    <tr>
-      <td>AAC</td>
-      <td>AUSTRALIAN COMPANY </td>
-      <td>$1.38</td>
-      <td>+2.01</td>
-      <td>-0.36%</td>
-    </tr>
-    <tr>
-      <td>AAD</td>
-      <td>AUSENCO</td>
-      <td>$2.38</td>
-      <td>-0.01</td>
-      <td>-1.36%</td>
-    </tr>
-    <tr>
-      <td>AAX</td>
-      <td>ADELAIDE</td>
-      <td>$3.22</td>
-      <td>+0.01</td>
-      <td>+1.36%</td>
-    </tr>
-    <tr>
-      <td>XXD</td>
-      <td>ADITYA BIRLA</td>
-      <td>$1.02</td>
-      <td>-1.01</td>
-      <td>+2.36%</td>
-    </tr>
-    <tr>
-      <td>AAC</td>
-      <td>AUSTRALIAN COMPANY </td>
-      <td>$1.38</td>
-      <td>+2.01</td>
-      <td>-0.36%</td>
-    </tr>
-    <tr>
-      <td>AAD</td>
-      <td>AUSENCO</td>
-      <td>$2.38</td>
-      <td>-0.01</td>
-      <td>-1.36%</td>
-    </tr>
-    <tr>
-      <td>AAX</td>
-      <td>ADELAIDE</td>
-      <td>$3.22</td>
-      <td>+0.01</td>
-      <td>+1.36%</td>
-    </tr>
-    <tr>
-      <td>XXD</td>
-      <td>ADITYA BIRLA</td>
-      <td>$1.02</td>
-      <td>-1.01</td>
-      <td>+2.36%</td>
-    </tr>
-    <tr>
-      <td>AAC</td>
-      <td>AUSTRALIAN COMPANY </td>
-      <td>$1.38</td>
-      <td>+2.01</td>
-      <td>-0.36%</td>
-    </tr>
-    <tr>
-      <td>AAD</td>
-      <td>AUSENCO</td>
-      <td>$2.38</td>
-      <td>-0.01</td>
-      <td>-1.36%</td>
-    </tr>
-    <tr>
-      <td>AAX</td>
-      <td>ADELAIDE</td>
-      <td>$3.22</td>
-      <td>+0.01</td>
-      <td>+1.36%</td>
-    </tr>
-    <tr>
-      <td>XXD</td>
-      <td>ADITYA BIRLA</td>
-      <td>$1.02</td>
-      <td>-1.01</td>
-      <td>+2.36%</td>
-    </tr>
-    <tr>
-      <td>AAC</td>
-      <td>AUSTRALIAN COMPANY </td>
-      <td>$1.38</td>
-      <td>+2.01</td>
-      <td>-0.36%</td>
-    </tr>
-    <tr>
-      <td>AAD</td>
-      <td>AUSENCO</td>
-      <td>$2.38</td>
-      <td>-0.01</td>
-      <td>-1.36%</td>
-    </tr>
-    <tr>
-      <td>AAX</td>
-      <td>ADELAIDE</td>
-      <td>$3.22</td>
-      <td>+0.01</td>
-      <td>+1.36%</td>
-    </tr>
-    <tr>
-      <td>XXD</td>
-      <td>ADITYA BIRLA</td>
-      <td>$1.02</td>
-      <td>-1.01</td>
-      <td>+2.36%</td>
-    </tr>
-    <tr>
-      <td>AAC</td>
-      <td>AUSTRALIAN COMPANY </td>
-      <td>$1.38</td>
-      <td>+2.01</td>
-      <td>-0.36%</td>
-    </tr>
-    <tr>
-      <td>AAD</td>
-      <td>AUSENCO</td>
-      <td>$2.38</td>
-      <td>-0.01</td>
-      <td>-1.36%</td>
-    </tr>
-    <tr>
-      <td>AAX</td>
-      <td>ADELAIDE</td>
-      <td>$3.22</td>
-      <td>+0.01</td>
-      <td>+1.36%</td>
-    </tr>
-    <tr>
-      <td>XXD</td>
-      <td>ADITYA BIRLA</td>
-      <td>$1.02</td>
-      <td>-1.01</td>
-      <td>+2.36%</td>
-    </tr>
-    <tr>
-      <td>AAC</td>
-      <td>AUSTRALIAN COMPANY </td>
-      <td>$1.38</td>
-      <td>+2.01</td>
-      <td>-0.36%</td>
-    </tr>
-    <tr>
-      <td>AAD</td>
-      <td>AUSENCO</td>
-      <td>$2.38</td>
-      <td>-0.01</td>
-      <td>-1.36%</td>
-    </tr>
-    <tr>
-      <td>AAX</td>
-      <td>ADELAIDE</td>
-      <td>$3.22</td>
-      <td>+0.01</td>
-      <td>+1.36%</td>
-    </tr>
-    <tr>
-      <td>XXD</td>
-      <td>ADITYA BIRLA</td>
-      <td>$1.02</td>
-      <td>-1.01</td>
-      <td>+2.36%</td>
-    </tr>
-    <tr>
-      <td>AAC</td>
-      <td>AUSTRALIAN COMPANY </td>
-      <td>$1.38</td>
-      <td>+2.01</td>
-      <td>-0.36%</td>
-    </tr>
-    <tr>
-      <td>AAD</td>
-      <td>AUSENCO</td>
-      <td>$2.38</td>
-      <td>-0.01</td>
-      <td>-1.36%</td>
-    </tr>
-    <tr>
-      <td>AAX</td>
-      <td>ADELAIDE</td>
-      <td>$3.22</td>
-      <td>+0.01</td>
-      <td>+1.36%</td>
-    </tr>
-    <tr>
-      <td>XXD</td>
-      <td>ADITYA BIRLA</td>
-      <td>$1.02</td>
-      <td>-1.01</td>
-      <td>+2.36%</td>
-    </tr>
-    <tr>
-      <td>AAC</td>
-      <td>AUSTRALIAN COMPANY </td>
-      <td>$1.38</td>
-      <td>+2.01</td>
-      <td>-0.36%</td>
-    </tr>
-    <tr>
-      <td>AAD</td>
-      <td>AUSENCO</td>
-      <td>$2.38</td>
-      <td>-0.01</td>
-      <td>-1.36%</td>
-    </tr>
-    <tr>
-      <td>AAX</td>
-      <td>ADELAIDE</td>
-      <td>$3.22</td>
-      <td>+0.01</td>
-      <td>+1.36%</td>
-    </tr>
-    <tr>
-      <td>XXD</td>
-      <td>ADITYA BIRLA</td>
-      <td>$1.02</td>
-      <td>-1.01</td>
-      <td>+2.36%</td>
-    </tr>
+  </c:forEach>  
   </tbody>
 </table>
 </div>
 </section>
+</c:if>
 </body>
 </html>

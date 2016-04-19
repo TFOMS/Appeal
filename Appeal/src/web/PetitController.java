@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -23,11 +27,14 @@ import javax.validation.Valid;
 import net.sf.jasperreports.engine.JRException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,7 +70,8 @@ import domain.TypeL;
 
 @Controller
 public class PetitController {
-
+	
+	
 	Map<Integer, String> source1 = new HashMap<Integer, String>();
 	Map<Integer, String> source2 = new HashMap<Integer, String>();
 	{
@@ -132,38 +140,54 @@ public class PetitController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addPetit(@ModelAttribute("petit") @Valid Petit petit, BindingResult bindingResult) {
-		return add(petit, bindingResult);
+    public String addPetit(@ModelAttribute("petit") @Valid Petit petit, BindingResult bindingResult,HttpServletRequest request) {
+    	String para = request.getParameter("submit");
+    	
+    	// ловим с клинта нажатую кнопку
+    	if(para.trim().equals("Завершить")){
+    		petit.getBlockger2016().setState(3);
+    		petit.getBlockger2016().setDate_end(new Date());
+    	}
+    	
+		return adds(petit, bindingResult,request);
 	}
     
     @RequestMapping(value = "/refresh/add", method = RequestMethod.POST)
-    public String refreshAddPetit(@ModelAttribute("petit") @Valid Petit petit, BindingResult bindingResult) {
-		return add(petit, bindingResult);
+    public String refreshAddPetit(@ModelAttribute("petit") @Valid Petit petit, BindingResult bindingResult,HttpServletRequest request) {
+    	String pa = request.getParameter("submit");
+    	if(pa.trim().equals("Завершить")){
+    		petit.getBlockger2016().setState(3);
+    		petit.getBlockger2016().setDate_end(new Date());
+    	}
+		return adds(petit, bindingResult,request);
 	}
     
     @RequestMapping(value = "/more/refresh/add", method = RequestMethod.POST)
-    public String moreAddPetit(@ModelAttribute("petit") @Valid Petit petit, BindingResult bindingResult) {
-		return add(petit, bindingResult);
+    public String moreAddPetit(@ModelAttribute("petit") @Valid Petit petit, BindingResult bindingResult,HttpServletRequest request) {
+		return adds(petit, bindingResult,request);
 	}
 
-	private String add(Petit petit, BindingResult bindingResult) {
+	private String adds(Petit petit, BindingResult bindingResult,HttpServletRequest request) {
 		if(bindingResult.hasErrors()) {
 			return "petit";
 		} else {
 			//checkID(petit);
 		}
-		
+		/*
+		 * Ловим с клиента в переменную ff поле date_end
+		 */
+		String ff = request.getParameter("fil");
+		if(ff !=null && !ff.equals(""))
+		{
+    		Date date = new Date();
+  		  	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+  		  	try { date = df.parse(ff); } catch (ParseException e) { e.printStackTrace(); }
+    		petit.getBlockger2016().setDate_end(date);
+		}
 	    petit.setUsername(getUserName());
 	    petit.getBlockger2016().setPetit(petit);
 	    
-	    //BlockGER2016 block =  petit.getBlockger2016();
-	    // System.out.println("@@@ "+ block);
 	    System.out.println("@@@2 "+ petit);
-	    //block.setIdblockger2016(25);
-	    //block.setState(999);
-	    //block.setDate_close(new Date());
-	    // block.setPetit(petit);
-	    //petit.setBlockger2016(block);
 	    
 		petitService.addPetit(petit);
 		return "redirect:/index";
