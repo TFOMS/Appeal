@@ -42,7 +42,11 @@ h1{
 
 .tbl-content td,.tbl-content th{
 	background-color: rgb(230, 231, 236);	
+	
 }
+
+
+
 //tr:nth-child(even) {background-color: #f2f2f2}
 .tbl-header td,.tbl-content td{
   padding: 15px;
@@ -83,11 +87,49 @@ section{
 
 .tabmy thead tr, .tabmy thead th { background:transparent; }
 
-.someclass{
-	padding: 10px 10px;
-  text-align: left;
-  font-weight: 300;
-  font-size: 12px;
-  color: #000;
-  text-transform: uppercase;	
+.someclass td{
+	background-color: #D0BF0F;
+	font-weight: 300;
 }
+
+.someclass2 td{
+	background-color: #E4DD8C;
+	font-weight: 300;
+}
+
+.tbl-content td #iddel{
+	color: #E80404;
+}
+
+.tbl-content td:nth-child(17)  {
+   width:30px;
+   font-size: 9px; 
+}
+
+.tbl-content td:nth-child(16)  {
+   width:30px;
+   font-size: 9px; 
+}
+
+
+.css-input {
+ font-size:12px;
+  border-color:#cccccc; 
+  border-radius:7px;
+  border-width:1px;
+  border-style:groove; 
+  background-color:#ffffff; 
+  color:#000000; 
+  font-weight:bold; 
+  box-shadow: 1px 0px 3px 0px rgba(112,108,112,.64); 
+  font-style:italic; 
+  font-family:monospace; 
+  padding:5px; 
+  text-align:center; 
+  text-shadow:0px 0px 0px rgba(42,42,42,.75);
+ } 
+ .css-input:focus { outline:none; } 
+		 
+ .css-input:hover{
+ border-color:#fff;
+ }

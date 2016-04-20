@@ -6,9 +6,9 @@
 		http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
 	<http access-denied-page="/error403.jsp">
-		<intercept-url pattern="/" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO" />
-		<intercept-url pattern="/index*" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO" />
-		<intercept-url pattern="/add*" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO" />
+		<intercept-url pattern="/" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO,ROLE_ER" />
+		<intercept-url pattern="/index*" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO,ROLE_ER" />
+		<intercept-url pattern="/add*" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO,ROLE_ER" />
 		<intercept-url pattern="/searching" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO" />
 		<intercept-url pattern="/reporting" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO" />
 		<intercept-url pattern="/delete/*" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO" />
@@ -37,6 +37,8 @@
 				<user name="hamitov" password="zxc234" authorities="ROLE_TFOMS" />
 				<user name="filimonova" password="lkj098" authorities="ROLE_TFOMS" />
 				<user name="osipova" password="jkl890" authorities="ROLE_TFOMS" />
+				<user name="ernso" password="123" authorities="ROLE_ER" />
+				
 				
 			</user-service>
 		</authentication-provider>

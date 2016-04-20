@@ -74,9 +74,11 @@ public class PetitController {
 	
 	Map<Integer, String> source1 = new HashMap<Integer, String>();
 	Map<Integer, String> source2 = new HashMap<Integer, String>();
+	Map<Integer, String> source3 = new HashMap<Integer, String>();
 	{
 		source1.put(1, "ртнля");
 		source2.put(2, "ялн");
+		source3.put(3, "еп мян");
 	}
 	
 	@Autowired
@@ -111,8 +113,17 @@ public class PetitController {
 				getUserName().equals("osipova")) {
 			map.put("sourceList", source1);
 		} else {
-			map.put("sourceList", source2);
+			if(getUserName().equals("ernso")){
+				map.put("sourceList", source3);
+				map.put("listassign", Fields.getPresent());
+			}else{
+				map.put("sourceList", source2);
+				map.put("listassign", Fields.getPresent());
+				}
+			
 		}
+		
+		
     	map.put("presentList", Fields.getPresent());
     	map.put("conectList", Fields.getConect());
     	map.put("intermedList", Fields.getIntermed());

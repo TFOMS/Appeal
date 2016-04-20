@@ -33,7 +33,7 @@ public class PetitDAOImpl implements PetitDAO {
     @SuppressWarnings("unchecked")
     public List<Petit> listPetit(String username) {
     	Query query = sessionFactory.getCurrentSession().createQuery(
-    			"from Petit where username = :username and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by substr(num,0,2) desc,to_number(substr(num,4)) desc");
+    			"from Petit where (username = :username or username=substr(:username,1,5)) and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by substr(num,0,2) desc,to_number(substr(num,4)) desc");
     			//"from Petit where username = :username  order by substr(num,0,2) desc,to_number(substr(num,4)) desc");
         query.setParameter("username", username);
         return query.list();

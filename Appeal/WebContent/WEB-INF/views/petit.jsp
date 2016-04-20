@@ -29,6 +29,19 @@
 		parent.history.back();
 		};
 
+	
+	function numberone() {
+		console.log('@@ '+$('#sel').val());
+		if($('#sel').val() != '0'){
+			
+			$('#addpetit').prop('disabled', false);
+		}
+		else{
+			$('#addpetit').prop('disabled', true);
+			}
+		
+	 }	
+
 		
 	$(document).ready(
 			
@@ -46,19 +59,9 @@
 				$('#type').html(html);
 			});
 		}
-
 	)
 		
 	</script>
-	<script type="text/javascript">
-	
-			 /*function a_onClick() {
-				   $("input[name='ok_button']").val('Изменить');
-				   console.log($local.path);
-				  }*/
-	
-	</script>
-	
 	<script type="text/javascript">
 	$(document).ready(function() { 
 		$('#type').change(
@@ -253,10 +256,10 @@
 	<title><spring:message code="label.title" /></title>
 	
 	<link rel="stylesheet" href="<c:url value="/resources/css/styles.css"/>" type="text/css"/>
-	<link rel="stylesheet" href="<c:url value="/resources/css/style2.css"/>" type="text/css"/>
 	<link rel="stylesheet" href="<c:url value="/resources/jquery/ui/1.11.2/themes/smoothness/jquery-ui.css"/>">
 	<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="<c:url value="/resources/css/bliking.css"/>" type="text/css"/>
+		<link rel="stylesheet" href="<c:url value="/resources/css/style2.css"/>" type="text/css"/>
 	<script src="<c:url value="/resources/jquery/jquery-1.10.2.js"/>"></script>
 	<script src="<c:url value="/resources/jquery/ui/1.11.2/jquery-ui.js"/>"></script>
 	<script>
@@ -297,9 +300,6 @@
 <form:errors path="*" cssClass="errorblock" element="div" />
 	<table>
 		<tr>
-			<!--<td><form:label path="id" title="Для создания новой записи НЕ заполняйте это поле! Для редактирования записи введите нужный номер!">
-				<spring:message code="label.id" /></form:label></td>-->
-		
 			<form:hidden path="id" name='id'/>
 			<form:hidden path="num"/>
 			
@@ -310,7 +310,7 @@
 					<form:label path="dateInput"><spring:message code="label.dateInput" /></form:label>
 				</td>
 				<td>
-					<form:input id="dateInput" path="dateInput"/>
+					<form:input class="css-input" id="dateInput" path="dateInput"/>
 				</td>
 				
 				<form:hidden path="blockger2016.state" value="${1}" />
@@ -327,7 +327,12 @@
 				
 			<c:if test="${petit.id ne null}">
 				<form:hidden id="dateInput" path="dateInput"/>
-				<spring:message code="label.id" />&nbsp<c:out value="${petit.num}" />&nbsp&nbsp&nbsp&nbsp<spring:message code="label.dateInput" />&nbsp<c:out value="${petit.dateInput}" /><!--<form:input path="dateInput" />-->
+				<spring:message code="label.id" />&nbsp<c:out value="${petit.num}" />&nbsp&nbsp&nbsp&nbsp<spring:message code="label.dateInput" />&nbsp<c:out value="${petit.dateInput}" />
+				<c:set var="statec2" value="${petit.blockger2016.state}"/>
+					<c:if test="${(statec2 == 3)}">
+						&nbsp<spring:message code="label.dateand" />&nbsp<c:out value="${petit.blockger2016.date_end}" />
+					</c:if>				
+				
 				
 				<form:hidden path="blockger2016.idblockger2016"/>
 				<form:hidden path="blockger2016.state" value="${2}" />
@@ -342,10 +347,10 @@
 			</c:if>
 			
 			<!-- <td><form:label path="dateBegin"><spring:message code="label.dateBegin" /></form:label></td>
-			<td><form:input path="dateBegin" /></td>
+			<td><form:input class="css-input" path="dateBegin" /></td>
 			
 			<td><form:label path="dateEnd"><spring:message code="label.dateEnd" /></form:label></td>
-			<td><form:input path="dateEnd" /></td>-->
+			<td><form:input class="css-input" path="dateEnd" /></td>-->
 		</tr>
 		<tr>	
 			<td><form:label path="sourceId"><spring:message code="label.source" /></form:label></td>
@@ -371,33 +376,33 @@
 			</form:select></td>
 			
 			<td><form:label path="letterNum"><spring:message code="label.letterNum" /></form:label></td>
-			<td><form:input path="letterNum" /></td>
+			<td><form:input class="css-input" path="letterNum" /></td>
 			
 			<td><form:label path="letterDate"><spring:message code="label.letterDate" /></form:label></td>
-			<td><form:input path="letterDate" /></td>
+			<td><form:input class="css-input" path="letterDate" /></td>
 		</tr>
 	</table>
 	<br>
 	<table>			
 		<tr>
 			<td><form:label path="surname"><spring:message code="label.surname" /></form:label></td>
-			<td><form:input path="surname" /></td>
+			<td><form:input class="css-input" path="surname" /></td>
 
 			<td><form:label path="name"><spring:message code="label.name" /></form:label></td>
-			<td><form:input path="name" /></td>
+			<td><form:input class="css-input" path="name" /></td>
 
 			<td><form:label path="patrony"><spring:message code="label.patrony" /></form:label></td>
-			<td><form:input path="patrony" /></td>
+			<td><form:input class="css-input" path="patrony" /></td>
 		</tr>
 		<tr>
 			<td><form:label path="policy"><spring:message code="label.policy" /></form:label></td>
-			<td><form:input path="policy" /></td>
+			<td><form:input class="css-input" path="policy" /></td>
 
 			<td><form:label path="tel"><spring:message code="label.tel" /></form:label></td>
-			<td><form:input path="tel" /></td>
+			<td><form:input class="css-input" path="tel" /></td>
 
 			<td><form:label path="adress"><spring:message code="label.adress" /></form:label></td>
-			<td><form:input path="adress" /></td>
+			<td><form:input class="css-input" path="adress" /></td>
 		</tr>
 	</table>
 	<br>
@@ -479,10 +484,10 @@
 	<table>
 		<tr>
 			<td><form:label path="last1"><spring:message code="label.last1" /></form:label></td>
-			<td><form:input path="last1" /></td>
+			<td><form:input class="css-input" path="last1" /></td>
 	
 			<td><form:label path="last2"><spring:message code="label.last2" /></form:label></td>
-			<td><form:input path="last2" /></td>
+			<td><form:input class="css-input" path="last2" /></td>
 			
 			<td><form:label path="hspId"><spring:message code="label.hsp" /></form:label></td>
 			<td><form:select path="hspId">
@@ -525,19 +530,19 @@
 			</form:select></td>
 	
 			<td><form:label path="compens"><spring:message code="label.compens" /></form:label></td>
-			<td><form:input path="compens" /></td>
+			<td><form:input class="css-input" path="compens" /></td>
 	
 			<td><form:label path="satisf"><spring:message code="label.satisf" /></form:label></td>
-			<td><form:input path="satisf" /></td>
+			<td><form:input class="css-input" path="satisf" /></td>
 	
 			<td><form:label path="compensSource"><spring:message code="label.compensSource" /></form:label></td>
-			<td><form:input path="compensSource" /></td>
+			<td><form:input class="css-input" path="compensSource" /></td>
 	
 			<td><form:label path="compensCode"><spring:message code="label.compensCode" /></form:label></td>
-			<td><form:input path="compensCode" /></td>
+			<td><form:input class="css-input" path="compensCode" /></td>
 	
 			<td><form:label path="compensSum"><spring:message code="label.compensSum" /></form:label></td>
-			<td><form:input path="compensSum" /></td>
+			<td><form:input class="css-input" path="compensSum" /></td>
 		</tr>
 	</table>
 	</div>
@@ -559,6 +564,8 @@
 			<td>
 				<input class='btn-slide' type="button" value="<spring:message code="label.more"/>"/>
 			</td>
+		</tr>
+		<tr>	
 			<td>
 				<c:if test="${petit.id ne null}">
 					<input name="cancel_button" onclick="cancelback()" type="button" value="<spring:message code="label.cancelpetit"/>"/>
@@ -575,7 +582,12 @@
 				</c:if>
 				
 				<c:if test="${petit.id eq null}">
-					<input type="submit" name="submit" value="<spring:message code="label.addpetit"/>" 
+				<form:select id="sel" path="sourceId" onclick="numberone()">
+					<form:option label="Назначить"  value="0" />
+					<form:options items="${listassign}"/>
+				</form:select>
+				
+					<input type="submit" id="addpetit" name="submit" value="<spring:message code="label.addpetit"/>" disabled="disabled" 
 						onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
 					/>
 					
@@ -649,9 +661,12 @@
   <c:set var="statecl" value="${petit.blockger2016.state}"/>
 		<c:if test="${(statecl == 1)}">
 	  		<c:set value="someclass blink" var="cssClass"></c:set>
-		</c:if> 
-		<c:if test="${(statecl != 1)}">
+		</c:if>
+		<c:if test="${(statecl == 2)}">
 	  		<c:set value="someclass2" var="cssClass"></c:set>
+		</c:if> 
+		<c:if test="${(statecl != 1 && statecl != 2 )}">
+	  		<c:set value="someclass3" var="cssClass"></c:set>
 		</c:if> 
     <tr class="${cssClass}">
       			<!--<td>${petit.id}</td>-->
@@ -693,8 +708,8 @@
 			    <td>${petit.compensSum}</td>
 			    <td>${petit.propos}</td>-->
 			    <td>${petit.username}</td>
-				<td><a href="delete/${petit.id}" title="Удалить"><i class="fa fa-trash-o fa-3x"></i></a></td>
-				<td><a  href="refresh/${petit.id}" title="Редактировать"><i class="fa fa-pencil-square-o  fa-3x" aria-hidden="true"></i></a></td>
+				<td><a id="iddel" href="delete/${petit.id}" title="Удалить"><i class="fa fa-trash-o fa-3x"></i></a></td>
+				<td><a id="iddel" href="refresh/${petit.id}" title="Редактировать"><i class="fa fa-pencil-square-o  fa-3x" aria-hidden="true"></i></a></td>
 
 			    
 			    
