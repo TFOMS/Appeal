@@ -12,7 +12,7 @@ background: #759FCF; color: #fff; }
 
 .error { color: #ff0000; }
 .errorblock { color: #000; background-color: #ffEEEE; border: 3px solid #ff0000; 
-width: 800px; margin: 10px; }
+width: 97%; margin: 10px; font-size: 11px;}
 
 div.ui-datepicker { font-size:12px; font-family:‘Tahoma’,Verdana; }
 
