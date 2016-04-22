@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,6 +32,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -93,8 +95,9 @@ public class PetitController {
 	public ModelMap setupForm(ModelMap map) {
 
     	map.put("petit", new Petit());
-    	List<Petit> pl = petitService.listPetit(getUserName());
-    	
+    	List<Petit> pl =new ArrayList<Petit>();// petitService.listPetit(getUserName());
+    	Petit t = new Petit();
+    	pl.add(t);
     	for(Petit pt : pl)
     	{
     		if(pt.getDateInput() !=null)
@@ -111,14 +114,30 @@ public class PetitController {
 				getUserName().equals("hamitov") ||
 				getUserName().equals("filimonova") ||
 				getUserName().equals("osipova")) {
-			map.put("sourceList", source1);
+			
+													map.put("sourceList", source1);
+													map.put("listassign", Fields.getProperties());
 		} else {
 			if(getUserName().equals("ernso")){
 				map.put("sourceList", source3);
-				map.put("listassign", Fields.getPresent());
+				map.put("listassign", Fields.getProperties());
+				
 			}else{
-				map.put("sourceList", source2);
-				map.put("listassign", Fields.getPresent());
+					map.put("sourceList", source2);
+					
+					if(getUserName().equals("smo_simaz"))
+					{
+						map.put("listassign", Fields.getfirstsimaz());	
+					}
+					if(getUserName().equals("smo_rosno"))
+					{
+						map.put("listassign", Fields.getfirstrosno());	
+					}
+					if(getUserName().equals("smo_ingos"))
+					{
+						map.put("listassign", Fields.getfirstingos());	
+					}
+				
 				}
 			
 		}
@@ -195,11 +214,21 @@ public class PetitController {
   		  	try { date = df.parse(ff); } catch (ParseException e) { e.printStackTrace(); }
     		petit.getBlockger2016().setDate_end(date);
 		}
-	    petit.setUsername(getUserName());
+		/* Если нажата кнопка сохранить то в поле username добавляется ключ (ключ приходит с клиента input select - "назначить")
+		 * Ключ - это значение при котором записи из базы будут доступны определенным группам пользователей
+		 * 
+		 * 
+		 */
+		String para = request.getParameter("submit");
+		if(para.trim().equals("Сохранить"))
+		{
+			System.out.println("@@!!@@@@@@@!!!!!!!!     "+petit.getUsername());
+		}else
+		{
+			petit.setUsername(getUserName());
+		}
+	    
 	    petit.getBlockger2016().setPetit(petit);
-	    
-	    System.out.println("@@@2 "+ petit);
-	    
 		petitService.addPetit(petit);
 		return "redirect:/index";
 	}

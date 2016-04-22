@@ -259,7 +259,8 @@
 	<link rel="stylesheet" href="<c:url value="/resources/jquery/ui/1.11.2/themes/smoothness/jquery-ui.css"/>">
 	<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="<c:url value="/resources/css/bliking.css"/>" type="text/css"/>
-		<link rel="stylesheet" href="<c:url value="/resources/css/style2.css"/>" type="text/css"/>
+	<link rel="stylesheet" href="<c:url value="/resources/css/style2.css"/>" type="text/css"/>
+	<link rel="stylesheet" href="<c:url value="/resources/css/newform.css"/>" type="text/css"/>
 	<script src="<c:url value="/resources/jquery/jquery-1.10.2.js"/>"></script>
 	<script src="<c:url value="/resources/jquery/ui/1.11.2/jquery-ui.js"/>"></script>
 	<script>
@@ -317,6 +318,11 @@
 				
 				<sec:authorize access="hasRole('ROLE_TFOMS')">
 					<form:hidden path="blockger2016.regsource_id" value="${1}" />
+					<form:hidden path="blockger2016.regname" value="${principal.username}" />
+				</sec:authorize>
+				
+				<sec:authorize access="hasRole('ROLE_ER')">
+					<form:hidden path="blockger2016.regsource_id" value="${3}" />
 					<form:hidden path="blockger2016.regname" value="${principal.username}" />
 				</sec:authorize>
 				
@@ -582,7 +588,7 @@
 				</c:if>
 				
 				<c:if test="${petit.id eq null}">
-				<form:select id="sel" path="sourceId" onclick="numberone()">
+				<form:select id="sel" path="username" onclick="numberone()">
 					<form:option label="Назначить"  value="0" />
 					<form:options items="${listassign}"/>
 				</form:select>
@@ -599,6 +605,265 @@
 		</tr>
 	</table>
 
+</form:form>
+<!-- ==================НОВАЯ ФОРМА===================================== -->
+<br>
+<form:form method="post" action="add" commandName="petit" name='petit_form' class="register">
+
+	<form:errors path="*" cssClass="errorblock" element="div" />
+	<form:hidden path="id" name='id'/>
+	<form:hidden path="num"/>
+
+<h1>
+	<c:if test="${petit.id eq null}">
+		<spring:message code="label.petits" />
+	</c:if>
+	<c:if test="${petit.id ne null}">
+		<spring:message code="label.nepetits" />
+	</c:if>
+</h1>
+<fieldset class="row1">
+	<legend>Данные обращения</legend>
+	  <p>
+	  	<c:if test="${petit.id eq null}">
+	      <form:label path="dateInput"><spring:message code="label.dateInput" /></form:label>
+	      <form:input id="dateInput" path="dateInput"/>
+	   	</c:if>
+	   	<c:if test="${petit.id ne null}">
+	   		<form:hidden id="dateInput" path="dateInput"/>
+			<spring:message code="label.id" />&nbsp<c:out value="${petit.num}" />&nbsp&nbsp&nbsp&nbsp<spring:message code="label.dateInput" />&nbsp<c:out value="${petit.dateInput}" />
+	   	</c:if>
+	   	
+	 	<form:label path="sourceId"><spring:message code="label.source" /></form:label>
+	    <form:select path="sourceId">
+			<form:options items="${sourceList}"/>
+		</form:select>
+	  </p>
+	  <p>
+		<form:label path="conectId"><spring:message code="label.conect" /></form:label>
+		<form:select path="conectId">
+			<form:option value="0" label="" />
+			<form:options items="${conectList}"/>
+		</form:select>  
+		
+		<form:label path="presentId"><spring:message code="label.present" /></form:label>
+		<form:select path="presentId">
+	 		<form:options items="${presentList}"/>
+		</form:select>
+	  </p>
+	  <p>
+	  	<form:label path="letterNum"><spring:message code="label.letterNum" /></form:label>
+		<form:input path="letterNum" />
+				
+		<form:label path="letterDate"><spring:message code="label.letterDate" /></form:label>
+		<form:input path="letterDate" />
+	  </p>
+</fieldset>
+<fieldset class="row2">
+	<legend>Персональные данные</legend>
+	<p>
+		<form:label path="surname"><spring:message code="label.surname" /></form:label>
+		<form:input class="css-input" path="surname" />
+
+		<form:label path="name"><spring:message code="label.name" /></form:label>
+		<form:input  path="name"/>
+
+		<form:label path="patrony"><spring:message code="label.patrony" /></form:label>
+		<form:input class="css-input" path="patrony" />
+	</p>
+	<p>
+		<form:label path="policy"><spring:message code="label.policy" /></form:label>
+		<form:input  path="policy" />
+
+		<form:label path="tel"><spring:message code="label.tel" /></form:label>
+		<form:input  path="tel" />
+
+		<form:label path="adress"><spring:message code="label.adress" /></form:label>
+		<form:input  path="adress" />	
+	</p>
+	<p>
+		<form:label path="terId"><spring:message code="label.ter" /></form:label>
+		<form:select path="terId">
+			<form:option value="54" label="54 Новосибирскaя область" />
+   			<form:options items="${terList}"/>
+		</form:select>
+	
+		<form:label path="terAnswerId"><spring:message code="label.terAnswer" /></form:label>
+		<form:select path="terAnswerId">
+				<form:option value="54" label="54 Новосибирскaя область" />				
+    			<form:options items="${terList}"/>
+		</form:select>
+	</p>
+</fieldset>  
+<fieldset class="row777">
+	<legend>Тип и причина обращения</legend>
+	<p>
+				<form:label path="typeId"><spring:message code="label.type" /></form:label>
+				<span id="typeWarning" style="color:#ff8000">!
+					<span style="font-size:8">${petit.type.typeName}</span>
+				</span>
+			<form:select id="type" path="typeId" onchange="document.getElementById('typeWarning').hidden = true;"></form:select>
+	</p>
+	<p>
+			<form:label path="causeId"><spring:message code="label.cause" /></form:label>
+				<span id="causeWarning" style="color:#ff8000">!
+					<span style="font-size:8">${petit.cause.causeName}</span>
+				</span>
+			<form:select id="cause" path="causeId" onchange="document.getElementById('causeWarning').hidden = true;"></form:select>	
+	</p>
+	<p>			
+			<form:label path="rectif1Id"><spring:message code="label.rectif1" /></form:label>
+				<span id="rectif1Warning" style="color:#ff8000">!
+					<span style="font-size:8">${petit.rectif1.rectif1Name}</span>
+				</span>
+			<form:select id="rectif1" path="rectif1Id" onchange="document.getElementById('rectif1Warning').hidden = true;"></form:select>
+	</p>
+</fieldset>
+<fieldset class="row777">
+                <legend>Подробнее</legend>
+                <div class="hide">
+                <p>
+                	
+						<form:label path="rectif2Id"><spring:message code="label.rectif2" /></form:label>
+						<span id="rectif2Warning" style="color:#ff8000;font-size:8">${petit.rectif2.rectif2Name}</span>
+						<form:select id="rectif2" path="rectif2Id" onchange="document.getElementById('rectif2Warning').hidden = true;"></form:select>
+						
+						<form:label path="rectif3Id"><spring:message code="label.rectif3" /></form:label>
+						<span id="rectif3Warning" style="color:#ff8000;font-size:8">${petit.rectif3.rectif3Name}</span>
+						<form:select id="rectif3" path="rectif3Id" onchange="document.getElementById('rectif3Warning').hidden = true;"></form:select>
+
+						<form:label path="rectif4Id"><spring:message code="label.rectif4" /></form:label>
+						<span id="rectif4Warning" style="color:#ff8000;font-size:8">${petit.rectif4.rectif4Name}</span>
+						<form:select id="rectif4" path="rectif4Id" onchange="document.getElementById('rectif4Warning').hidden = true;" ></form:select>
+                	
+                </p>
+                <p>
+					<form:label path="last1"><spring:message code="label.last1" /></form:label>
+					<form:input class="css-input" path="last1" />
+	
+					<form:label path="last2"><spring:message code="label.last2" /></form:label>
+					<form:input class="css-input" path="last2" />
+			
+					<form:label path="hspId"><spring:message code="label.hsp" /></form:label>
+					<form:select path="hspId">
+						<form:option value="0" label="" />
+		    			<form:options items="${hspList}"/>
+					</form:select>
+                </p>
+                <p>
+					<form:label path="moId"><spring:message code="label.mo" /></form:label>
+					<form:select path="moId">
+						<form:option value="0" label="" />
+    					<form:options items="${moList}"/>
+					</form:select>
+			
+					<form:label path="insurId"><spring:message code="label.insur" /></form:label>
+					<form:select path="insurId">
+						<form:option value="0" label="" />
+    					<form:options items="${insurList}"/>
+					</form:select>
+                </p>
+                <p>
+					<form:label path="validId"><spring:message code="label.valid" /></form:label>
+					<form:select path="validId">
+						<form:option value="0" label="" />
+    					<form:options items="${validList}"/>
+					</form:select>
+	
+					<form:label path="compens"><spring:message code="label.compens" /></form:label>
+					<form:input class="css-input" path="compens" />
+	
+					<form:label path="satisf"><spring:message code="label.satisf" /></form:label>
+					<form:input class="css-input" path="satisf" />
+	
+					<form:label path="compensSource"><spring:message code="label.compensSource" /></form:label>
+					<form:input class="css-input" path="compensSource" />
+	
+					<form:label path="compensCode"><spring:message code="label.compensCode" /></form:label>
+					<form:input class="css-input" path="compensCode" />
+	
+					<form:label path="compensSum"><spring:message code="label.compensSum" /></form:label>
+					<form:input class="css-input" path="compensSum" />
+                </p>
+                <p>
+					<form:label path="causeNote"><spring:message code="label.causeNote" /></form:label>
+					<form:textarea rows="2" cols="100" value="0" path="causeNote" />
+                </p>
+                </div>
+                <p>
+                	<input class='btn-slide' type="button" value="<spring:message code="label.more"/>"/>
+                </p>
+</fieldset>
+<fieldset class="row777">
+                <legend>Выберите действие</legend>
+                <p>
+                	<c:if test="${petit.id ne null}">
+						<input name="cancel_button" onclick="cancelback()" type="button" value="<spring:message code="label.cancelpetit"/>"/>
+						<input name="submit" type="submit" value="<spring:message code="label.editpetit"/>" 
+							onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
+						/>
+						
+						<c:set var="gu" value="${petit.blockger2016.state}"/>
+						<c:if test="${(gu < 3)}">	
+							<input name="submit" type="submit" value="<spring:message code="label.endpetit"/>" 
+								onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
+							/>
+						</c:if>	
+					</c:if>
+					
+					<c:if test="${petit.id eq null}">
+					<form:select id="sel" path="username" onclick="numberone()">
+						<form:option label="Назначить"  value="0" />
+						<form:options items="${listassign}"/>
+					</form:select>
+					
+						<input type="submit" id="addpetit" name="submit" value="<spring:message code="label.addpetit"/>" disabled="disabled" 
+							onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
+						/>
+						
+						<input name="submit" type="submit" value="<spring:message code="label.endpetit"/>" 
+							onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
+						/>
+					</c:if>
+                </p>
+</fieldset>
+                
+  
+<!-- ============================================================================================  -->
+  
+  <c:if test="${petit.id eq null}">
+	<form:hidden path="blockger2016.state" value="${1}" />
+	
+	<sec:authorize access="hasRole('ROLE_TFOMS')">
+		<form:hidden path="blockger2016.regsource_id" value="${1}" />
+		<form:hidden path="blockger2016.regname" value="${principal.username}" />
+	</sec:authorize>
+	
+	<sec:authorize access="hasRole('ROLE_ER')">
+		<form:hidden path="blockger2016.regsource_id" value="${3}" />
+		<form:hidden path="blockger2016.regname" value="${principal.username}" />
+	</sec:authorize>
+	</c:if>
+	
+<!-- ============================================================================================  -->
+
+<c:if test="${petit.id ne null}">
+	<c:set var="statec2" value="${petit.blockger2016.state}"/>
+	<c:if test="${(statec2 == 3)}">
+		&nbsp<spring:message code="label.dateand" />&nbsp<c:out value="${petit.blockger2016.date_end}" />
+	</c:if>				
+				
+	<form:hidden path="blockger2016.idblockger2016"/>
+	<form:hidden path="blockger2016.state" value="${2}" />
+	<form:hidden path="blockger2016.regsource_id"/>
+	<form:hidden path="blockger2016.regname"/>
+				
+	<!-- Если пользователь проваливается в форму редактирования  при state =3 (завершен)
+	то передаем тот же самый date_end по новой и в базе срабатывает триггер иначе в базу добавить пустая date_end-->
+	<input type="hidden" name="fil" value="${petit.blockger2016.date_end}"/>
+</c:if>  
+	
+<!-- ============================================================================================  -->
 </form:form>
 
 
@@ -719,6 +984,6 @@
 </table>
 </div>
 </section>
-</c:if>
+</c:if> 
 </body>
 </html>

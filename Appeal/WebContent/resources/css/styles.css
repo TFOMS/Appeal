@@ -7,7 +7,7 @@ min-width: 960px; float:left;}
 #main-menu { display: block; color: #fff; text-decoration: none; font-weight: bold; padding: 10px;
 background: #759FCF; color: #fff; }
 
-#main { background-color: #f5f5f5; padding: 10px; }
+#main { background-color: #f0f0f0; padding: 10px; }
 #main a { font-size: 0.8em; color: #ff8000; font-weight: bold; }
 
 .error { color: #ff0000; }

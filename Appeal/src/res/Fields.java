@@ -11,7 +11,24 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
+
 public class Fields {
+	
+	public  static Map<Integer, String> getfirstingos() {
+		return getProperties("D:\\Appeals3\\Appeal\\res\\listforingos.txt");
+	}
+	
+	public  static Map<Integer, String> getfirstsimaz() {
+		return getProperties("D:\\Appeals3\\Appeal\\res\\listforsimaz.txt");
+	}
+	
+	public  static Map<Integer, String> getfirstrosno() {
+		return getProperties("D:\\Appeals3\\Appeal\\res\\listforrosno.txt");
+	}
+	
+	public  static Map<String, String> getProperties() {
+		return getPropertiesStr("D:\\Appeals3\\Appeal\\res\\listforger.txt");
+	}
 	
 	public static Map<Integer, String> getSource() {
 		return getProperties("D:\\Appeals3\\Appeal\\res\\source.txt");
@@ -84,5 +101,27 @@ public class Fields {
 		}
 		return map;
 	}
+
+	private static Map<String, String> getPropertiesStr(String filename) {
+		Properties prop = new Properties();
+		Map<String, String> map = new TreeMap<String, String>();
+		
+		try {
+		    InputStream stream = new FileInputStream(new File(filename));
+		    InputStreamReader  reader = new InputStreamReader(stream,"UTF-8");
+			prop.load(reader);
+
+			Enumeration e = prop.keys();
+			while(e.hasMoreElements()) {
+				String key = (String)e.nextElement();
+				map.put(prop.getProperty(key), prop.getProperty(key));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		return map;
+	}
+
 	
 }
