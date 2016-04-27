@@ -24,12 +24,11 @@
 	<c:url var="findRectifs4URL" value="/rectifs4" />
 	
 	<script>
-	
 	function cancelback() {
 		parent.history.back();
 		};
 
-	
+		
 	function numberone() {
 		console.log('@@ '+$('#sel').val());
 		if($('#sel').val() != '0'){
@@ -39,6 +38,12 @@
 		else{
 			$('#addpetit').prop('disabled', true);
 			}
+		
+	 }	
+
+	function refreshp() {
+		console.log('@@ '+$('#refreshpage').val());
+		location.reload();
 		
 	 }	
 
@@ -64,6 +69,11 @@
 	</script>
 	<script type="text/javascript">
 	$(document).ready(function() { 
+		if(window.location.href.indexOf("refresh") > -1) {
+				$('#main').addClass('forrefresh');
+		    }
+
+		
 		$('#type').change(
 				function() {
 					$.getJSON('${findCausesURL}', {
@@ -256,8 +266,9 @@
 	<title><spring:message code="label.title" /></title>
 	
 	<link rel="stylesheet" href="<c:url value="/resources/css/styles.css"/>" type="text/css"/>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/logosheader.css" />
 	<link rel="stylesheet" href="<c:url value="/resources/jquery/ui/1.11.2/themes/smoothness/jquery-ui.css"/>">
-	<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 	<link rel="stylesheet" href="<c:url value="/resources/css/bliking.css"/>" type="text/css"/>
 	<link rel="stylesheet" href="<c:url value="/resources/css/style2.css"/>" type="text/css"/>
 	<link rel="stylesheet" href="<c:url value="/resources/css/newform.css"/>" type="text/css"/>
@@ -268,6 +279,31 @@
 			$( "#dateInput" ).datepicker({dateFormat:'dd.mm.yy'});
 		});
 	</script>
+	<script>
+		//setTimeout ("$('body').animate({opacity: 1}, 3000 );", 10);
+		$(document).ready(function() 
+		{	
+		setInterval(function () {
+		
+		setTimeout ("$('#tf').removeClass('tfoms').addClass('tfoms2');", 1000);//+4
+		setTimeout ("$('#tf').removeClass('tfoms2').addClass('tfoms');", 8000);
+		
+		setTimeout ("$('#simaz').removeClass('sim').addClass('sim2');", 12000);
+		setTimeout ("$('#simaz').removeClass('sim2').addClass('sim');", 19000);
+		
+		setTimeout ("$('#rosno').removeClass('ro').addClass('ro2');", 23000);
+		setTimeout ("$('#rosno').removeClass('ro2').addClass('ro');", 30000);
+		
+		setTimeout ("$('#ingos').removeClass('in').addClass('in2');", 34000);
+		setTimeout ("$('#ingos').removeClass('in2').addClass('in');", 41000);
+            
+        }, 45000);
+		
+		
+		});
+		
+		</script>
+	
 </head>
 <body>
 
@@ -286,10 +322,23 @@
 	<spring:message code="label.report" />
 </a>
 </div>
-<div id = main-menu>
-<h2><spring:message code="label.title" /></h2>
+<div id ="main-menu">
+<div style="float:left; padding: 10px;">
+<i style="margin-left:10px;" class="fa fa-heartbeat fa-2x " aria-hidden="true"></i>
+<i style="margin-left:5px;" class="fa fa-phone-square fa-2x" aria-hidden="true"></i>
+<i style="margin-left:5px;" class="fa fa-headphones fa-2x" aria-hidden="true"></i>
+<h2 style="display: -webkit-inline-box; margin-left:10px;"><spring:message code="label.title" /></h2>
 </div>
-<div id = main>
+
+
+<div style="float:right; margin-right: 75px;">
+		<img src="${pageContext.request.contextPath}/resources/images/tf.png"  id="tf" class="tfoms">
+        <img src="${pageContext.request.contextPath}/resources/images/simaz.png" id="simaz" class="sim">
+		<img src="${pageContext.request.contextPath}/resources/images/rosno.png" id="rosno" class="ro">
+		<img src="${pageContext.request.contextPath}/resources/images/ingos.png" id="ingos" class="in">
+		</div>
+</div>
+<div id ="main">
 
 <form:form method="post" action="add" commandName="petit" name='petit_form' class="register">
 
@@ -309,7 +358,7 @@
 	<legend>Данные обращения</legend>
 	  <p>
 	  	<c:if test="${petit.id eq null}">
-	      <form:label path="dateInput"><spring:message code="label.dateInput" /></form:label>
+	      <form:label style="font-weight: bold;" path="dateInput"><spring:message code="label.dateInput" /></form:label>
 	      <form:input id="dateInput" path="dateInput"/>
 	   	</c:if>
 	   	<c:if test="${petit.id ne null}">
@@ -345,29 +394,29 @@
 <fieldset class="row2">
 	<legend>Персональные данные</legend>
 	<p>
-		<form:label path="surname"><spring:message code="label.surname" /></form:label>
+		<form:label style="font-weight: bold;" path="surname"><spring:message code="label.surname" /></form:label>
 		<form:input class="css-input" path="surname" />
 
-		<form:label path="name"><spring:message code="label.name" /></form:label>
+		<form:label style="font-weight: bold;" path="name"><spring:message code="label.name" /></form:label>
 		<form:input  path="name"/>
 
-		<form:label path="patrony"><spring:message code="label.patrony" /></form:label>
+		<form:label style="font-weight: bold;"  path="patrony"><spring:message code="label.patrony" /></form:label>
 		<form:input class="css-input" path="patrony" />
 	</p>
 	<p>
-		<form:label path="policy"><spring:message code="label.policy" /></form:label>
+		<form:label  style="font-weight: bold;" path="policy"><spring:message code="label.policy" /></form:label>
 		<form:input  path="policy" />
 
-		<form:label path="tel"><spring:message code="label.tel" /></form:label>
+		<form:label  style="font-weight: bold;" path="tel"><spring:message code="label.tel" /></form:label>
 		<form:input  path="tel" />
 
-		<form:label path="adress"><spring:message code="label.adress" /></form:label>
+		<form:label  style="font-weight: bold;" path="adress"><spring:message code="label.adress" /></form:label>
 		<form:input  path="adress" />	
 	</p>
 	<p>
 		<form:label path="terId"><spring:message code="label.ter" /></form:label>
 		<form:select path="terId">
-			<form:option value="54" label="54 Новосибирскaя область" />
+			<form:option value="0" label="" />
    			<form:options items="${terList}"/>
 		</form:select>
 	
@@ -421,12 +470,7 @@
                 	
                 </p>
                 <p>
-					<form:label path="last1"><spring:message code="label.last1" /></form:label>
-					<form:input class="css-input" path="last1" />
-	
-					<form:label path="last2"><spring:message code="label.last2" /></form:label>
-					<form:input class="css-input" path="last2" />
-			
+							
 					<form:label path="hspId"><spring:message code="label.hsp" /></form:label>
 					<form:select path="hspId">
 						<form:option value="0" label="" />
@@ -460,10 +504,10 @@
 					<form:input class="css-input" path="satisf" />
 	
 					<form:label path="compensSource"><spring:message code="label.compensSource" /></form:label>
-					<form:input class="css-input" path="compensSource" />
+					<form:input class="css-input" path="compensSource" placeholder="СМО МО или ТФОМС"/>
 	
 					<form:label path="compensCode"><spring:message code="label.compensCode" /></form:label>
-					<form:input class="css-input" path="compensCode" />
+					<form:input class="css-input" path="compensCode" placeholder="Код дефекта"/>
 	
 					<form:label path="compensSum"><spring:message code="label.compensSum" /></form:label>
 					<form:input class="css-input" path="compensSum" />
@@ -510,6 +554,7 @@
 					</c:if>
                 </p>
 </fieldset>
+
                 
   
 <!-- ============================================================================================  -->
@@ -519,6 +564,11 @@
 	
 	<sec:authorize access="hasRole('ROLE_TFOMS')">
 		<form:hidden path="blockger2016.regsource_id" value="${1}" />
+		<form:hidden path="blockger2016.regname" value="${principal.username}" />
+	</sec:authorize>
+	
+	<sec:authorize access="hasRole('ROLE_SMO')">
+		<form:hidden path="blockger2016.regsource_id" value="${2}" />
 		<form:hidden path="blockger2016.regname" value="${principal.username}" />
 	</sec:authorize>
 	
@@ -554,11 +604,13 @@
 <c:if test="${petit.id eq null}">
 <section> <!--for demo wrap-->
 <div  class="tbl-header">
+<input type="button" id="refreshpage" onclick="refreshp()" value="Обновить" style="    float: right; margin-bottom: 10px;"></input>
+
 <table class="tabmy" cellpadding="0" cellspacing="0" border="0">
   <thead>
   <tr>
 			<th><spring:message code="label.id" /></th>      
-		    <th><spring:message code="label.dateInput" /></th>
+		    <!-- <th><spring:message code="label.dateInput" /></th> --> <th>Дата поступления</th>
 		    <!-- <th><spring:message code="label.dateBegin" /></th>
 		    <th><spring:message code="label.dateEnd" /></th>-->         
 		    <th><spring:message code="label.source" /></th>
@@ -569,32 +621,32 @@
 		    <th><spring:message code="label.conect" /></th>
 		    <th><spring:message code="label.intermed" /></th>-->
 		    <th><spring:message code="label.type" /></th>
-		    <th><spring:message code="label.surname" /></th>
-		    <th><spring:message code="label.name" /></th>
-		    <!--<th><spring:message code="label.patrony" /></th>
-		    <th><spring:message code="label.policy" /></th>
-		    <th><spring:message code="label.tel" /></th>
-		    <th><spring:message code="label.adress" /></th> -->
+		    <!-- <th><spring:message code="label.surname" /></th> --><th>Фамилия</th>
+		    <!-- <th><spring:message code="label.name" /></th> --><th>Имя</th>
+			    <!--<th><spring:message code="label.patrony" /></th>
+			    <th><spring:message code="label.policy" /></th>
+			    <th><spring:message code="label.tel" /></th>
+			    <th><spring:message code="label.adress" /></th> -->
 		    <th><spring:message code="label.ter" /></th>
-		    <!--<th><spring:message code="label.terAnswer" /></th>
-		    <th><spring:message code="label.last1" /></th>
-		    <th><spring:message code="label.last2" /></th>
-		    <th><spring:message code="label.hsp" /></th>
-		    <th><spring:message code="label.insur" /></th>
-		    <th><spring:message code="label.place" /></th>-->
+			    <!--<th><spring:message code="label.terAnswer" /></th>
+			    <th><spring:message code="label.last1" /></th>
+			    <th><spring:message code="label.last2" /></th>
+			    <th><spring:message code="label.hsp" /></th>
+			    <th><spring:message code="label.insur" /></th>
+			    <th><spring:message code="label.place" /></th>-->
 		    <th><spring:message code="label.cause" /></th>
-		    <th><spring:message code="label.rectif1" /></th>
-		    <!--<th><spring:message code="label.rectif2" /></th>
-		    <th><spring:message code="label.rectif3" /></th>
-		    <th><spring:message code="label.rectif4" /></th>-->
-		    <th><spring:message code="label.valid" /></th>
-		    <!-- <th><spring:message code="label.compens" /></th>-->
-		    <th><spring:message code="label.satisf" /></th>
-		    <!-- <th><spring:message code="label.compensSource" /></th>
-		    <th><spring:message code="label.compensCode" /></th>
-		    <th><spring:message code="label.compensSum" /></th>
-		    <th><spring:message code="label.propos" /></th>-->
-		    <th><spring:message code="label.username" /></th>
+			    <!--<th><spring:message code="label.rectif1" /></th>
+			    <th><spring:message code="label.rectif2" /></th>
+			    <th><spring:message code="label.rectif3" /></th>
+			    <th><spring:message code="label.rectif4" /></th>
+			    <th><spring:message code="label.valid" /></th>
+			    <th><spring:message code="label.compens" /></th>
+			    <th><spring:message code="label.satisf" /></th>
+			    <th><spring:message code="label.compensSource" /></th>
+			    <th><spring:message code="label.compensCode" /></th>
+			    <th><spring:message code="label.compensSum" /></th>
+			    <th><spring:message code="label.propos" /></th>-->
+		    <!-- <th><spring:message code="label.username" /></th> --><th>Пользователь</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
     </tr>
@@ -617,7 +669,7 @@
 	  		<c:set value="someclass3" var="cssClass"></c:set>
 		</c:if> 
     <tr class="${cssClass}">
-      			<!--<td>${petit.id}</td>-->
+      			<td>${petit.id}</td>
 				<td>${petit.num}</td>      
 			    <td>${petit.dateInput}</td>         
 			    <!-- <td>${petit.dateBegin}</td>
@@ -653,8 +705,8 @@
 			    <td>${petit.satisf}</td>
 			    <!-- <td>${petit.compensSource}</td>
 			    <td>${petit.compensCode}</td>
-			    <td>${petit.compensSum}</td>
-			    <td>${petit.propos}</td>-->
+			    <!--<td>${petit.compensSum}</td>-->
+			    <!-- <td>${petit.propos}</td>-->
 			    <td>${petit.username}</td>
 				<td><a id="iddel" href="delete/${petit.id}" title="Удалить"><i class="fa fa-trash-o fa-3x"></i></a></td>
 				<td><a id="iddel" href="refresh/${petit.id}" title="Редактировать"><i class="fa fa-pencil-square-o  fa-3x" aria-hidden="true"></i></a></td>
@@ -667,6 +719,6 @@
 </table>
 </div>
 </section>
-</c:if> 
+</c:if>
 </body>
 </html>

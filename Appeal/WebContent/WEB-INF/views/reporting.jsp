@@ -58,7 +58,7 @@
 <div id = main-menu>  
 <h2><spring:message code="label.title" /></h2>
 </div>
-<div id = main>
+<div id = main2>
 <form:form method="post" action="" commandName="dateReport">
 <form:errors path="*" cssClass="errorblock" element="div" />
 </form:form>

@@ -50,11 +50,17 @@ h4 {
 form.register{
     width:800px;
     margin: 20px auto 0px 20px;;
-    height:830px;
+    height:600px;
     background-color:#fff;
     padding:5px;
     -moz-border-radius:20px;
     -webkit-border-radius:20px;
+    box-shadow:
+        0px 5px 5px rgba(124, 171, 132, 0.74), inset 0px 1px 0px rgba(67, 210, 63, 0.5);
+    opacity: 0.93;
+    overflow: auto;
+    
+        
 }
  .register p{
     font-size: 9pt;
@@ -131,7 +137,7 @@ form.register .infobox{
 }
 form.register legend
 {
-    color: #abda0f;
+    color: #658400;
     padding:2px;
     margin-left: 14px;
     font-weight:bold;

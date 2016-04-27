@@ -26,7 +26,7 @@ public class Petit {
     @Column(name = "ID")
     private Integer id;
 	
-	@Pattern(regexp = "(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}", message="Дата должна быть в формате дд.мм.гггг")
+	@Pattern(regexp = "(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}", message="Дата поступления должна быть в формате дд.мм.гггг")
 	@Column(name = "DATE_INPUT")
     private String dateInput;
 	
@@ -45,27 +45,27 @@ public class Petit {
     @Column(name = "TYPE_ID")
     private int typeId;
 
-	@NotEmpty(message="Поле \"Имя\" обязательно для заполнения")
+	//@NotEmpty(message="Поле \"Имя\" обязательно для заполнения")
     @Column(name = "NAME")
     private String name;
     
-	@NotEmpty(message="Поле \"Фамилия\" обязательно для заполнения")
+	//@NotEmpty(message="Поле \"Фамилия\" обязательно для заполнения")
     @Column(name = "SURNAME")
     private String surname;
     
-	@NotEmpty(message="Поле \"Отчество\" обязательно для заполнения")
+	//@NotEmpty(message="Поле \"Отчество\" обязательно для заполнения")
     @Column(name = "PATRONY")
     private String patrony;
     
-	@NotEmpty(message="Поле \"Полис\" обязательно для заполнения")
+	//@NotEmpty(message="Поле \"Полис\" обязательно для заполнения")
     @Column(name = "POLICY")
     private String policy;
     
-	@NotEmpty(message="Поле \"Телефон\" обязательно для заполнения")
+	//@NotEmpty(message="Поле \"Телефон\" обязательно для заполнения")
     @Column(name = "TEL")
     private String tel;
     
-	@NotEmpty(message="Поле \"Адрес\" обязательно для заполнения")
+	//@NotEmpty(message="Поле \"Адрес\" обязательно для заполнения")
     @Column(name = "ADRESS")
     private String adress;
     

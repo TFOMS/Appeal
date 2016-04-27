@@ -14,16 +14,19 @@ import java.util.TreeMap;
 
 public class Fields {
 	
-	public  static Map<Integer, String> getfirstingos() {
-		return getProperties("D:\\Appeals3\\Appeal\\res\\listforingos.txt");
+	public  static Map<String, String> getfirsttfoms() {
+		return getPropertiesStr("D:\\Appeals3\\Appeal\\res\\listfortfoms.txt");
+	}
+	public  static Map<String, String> getfirstingos() {
+		return getPropertiesStr("D:\\Appeals3\\Appeal\\res\\listforingos.txt");
 	}
 	
-	public  static Map<Integer, String> getfirstsimaz() {
-		return getProperties("D:\\Appeals3\\Appeal\\res\\listforsimaz.txt");
+	public  static Map<String, String> getfirstsimaz() {
+		return getPropertiesStr("D:\\Appeals3\\Appeal\\res\\listforsimaz.txt");
 	}
 	
-	public  static Map<Integer, String> getfirstrosno() {
-		return getProperties("D:\\Appeals3\\Appeal\\res\\listforrosno.txt");
+	public  static Map<String, String> getfirstrosno() {
+		return getPropertiesStr("D:\\Appeals3\\Appeal\\res\\listforrosno.txt");
 	}
 	
 	public  static Map<String, String> getProperties() {

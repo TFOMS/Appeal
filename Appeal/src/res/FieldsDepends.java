@@ -59,8 +59,7 @@ public class FieldsDepends {
 				.addCause("4.12 н бгхлюмхх демефмшу япедярб гю ледхжхмяйсч онлныэ он опнцпюллюл нлC", 33)
 				.addCause("4.12. 1 н бхдюу, йювеярбе х сякнбхъу опеднярюбкемхъ ледхжхмяйни онлных он опнцпюллюл нля", 36)				
 				.addCause("4.13 н окюрмшу ледхжхмяйху сяксцюу, нйюгшбюелшу б лн", 34)
-				.addCause("4.14 дпсцхе", 35)
-				;
+				.addCause("4.14 дпсцхе", 35);
 		this.types.put(type.getId(), type);
 		type = new TypeL("оПЕДКНФЕМХЕ", 4);
 		this.types.put(type.getId(), type);
@@ -86,11 +85,16 @@ public class FieldsDepends {
 				.addRectif1("6.1 он онярнъммнлс леярс фхрекэярбю", 8)
 				.addRectif1("6.2 бме онярнъммнцн леярю фхрекэярбю", 9)
 				.addRectif1("6.3 аег пецхярпюжхх мю реппхрнпхх пт", 10);
+		
 		this.causes.put(cause.getId(), cause);
+		
 		cause = new CauseL("7 нпцюмхгюжхъ пюанрш лн", 5);
 		cause
 				.addRectif1("ярюжхнмюп", 11)
-				.addRectif1("онкхйкхмхйю", 12);
+				.addRectif1("онкхйкхмхйю", 12)
+				.addRectif1("дмебмни ярюжхнмюп", 77713);
+		
+				
 		this.causes.put(cause.getId(), cause);
 		cause = new CauseL("11 йло", 9);
 		cause

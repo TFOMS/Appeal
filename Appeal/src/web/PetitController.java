@@ -95,9 +95,9 @@ public class PetitController {
 	public ModelMap setupForm(ModelMap map) {
 
     	map.put("petit", new Petit());
-    	List<Petit> pl =new ArrayList<Petit>();// petitService.listPetit(getUserName());
-    	Petit t = new Petit();
-    	pl.add(t);
+    	List<Petit> pl = petitService.listPetit(getUserName()); //new ArrayList<Petit>(); 
+    	//Petit t = new Petit();
+    	//pl.add(t);
     	for(Petit pt : pl)
     	{
     		if(pt.getDateInput() !=null)
@@ -116,7 +116,7 @@ public class PetitController {
 				getUserName().equals("osipova")) {
 			
 													map.put("sourceList", source1);
-													map.put("listassign", Fields.getProperties());
+													map.put("listassign", Fields.getfirsttfoms());
 		} else {
 			if(getUserName().equals("ernso")){
 				map.put("sourceList", source3);
@@ -216,8 +216,6 @@ public class PetitController {
 		}
 		/* Если нажата кнопка сохранить то в поле username добавляется ключ (ключ приходит с клиента input select - "назначить")
 		 * Ключ - это значение при котором записи из базы будут доступны определенным группам пользователей
-		 * 
-		 * 
 		 */
 		String para = request.getParameter("submit");
 		if(para.trim().equals("Сохранить"))
@@ -229,6 +227,7 @@ public class PetitController {
 		}
 	    
 	    petit.getBlockger2016().setPetit(petit);
+	    System.out.println("@@@@@@@@@@@@@@@@@@@@  "+petit);
 		petitService.addPetit(petit);
 		return "redirect:/index";
 	}

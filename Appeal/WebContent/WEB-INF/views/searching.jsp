@@ -260,7 +260,7 @@
 <div id = main-menu>
 <h2><spring:message code="label.title" /></h2>
 </div>
-<div id = main>
+<div id = main2>
 <h3><spring:message code="label.searching" /></h3>
 
 <form:form method="post" action="search" commandName="petit" name='search_form'>
