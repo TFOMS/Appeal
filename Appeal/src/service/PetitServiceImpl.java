@@ -215,6 +215,11 @@ public class PetitServiceImpl implements PetitService {
     	return petitDAO.getPetit(petitId);
 	}
     
+    @Transactional
+	public void closeAppeal(Integer petitId) {
+    	petitDAO.close(petitId);
+	}
+    
     @Override
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	public void reportAppealPay(ReportParams dateReport, String username) throws SQLException, ClassNotFoundException, JRException {

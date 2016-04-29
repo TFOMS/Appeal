@@ -41,8 +41,16 @@ public class Fields {
 		return getProperties("D:\\Appeals3\\Appeal\\res\\present.txt");
 	}
 	
+	public static Map<Integer, String> getPresentforFL() {
+		return getProperties("D:\\Appeals3\\Appeal\\res\\presentforfl.txt");
+	}
+	
 	public static Map<Integer, String> getConect() {
 		return getProperties("D:\\Appeals3\\Appeal\\res\\conect.txt");
+	}
+	
+	public static Map<Integer, String> getConectforFL() {
+		return getProperties("D:\\Appeals3\\Appeal\\res\\conectforfl.txt");
 	}
 	
 	public static Map<Integer, String> getIntermed() {

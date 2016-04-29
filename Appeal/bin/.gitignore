@@ -1,4 +1,6 @@
+/app/
 /dao/
-/res/
-/web/
 /domain/
+/res/
+/service/
+/web/

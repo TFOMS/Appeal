@@ -16,4 +16,7 @@ public interface PetitDAO {
     public List<Petit> listSearch(Petit petit, String username) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException;
 
 	public Petit getPetit(Integer petitId);
+	
+	public void close(Integer petitId);
+	
 }

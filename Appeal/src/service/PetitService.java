@@ -59,5 +59,7 @@ public interface PetitService {
 	public Map<Integer, Rectif2L> getRectifs2();
 
 	public Map<Integer, Rectif3L> getRectifs3();
+	
+	public void closeAppeal(Integer petitId);
 
 }

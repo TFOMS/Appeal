@@ -9,6 +9,8 @@
 
 <sec:authentication var="principal" property="principal" />
 
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
@@ -42,33 +44,32 @@
 	 }	
 
 	function refreshp() {
-		console.log('@@ '+$('#refreshpage').val());
 		location.reload();
-		
 	 }	
 
 		
-	$(document).ready(
-			
-		function() {
-			$.getJSON('${findTypesURL}', {
-				ajax : 'true'
-			}, function(data) {
-				var html = '<option value="0"></option>';
-				var len = data.length;
-				for ( var i = 0; i < len; i++) {
-					html += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
-				}
-				html += '</option>';
-
-				$('#type').html(html);
-			});
-		}
-	)
+	$(document).ready(function() {
+			var user = '${principal.username}';
+			if(user != 'ernso'){
+				$.getJSON('${findTypesURL}', {
+					ajax : 'true'
+				}, function(data) {
+					var html = '<option value="0"></option>';
+					var len = data.length;
+					for ( var i = 0; i < len; i++) {
+						html += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+					}
+					html += '</option>';
+	
+					$('#type').html(html);
+				});
+			}
+	});
 		
 	</script>
 	<script type="text/javascript">
 	$(document).ready(function() { 
+		// добовляем стиль css если адрес сайта содердит refresh 
 		if(window.location.href.indexOf("refresh") > -1) {
 				$('#main').addClass('forrefresh');
 		    }
@@ -268,7 +269,7 @@
 	<link rel="stylesheet" href="<c:url value="/resources/css/styles.css"/>" type="text/css"/>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/logosheader.css" />
 	<link rel="stylesheet" href="<c:url value="/resources/jquery/ui/1.11.2/themes/smoothness/jquery-ui.css"/>">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome-4.6.1/css/font-awesome.min.css">
 	<link rel="stylesheet" href="<c:url value="/resources/css/bliking.css"/>" type="text/css"/>
 	<link rel="stylesheet" href="<c:url value="/resources/css/style2.css"/>" type="text/css"/>
 	<link rel="stylesheet" href="<c:url value="/resources/css/newform.css"/>" type="text/css"/>
@@ -321,6 +322,10 @@
 <a href="<c:url value="/reporting" />">
 	<spring:message code="label.report" />
 </a>
+<div style="float:right; margin-right:15px; font-weight: bold;">
+	<i class="fa fa-user" aria-hidden="true"></i> Пользователь: <c:out value="${principal.username}"/>
+</div>
+
 </div>
 <div id ="main-menu">
 <div style="float:left; padding: 10px;">
@@ -339,6 +344,7 @@
 		</div>
 </div>
 <div id ="main">
+
 
 <form:form method="post" action="add" commandName="petit" name='petit_form' class="register">
 
@@ -374,7 +380,7 @@
 	  <p>
 		<form:label path="conectId"><spring:message code="label.conect" /></form:label>
 		<form:select path="conectId">
-			<form:option value="0" label="" />
+			
 			<form:options items="${conectList}"/>
 		</form:select>  
 		
@@ -383,6 +389,7 @@
 	 		<form:options items="${presentList}"/>
 		</form:select>
 	  </p>
+<sec:authorize access="hasAnyRole('ROLE_TFOMS','DEVELOPER','ROLE_SMO','ROLE_ADMIN')">	  
 	  <p>
 	  	<form:label path="letterNum"><spring:message code="label.letterNum" /></form:label>
 		<form:input path="letterNum" />
@@ -390,6 +397,7 @@
 		<form:label path="letterDate"><spring:message code="label.letterDate" /></form:label>
 		<form:input path="letterDate" />
 	  </p>
+</sec:authorize>	  
 </fieldset>
 <fieldset class="row2">
 	<legend>Персональные данные</legend>
@@ -430,11 +438,23 @@
 <fieldset class="row777">
 	<legend>Тип и причина обращения</legend>
 	<p>
+	<sec:authorize access="hasAnyRole('ROLE_TFOMS','ROLE_SMO','ROLE_ADMIN')">
 				<form:label path="typeId"><spring:message code="label.type" /></form:label>
 				<span id="typeWarning" style="color:#ff8000">!
 					<span style="font-size:8">${petit.type.typeName}</span>
 				</span>
 			<form:select id="type" path="typeId" onchange="document.getElementById('typeWarning').hidden = true;"></form:select>
+	</sec:authorize>
+	<sec:authorize access="hasRole('ROLE_ER')">
+				<form:label path="typeId"><spring:message code="label.type" /></form:label>
+				<span id="typeWarning" style="color:#ff8000">!
+					<span style="font-size:8">${petit.type.typeName}</span>
+				</span>
+			<form:select id="type" path="typeId" onchange="document.getElementById('typeWarning').hidden = true;">
+			<form:option value="0" label=""/>
+			<form:option value="3" label="Консультация" />
+			</form:select>
+	</sec:authorize>		
 	</p>
 	<p>
 			<form:label path="causeId"><spring:message code="label.cause" /></form:label>
@@ -451,6 +471,7 @@
 			<form:select id="rectif1" path="rectif1Id" onchange="document.getElementById('rectif1Warning').hidden = true;"></form:select>
 	</p>
 </fieldset>
+<sec:authorize access="hasAnyRole('ROLE_TFOMS','DEVELOPER','ROLE_SMO','ROLE_ADMIN')">
 <fieldset class="row777">
                 <legend>Подробнее</legend>
                 <div class="hide">
@@ -521,6 +542,7 @@
                 	<input class='btn-slide' type="button" value="<spring:message code="label.more"/>"/>
                 </p>
 </fieldset>
+</sec:authorize>
 <fieldset class="row777">
                 <legend>Выберите действие</legend>
                 <p>
@@ -536,6 +558,11 @@
 								onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
 							/>
 						</c:if>	
+						
+						<sec:authorize access="hasRole('ROLE_ADMIN')">
+						  		<input name="сlose_button" onclick="" type="button" value="Закрыть"/>
+						</sec:authorize>				
+						
 					</c:if>
 					
 					<c:if test="${petit.id eq null}">
@@ -600,6 +627,7 @@
 </form:form>
 
 
+
 <hr>
 <c:if test="${petit.id eq null}">
 <section> <!--for demo wrap-->
@@ -614,15 +642,15 @@
 		    <!-- <th><spring:message code="label.dateBegin" /></th>
 		    <th><spring:message code="label.dateEnd" /></th>-->         
 		    <th><spring:message code="label.source" /></th>
-		    <th><spring:message code="label.present" /></th>
-		    <th><spring:message code="label.letterNum" /></th>
+		    <!-- <th><spring:message code="label.present" /></th> -->
+		    <!-- <th><spring:message code="label.letterNum" /></th> -->
 		    <th><spring:message code="label.mo" /></th>
 		    <!--<th><spring:message code="label.letterDate" /></th>
 		    <th><spring:message code="label.conect" /></th>
 		    <th><spring:message code="label.intermed" /></th>-->
 		    <th><spring:message code="label.type" /></th>
 		    <!-- <th><spring:message code="label.surname" /></th> --><th>Фамилия</th>
-		    <!-- <th><spring:message code="label.name" /></th> --><th>Имя</th>
+		    <!-- <th><spring:message code="label.name" /></th><th>Имя</th>-->
 			    <!--<th><spring:message code="label.patrony" /></th>
 			    <th><spring:message code="label.policy" /></th>
 			    <th><spring:message code="label.tel" /></th>
@@ -634,8 +662,8 @@
 			    <th><spring:message code="label.hsp" /></th>
 			    <th><spring:message code="label.insur" /></th>
 			    <th><spring:message code="label.place" /></th>-->
-		    <th><spring:message code="label.cause" /></th>
-			    <!--<th><spring:message code="label.rectif1" /></th>
+		    	<!--<th><spring:message code="label.cause" /></th>
+			    <th><spring:message code="label.rectif1" /></th>
 			    <th><spring:message code="label.rectif2" /></th>
 			    <th><spring:message code="label.rectif3" /></th>
 			    <th><spring:message code="label.rectif4" /></th>
@@ -669,47 +697,70 @@
 	  		<c:set value="someclass3" var="cssClass"></c:set>
 		</c:if> 
     <tr class="${cssClass}">
-      			<td>${petit.id}</td>
-				<td>${petit.num}</td>      
-			    <td>${petit.dateInput}</td>         
-			    <!-- <td>${petit.dateBegin}</td>
-			    <td>${petit.dateEnd}</td>-->
-			    <td>${petit.source.sourceName}</td>
+      			
+				<!-- <td>${petit.num}</td> -->
+				<!-- <td>${petit.dateBegin}</td>
+			    <td>${petit.dateEnd}</td>
 			    <td>${petit.present.presentName}</td>
 			    <td>${petit.letterNum}</td>
-			    <td>${petit.mo.moName}</td>
-			    <!--<td>${petit.letterDate}</td>
+			    
+			    <td>${petit.letterDate}</td>
 			    <td>${petit.conect.conectName}</td>
-			    <td>${petit.intermedId}</td>-->
-			    <td>${petit.type.typeName}</td>
-			    <td>${petit.surname}</td>
+			    <td>${petit.intermedId}</td>
+			    
+			    
 			    <td>${petit.name}</td>
-			    <!--<td>${petit.patrony}</td>
+			    <td>${petit.patrony}</td>
 			    <td>${petit.policy}</td>
 			    <td>${petit.tel}</td>
-			    <td>${petit.adress}</td> -->
-			    <td>${petit.ter.terName}</td>
-			    <!--<td>${petit.terAnswer.terName}</td>
+			    <td>${petit.adress}</td>
+			    
+			    <td>${petit.terAnswer.terName}</td>
 			    <td>${petit.last1}</td>
 			    <td>${petit.last2}</td>
 			    <td>${petit.hspId}</td>
 			    <td>${petit.insurId}</td>	
-			    <td>${petit.placeId}</td>-->
+			    <td>${petit.placeId}</td>
 			    <td>${petit.cause.causeName}</td>
 			    <td>${petit.rectif1.rectif1Name}</td>
-			    <!--<td>${petit.rectif2.rectif2Name}</td>
+			    <td>${petit.rectif2.rectif2Name}</td>
 			    <td>${petit.rectif3.rectif3Name}</td>
-			    <td>${petit.rectif4.rectif4Name}</td>-->
+			    <td>${petit.rectif4.rectif4Name}</td>
 			    <td>${petit.valid.validName}</td>
-			    <!-- <td>${petit.compens}</td>-->
-			    <td>${petit.satisf}</td>
-			    <!-- <td>${petit.compensSource}</td>
+			     <td>${petit.compens}</td>
+			     <td>${petit.satisf}</td>
+			     <td>${petit.compensSource}</td>
 			    <td>${petit.compensCode}</td>
-			    <!--<td>${petit.compensSum}</td>-->
-			    <!-- <td>${petit.propos}</td>-->
-			    <td>${petit.username}</td>
-				<td><a id="iddel" href="delete/${petit.id}" title="Удалить"><i class="fa fa-trash-o fa-3x"></i></a></td>
-				<td><a id="iddel" href="refresh/${petit.id}" title="Редактировать"><i class="fa fa-pencil-square-o  fa-3x" aria-hidden="true"></i></a></td>
+			    <td>${petit.compensSum}</td>
+			    <td>${petit.propos}</td>
+			     			    
+			    -->
+			    
+			    <td>${petit.id}</td>      
+			    <td>${petit.dateInput}</td>         
+				<td>${petit.source.sourceName}</td>
+				<td>${petit.mo.moName}</td>
+				<td>${petit.type.typeName}</td>
+				<td>${petit.surname}</td>
+				<td>${petit.ter.terName}</td>
+				<td>${petit.username}</td>
+			    
+			    
+			    <c:if test="${(statecl != 4)}">
+			    	<td><a id="iddel" href="delete/${petit.id}" title="Удалить"><i class="fa fa-trash-o fa-3x"></i></a></td>
+					<td><a id="iddel" href="refresh/${petit.id}" title="Редактировать"><i class="fa fa-pencil-square-o  fa-3x" aria-hidden="true"></i></a></td>
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<td><a id="iddel" href="close/${petit.id}" title="Закрыть обращение"><i class="fa fa-unlock  fa-3x" aria-hidden="true"></i></a></td>
+					</sec:authorize>
+				</c:if>
+				
+				<c:if test="${(statecl == 4)}">
+					<td></td>
+					<td></td>
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<td><a id="iddel" href="open/${petit.id}" title="Восстановить закрытое обращение"><i class="fa fa-lock  fa-3x" aria-hidden="true"></i></a></td>
+					</sec:authorize>
+				</c:if>
 
 			    
 			    
@@ -719,6 +770,7 @@
 </table>
 </div>
 </section>
+
 </c:if>
 </body>
 </html>

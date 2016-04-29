@@ -109,6 +109,7 @@ public class PetitController {
 		if(getUserName().equals("sasha") ||
 				getUserName().equals("mityanina") ||
 				getUserName().equals("vasilyeva") ||
+				getUserName().equals("smyvin") ||
 				getUserName().equals("popova") ||
 				getUserName().equals("eremina") ||
 				getUserName().equals("hamitov") ||
@@ -117,10 +118,14 @@ public class PetitController {
 			
 													map.put("sourceList", source1);
 													map.put("listassign", Fields.getfirsttfoms());
+													map.put("conectList", Fields.getConect());
+													map.put("presentList", Fields.getPresent());
 		} else {
 			if(getUserName().equals("ernso")){
 				map.put("sourceList", source3);
 				map.put("listassign", Fields.getProperties());
+				map.put("conectList", Fields.getConectforFL());
+				map.put("presentList", Fields.getPresentforFL());
 				
 			}else{
 					map.put("sourceList", source2);
@@ -137,14 +142,15 @@ public class PetitController {
 					{
 						map.put("listassign", Fields.getfirstingos());	
 					}
-				
+
+					map.put("conectList", Fields.getConect());
+					map.put("presentList", Fields.getPresent());
 				}
 			
 		}
 		
 		
-    	map.put("presentList", Fields.getPresent());
-    	map.put("conectList", Fields.getConect());
+    	
     	map.put("intermedList", Fields.getIntermed());
     	map.put("typeList", Fields.getType());
     	map.put("terList", Fields.getTer());
@@ -469,6 +475,13 @@ public class PetitController {
     public String loadPetit(@PathVariable("petitId") Integer petitId, ModelMap map) {
     	map.put("petit", petitService.getPetit(petitId));
     	return "petit";
+    }
+    
+    @RequestMapping(value = "/close/{petitId}")
+    public String close(@PathVariable("petitId") Integer petitId, ModelMap map) {
+    	petitService.closeAppeal(petitId);
+    	
+    	return "redirect:/index";
     }
     
     @RequestMapping(value = "/more/refresh/{petitId}")

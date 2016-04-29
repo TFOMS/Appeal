@@ -3,9 +3,6 @@ package dao;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -29,6 +26,8 @@ public class PetitDAOImpl implements PetitDAO {
     public void addPetit(Petit petit) {
         sessionFactory.getCurrentSession().saveOrUpdate(petit);
     }
+    
+    
 
     @SuppressWarnings("unchecked")
     public List<Petit> listPetit(String username) {
@@ -70,6 +69,25 @@ public class PetitDAOImpl implements PetitDAO {
 			query = sessionFactory.getCurrentSession().createQuery(
 			"from Petit where (username = :username or username='"+"ÑÈÌÀÇ"+"') and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by  id desc");
             query.setParameter("username", username);
+    	}
+		
+		if(username.equals("vasilyeva") || username.equals("smyvin"))
+    	{
+			query = sessionFactory.getCurrentSession().createQuery(
+			"from Petit where (username = :username or username='"+"ÒÔÎÌÑ"+"' "
+					+ "or username='"+"ÑÈÌÀÇ"+"' "
+					+ "or username='"+"ÐÎÑÍÎ"+"' "
+					+ "or username='"+"ÈÍÃÎÑÑÒÐÀÕ"+"' "
+					+ "or username='"+"smo_ingos"+"' "
+					+ "or username='"+"smo_simaz"+"' "
+					+ "or username='"+"smo_rosno"+"'"
+					+ "or username='"+"hamitov"+"' "
+					+ "or username='"+"mityanina"+"' "
+					+ "or username='"+"vasilyeva"+"' "
+					+ "or username='"+"smyvin"+"' "
+					+ "or username='"+"ernso"+"' "
+					+ "or username='"+"eremina"+"') and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by id desc");
+			query.setParameter("username", username);
     	}
 	        		    		
 	        		    		/*
@@ -143,5 +161,16 @@ public class PetitDAOImpl implements PetitDAO {
 	 	//petit.getBlockger2016().setDate_close(petit.getBlockger2016().getDate_close().substring(8, 10) + "."+petit.getBlockger2016().getDate_close().substring(5, 7) + "."+petit.getBlockger2016().getDate_close().substring(0, 4));
 	 	
 		return petit;
+	}
+	
+	public void close(Integer petitId) {
+		Petit petit = (Petit) sessionFactory.getCurrentSession().get(Petit.class, petitId);
+		petit.getBlockger2016().setState(4);
+		petit.getBlockger2016().setDate_close(new Date());
+		petit.getBlockger2016().setPetit(petit);
+		
+		sessionFactory.getCurrentSession().saveOrUpdate(petit);
+    	
+	 	
 	}
 }

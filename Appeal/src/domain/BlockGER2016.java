@@ -35,7 +35,8 @@ public class BlockGER2016 {
 	@Temporal(TemporalType.DATE)
 	private Date date_end;
 	// Дата Закрытия обращения
-	private String date_close;
+	@Temporal(TemporalType.DATE)
+	private Date date_close;
 	// Номер письма (исходящее)
 	private String letter_out_num;
 	// Дата письма (исходящее)
@@ -61,14 +62,7 @@ public class BlockGER2016 {
 		this.date_end = date_end;
 	}
 
-	public String getDate_close() {
-		return date_close;
-	}
-
-	public void setDate_close(String date_close) {
-		this.date_close = date_close;
-	}
-
+	
 	public String getLetter_out_num() {
 		return letter_out_num;
 	}
@@ -178,6 +172,14 @@ public class BlockGER2016 {
 				+ regsource_id + ", regname=" + regname + ", regnum=" + regnum
 				+ ", date_create=" + date_create + ", date_change="
 				+ date_change + ", state=" + state + "]";
+	}
+
+	public Date getDate_close() {
+		return date_close;
+	}
+
+	public void setDate_close(Date date_close) {
+		this.date_close = date_close;
 	}
 
 }

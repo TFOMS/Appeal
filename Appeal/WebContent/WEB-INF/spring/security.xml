@@ -26,12 +26,12 @@
 	<authentication-manager>
 		<authentication-provider>
 			<user-service>
-				<user name="sasha" password="kjh987" authorities="ROLE_ADMIN,ROLE_TFOMS" />
+				<user name="smyvin" password="kjh987" authorities="ROLE_ADMIN,ROLE_TFOMS" />
+				<user name="vasilyeva" password="uhb567" authorities="ROLE_ADMIN,ROLE_TFOMS" />
 				<user name="smo_simaz" password="uyt765" authorities="ROLE_SMO" />
 				<user name="smo_rosno" password="wer456" authorities="ROLE_SMO" />
 				<user name="smo_ingos" password="rty579" authorities="ROLE_SMO" />
 				<user name="mityanina" password="tre456" authorities="ROLE_TFOMS" />
-				<user name="vasilyeva" password="uhb567" authorities="ROLE_TFOMS" />
 				<user name="popova" password="fds321" authorities="ROLE_TFOMS" />
 				<user name="eremina" password="nbv654" authorities="ROLE_TFOMS" />
 				<user name="hamitov" password="zxc234" authorities="ROLE_TFOMS" />
