@@ -26,7 +26,7 @@ h1{
   margin-top: 2px;
   //border: 2px solid rgba(255,255,255,0.3);
 }
-.tbl-header th,.tbl-content th{
+.tbl-header th{
   padding: 10px 10px;
   text-align: center;
   font-weight: 300;
@@ -35,9 +35,17 @@ h1{
   text-transform: uppercase;
 }
 
+.tbl-content th{
+	padding: 10px 10px;
+  text-align: center;
+  font-weight: 300;
+  font-size: 12px;
+  text-transform: uppercase;
+}
 
 
-.tbl-header th,.tbl-header td{
+
+.tbl-header th,.tbl-header th{
 	background-color: #8211EF;
 	
 }
@@ -50,7 +58,7 @@ h1{
 
 
 //tr:nth-child(even) {background-color: #f2f2f2}
-.tbl-header td,.tbl-content td{
+.tbl-header td,.tbl-content th{
   padding: 15px;
   text-align: left;
   vertical-align:middle;
@@ -58,9 +66,9 @@ h1{
   font-size: 12px;
   border-bottom: solid 1px rgba(255,255,255,0.9);
 }
-.tbl-content td{
+.tbl-content th{
 	color: #0000;
-	padding: 5px;
+	padding: 10px;
 	font-weight: 300;
 }
 
@@ -99,16 +107,21 @@ section{
 	font-weight: 300;
 }
 
-.tbl-content td #iddel{
+.someclass3 td{
+	background-color: #e5e5e5;
+	font-weight: 300;
+}
+
+.tbl-content th #iddel{
 	color: #E80404;
 }
 
-.tbl-content td:nth-child(17)  {
+.tbl-content th:nth-child(17)  {
    width:30px;
    font-size: 9px; 
 }
 
-.tbl-content td:nth-child(16)  {
+.tbl-content th:nth-child(16)  {
    width:30px;
    font-size: 9px; 
 }
@@ -135,3 +148,55 @@ section{
  .css-input:hover{
  border-color:#fff;
  }*/
+ 
+ .secondtab{
+ width:100%;
+ border-spacing: 1px;
+ }
+ .secondtab thead{background: -webkit-linear-gradient(left, rgb(0, 0, 0) 0%, rgb(130, 135, 140) 20%, rgb(148, 190, 239) 80%, rgb(0, 103, 220) 100%);
+    background-attachment: fixed;
+ }
+ .secondtab thead th {
+  width: 100px;
+  border-bottom: solid 1px #ddd;
+  font-weight: bold;
+  padding:10px;
+  font-weight: 300;
+  font-size: 12px;
+  color: #fff;
+  text-transform: uppercase;
+  }
+  
+  .secondtab tbody td {
+  text-align:center;
+  font-weight: 300;
+  font-size: 12px;
+  color: #000;
+  text-transform: uppercase;
+  padding:8px;
+  
+  }
+  
+  .secondtab td #iddel{
+	color: #E80404;
+  }
+  
+   .secondtab  td:nth-child(-n+8){
+    font-size: 10px;
+    //width: 20px;
+    white-space: nowrap;
+   }
+   
+     .secondtab  td:nth-child(n+9){
+    //font-size: 20px;
+    font-size: 10px;
+    width: 1%;
+   }
+  
+ .secondtab tbody:nth-child(odd) { background: #f5f5f5;  border: solid 1px #ddd; }
+ .secondtab tbody:nth-child(even) { background: #e5e5e5;  border: solid 1px #ddd; }
+ 
+ .noactive{
+ font-size: 15px;
+ 
+ }

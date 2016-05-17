@@ -630,14 +630,12 @@
 
 <hr>
 <c:if test="${petit.id eq null}">
-<section> <!--for demo wrap-->
-<div  class="tbl-header">
+<section>
 <input type="button" id="refreshpage" onclick="refreshp()" value="Обновить" style="    float: right; margin-bottom: 10px;"></input>
-
-<table class="tabmy" cellpadding="0" cellspacing="0" border="0">
-  <thead>
-  <tr>
-			<th><spring:message code="label.id" /></th>      
+<table class="secondtab">
+    <thead>
+        <tr>
+        <th><spring:message code="label.id" /></th>      
 		    <!-- <th><spring:message code="label.dateInput" /></th> --> <th>Дата поступления</th>
 		    <!-- <th><spring:message code="label.dateBegin" /></th>
 		    <th><spring:message code="label.dateEnd" /></th>-->         
@@ -675,28 +673,25 @@
 			    <th><spring:message code="label.compensSum" /></th>
 			    <th><spring:message code="label.propos" /></th>-->
 		    <!-- <th><spring:message code="label.username" /></th> --><th>Пользователь</th>
-			<th>&nbsp;</th>
-			<th>&nbsp;</th>
-    </tr>
-      
-  </thead>
-</table>
-</div>
-<div  class="tbl-content">
-<table class="tabmy" cellpadding="0" cellspacing="0" border="0">
-  <tbody>
-  <c:forEach items="${petitList}" var="petit">
-  <c:set var="statecl" value="${petit.blockger2016.state}"/>
-		<c:if test="${(statecl == 1)}">
-	  		<c:set value="someclass blink" var="cssClass"></c:set>
-		</c:if>
-		<c:if test="${(statecl == 2)}">
-	  		<c:set value="someclass2" var="cssClass"></c:set>
-		</c:if> 
-		<c:if test="${(statecl != 1 && statecl != 2 )}">
-	  		<c:set value="someclass3" var="cssClass"></c:set>
-		</c:if> 
-    <tr class="${cssClass}">
+			<th></th>
+			<th></th>
+			<th></th>
+			
+        </tr>
+    </thead>
+    <tbody>
+          <c:forEach items="${petitList}" var="petit">
+  			<c:set var="statecl" value="${petit.blockger2016.state}"/>
+			<c:if test="${(statecl == 1)}">
+	  			<c:set value="someclass blink" var="cssClass"></c:set>
+			</c:if>
+			<c:if test="${(statecl == 2)}">
+	  			<c:set value="someclass2" var="cssClass"></c:set>
+			</c:if> 
+			<c:if test="${(statecl != 1 && statecl != 2 )}">
+		  		<c:set value="someclass3" var="cssClass"></c:set>
+			</c:if> 
+    	<tr class="${cssClass}">
       			
 				<!-- <td>${petit.num}</td> -->
 				<!-- <td>${petit.dateBegin}</td>
@@ -742,35 +737,40 @@
 				<td>${petit.mo.moName}</td>
 				<td>${petit.type.typeName}</td>
 				<td>${petit.surname}</td>
-				<td>${petit.ter.terName}</td>
+				<td style="overflow-x: hidden; overflow-y: hidden; white-space: nowrap; max-width: 65px;">${petit.ter.terName}</td>
 				<td>${petit.username}</td>
 			    
 			    
 			    <c:if test="${(statecl != 4)}">
-			    	<td><a id="iddel" href="delete/${petit.id}" title="Удалить"><i class="fa fa-trash-o fa-3x"></i></a></td>
-					<td><a id="iddel" href="refresh/${petit.id}" title="Редактировать"><i class="fa fa-pencil-square-o  fa-3x" aria-hidden="true"></i></a></td>
+			    	<td><a id="iddel" href="delete/${petit.id}" title="Удалить"><i class="fa fa-trash-o fa-2x"></i></a></td>
+					<td><a id="iddel" href="refresh/${petit.id}" title="Редактировать"><i class="fa fa-pencil-square-o  fa-2x" aria-hidden="true"></i></a></td>
 					<sec:authorize access="hasRole('ROLE_ADMIN')">
-						<td><a id="iddel" href="close/${petit.id}" title="Закрыть обращение"><i class="fa fa-unlock  fa-3x" aria-hidden="true"></i></a></td>
+						<td><a id="iddel" href="close/${petit.id}" title="Закрыть обращение"><i class="fa fa-unlock  fa-2x" aria-hidden="true"></i></a></td>
+					</sec:authorize>
+					<sec:authorize access="!hasRole('ROLE_ADMIN')">
+						<td><i class="fa fa-unlock  fa-2x noactive" aria-hidden="true"></i></td>
 					</sec:authorize>
 				</c:if>
 				
 				<c:if test="${(statecl == 4)}">
-					<td></td>
-					<td></td>
+					<td><i class="fa fa-trash-o fa-2x noactive"></i></td>
+					<td><i class="fa fa-pencil-square-o  fa-2x noactive" aria-hidden="true"></i></td>
 					<sec:authorize access="hasRole('ROLE_ADMIN')">
-						<td><a id="iddel" href="open/${petit.id}" title="Восстановить закрытое обращение"><i class="fa fa-lock  fa-3x" aria-hidden="true"></i></a></td>
+						<td><a id="iddel" href="open/${petit.id}" title="Восстановить закрытое обращение"><i class="fa fa-lock  fa-2x" aria-hidden="true"></i></a></td>
+					</sec:authorize>
+					<sec:authorize access="!hasRole('ROLE_ADMIN')">
+						<td><i class="fa fa-lock  fa-2x noactive" aria-hidden="true"></i></td>
 					</sec:authorize>
 				</c:if>
 
 			    
 			    
     </tr>
-  </c:forEach>  
-  </tbody>
+  </c:forEach>          
+    </tbody>
 </table>
-</div>
 </section>
-
 </c:if>
+
 </body>
 </html>
