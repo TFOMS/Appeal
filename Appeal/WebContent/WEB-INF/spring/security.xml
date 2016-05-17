@@ -11,7 +11,7 @@
 		<intercept-url pattern="/add*" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO,ROLE_ER" />
 		<intercept-url pattern="/searching" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO" />
 		<intercept-url pattern="/reporting" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO" />
-		<intercept-url pattern="/delete/*" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO,ROLE_ER" />
+		<intercept-url pattern="/delete/*" access="ROLE_ADMIN" />
 		<form-login login-page="/login.jsp" default-target-url="/index"
 			authentication-failure-url="/login.jsp?error=true" />
 		<logout logout-url="/logout" logout-success-url="/index" />
@@ -38,6 +38,9 @@
 				<user name="filimonova" password="lkj098" authorities="ROLE_TFOMS" />
 				<user name="osipova" password="jkl890" authorities="ROLE_TFOMS" />
 				<user name="ernso" password="123" authorities="ROLE_ER" />
+				<user name="call5001" password="5001" authorities="ROLE_ER" />
+				<user name="call5002" password="5002" authorities="ROLE_ER" />
+				<user name="call5003" password="5003" authorities="ROLE_ER" />
 				
 				
 			</user-service>

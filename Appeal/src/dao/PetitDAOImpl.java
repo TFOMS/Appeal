@@ -32,16 +32,34 @@ public class PetitDAOImpl implements PetitDAO {
     @SuppressWarnings("unchecked")
     public List<Petit> listPetit(String username) {
     	Query query = null;
-    	if(username.equals("ernso")||
-		   username.equals("ÒÔÎÌÑ") ||
-		   username.equals("ÑÈÌÀÇ") ||
-		   username.equals("ÐÎÑÍÎ") ||
-		   username.equals("ÈÍÃÎÑÑÒÐÀÕ"))
+    	
+    	if(username.equals("ernso"))
     	{
     		query = sessionFactory.getCurrentSession().createQuery(
-        			"from Petit where (username = :username or username='"+"ÒÔÎÌÑ"+"' or username='"+"ÑÈÌÀÇ"+"' or username='"+"ÐÎÑÍÎ"+"' or username='"+"ÈÍÃÎÑÑÒÐÀÕ"+"') and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by id desc");
+        			"select t from Petit t, BlockGER2016 t2 where (t.username = :username or t.username='"+"ÒÔÎÌÑ"+"' or t.username='"+"ÑÈÌÀÇ"+"' or t.username='"+"ÐÎÑÍÎ"+"' or t.username='"+"ÈÍÃÎÑÑÒÐÀÕ"+"')and t.id=t2.idblockger2016 and t2.regname='"+"ernso"+"' and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by t.id desc");
             query.setParameter("username", username);
     	}
+    	
+    	if(username.equals("call5001"))
+    	{
+    		query = sessionFactory.getCurrentSession().createQuery(
+        			"select t from Petit t, BlockGER2016 t2  where (t.username = :username or t.username='"+"ÒÔÎÌÑ"+"' or t.username='"+"ÑÈÌÀÇ"+"' or t.username='"+"ÐÎÑÍÎ"+"' or t.username='"+"ÈÍÃÎÑÑÒÐÀÕ"+"')and t.id=t2.idblockger2016 and t2.regname='"+"call5001"+"' and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by t.id desc");
+            query.setParameter("username", username);
+    	}
+    	
+    	if(username.equals("call5002"))
+    	    	{
+    	    		query = sessionFactory.getCurrentSession().createQuery(
+    	        			"select t from Petit t, BlockGER2016 t2  where (t.username = :username or t.username='"+"ÒÔÎÌÑ"+"' or t.username='"+"ÑÈÌÀÇ"+"' or t.username='"+"ÐÎÑÍÎ"+"' or t.username='"+"ÈÍÃÎÑÑÒÐÀÕ"+"')and t.id=t2.idblockger2016 and t2.regname='"+"call5002"+"'  and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by t.id desc");
+    	            query.setParameter("username", username);
+    	    	}
+    	
+    	if(username.equals("call5003"))
+ 	    	{
+ 	    		query = sessionFactory.getCurrentSession().createQuery(
+ 	        			"select t from Petit t, BlockGER2016 t2  where (t.username = :username or t.username='"+"ÒÔÎÌÑ"+"' or t.username='"+"ÑÈÌÀÇ"+"' or t.username='"+"ÐÎÑÍÎ"+"' or t.username='"+"ÈÍÃÎÑÑÒÐÀÕ"+"')and t.id=t2.idblockger2016 and t2.regname='"+"call5003"+"'   and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by t.id desc");
+ 	            query.setParameter("username", username);
+ 	    	}
     	
 		if(username.equals("hamitov") || username.equals("mityanina") || username.equals("vasilyeva"))
     	{
@@ -86,6 +104,9 @@ public class PetitDAOImpl implements PetitDAO {
 					+ "or username='"+"vasilyeva"+"' "
 					+ "or username='"+"smyvin"+"' "
 					+ "or username='"+"ernso"+"' "
+					+ "or username='"+"call5001"+"' "
+					+ "or username='"+"call5002"+"' "
+					+ "or username='"+"call5003"+"' "
 					+ "or username='"+"eremina"+"') and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by id desc");
 			query.setParameter("username", username);
     	}

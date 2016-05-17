@@ -98,6 +98,7 @@ public class PetitController {
     	List<Petit> pl = petitService.listPetit(getUserName()); //new ArrayList<Petit>(); 
     	//Petit t = new Petit();
     	//pl.add(t);
+    	System.out.println("@@@ "+pl);
     	for(Petit pt : pl)
     	{
     		if(pt.getDateInput() !=null)
@@ -121,7 +122,10 @@ public class PetitController {
 													map.put("conectList", Fields.getConect());
 													map.put("presentList", Fields.getPresent());
 		} else {
-			if(getUserName().equals("ernso")){
+			if(getUserName().equals("ernso") 
+					|| getUserName().equals("call5001")
+					|| getUserName().equals("call5002")
+					|| getUserName().equals("call5003")){
 				map.put("sourceList", source3);
 				map.put("listassign", Fields.getProperties());
 				map.put("conectList", Fields.getConectforFL());

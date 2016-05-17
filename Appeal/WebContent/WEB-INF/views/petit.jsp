@@ -50,7 +50,7 @@
 		
 	$(document).ready(function() {
 			var user = '${principal.username}';
-			if(user != 'ernso'){
+			if(user != 'ernso' || user != 'call5001' || user != 'call5002' || user != 'call5003'){
 				$.getJSON('${findTypesURL}', {
 					ajax : 'true'
 				}, function(data) {
