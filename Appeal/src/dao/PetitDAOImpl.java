@@ -40,6 +40,12 @@ public class PetitDAOImpl implements PetitDAO {
             query.setParameter("username", username);
     	}
     	
+    	if(username.equals("callnight5001") || username.equals("callnight5002") || username.equals("callnight5003")){
+    		query = sessionFactory.getCurrentSession().createQuery(
+        			"select t from Petit t, BlockGER2016 t2  where (t.username = :username or t.username = '"+"callnight5003"+"' or t.username = '"+"callnight5001"+"' or t.username = '"+"callnight5002"+"' or t.username='"+"auto"+"')and t.id=t2.idblockger2016 and t2.regname='"+"auto"+"' and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by t.id desc");
+            query.setParameter("username", username);
+    	}
+    	
     	if(username.equals("call5001"))
     	{
     		query = sessionFactory.getCurrentSession().createQuery(

@@ -50,7 +50,10 @@
 		
 	$(document).ready(function() {
 			var user = '${principal.username}';
-			if(user != 'ernso' || user != 'call5001' || user != 'call5002' || user != 'call5003'){
+			if(user != 'ernso' && user != 'call5001' && user != 'call5002' && user != 'call5003'
+				&& user != 'callnight5001'
+				&& user != 'callnight5002'
+				&& user != 'callnight5003'){
 				$.getJSON('${findTypesURL}', {
 					ajax : 'true'
 				}, function(data) {
@@ -343,9 +346,11 @@
 		<img src="${pageContext.request.contextPath}/resources/images/ingos.png" id="ingos" class="in">
 		</div>
 </div>
+
+
 <div id ="main">
 
-
+<sec:authorize access="!hasRole('ROLE_NIGHT')">
 <form:form method="post" action="add" commandName="petit" name='petit_form' class="register">
 
 	<form:errors path="*" cssClass="errorblock" element="div" />
@@ -581,7 +586,6 @@
 					</c:if>
                 </p>
 </fieldset>
-
                 
   
 <!-- ============================================================================================  -->
@@ -625,7 +629,7 @@
 	
 <!-- ============================================================================================  -->
 </form:form>
-
+</sec:authorize>  <!-- authorize access="!hasRole('ROLE_NIGHT -->
 
 
 <hr>

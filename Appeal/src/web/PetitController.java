@@ -125,8 +125,12 @@ public class PetitController {
 			if(getUserName().equals("ernso") 
 					|| getUserName().equals("call5001")
 					|| getUserName().equals("call5002")
-					|| getUserName().equals("call5003")){
-				map.put("sourceList", source3);
+					|| getUserName().equals("call5003")
+					|| getUserName().equals("callnight5001")
+					|| getUserName().equals("callnight5002")
+					|| getUserName().equals("callnight5003"))
+			{
+				if(getUserName().equals("ernso")){map.put("sourceList", source3);}else{map.put("sourceList", source2);}
 				map.put("listassign", Fields.getProperties());
 				map.put("conectList", Fields.getConectforFL());
 				map.put("presentList", Fields.getPresentforFL());
@@ -170,7 +174,40 @@ public class PetitController {
 	}
 
     @RequestMapping("/index")
-    public String listPetits(Map<String, Object> map) {
+    public String listPetits(Map<String, Object> map,HttpServletRequest request) {
+    	String path = request.getServletContext().getRealPath("/")+"night_calls_working";
+    	File f = new File(path);
+    	if(f.isAbsolute()){
+    		String []d =f.list();
+    		for(int i=0;i < d.length; i++){
+    			if(d[i].contains(".wav")){
+    				// вытаскиваем дату
+    				String ff = d[i].substring(0,d[i].indexOf("_"));
+    				//check the day
+    				String day = ff.substring(ff.indexOf("-",5), ff.length()); 
+					if(day.length() ==2){  // e.g -4 or -9, not -25 or -18 etc
+						day = day.replace("-", "0");
+					}else{ if(day.length() ==3) {day = day.replace("-", "");}}
+    				// check the mounth
+					String mounth = "";
+    				if(ff.substring(1+ff.indexOf("-"), ff.indexOf("-", 1+ff.indexOf("-"))).length() == 1)
+    				{
+    					mounth = ".0"+ff.substring(1+ff.indexOf("-"), 2+ff.indexOf("-"));
+    				}else{
+    					mounth = "."+ff.substring(1+ff.indexOf("-"), ff.indexOf("-", 1+ff.indexOf("-")));
+    				}
+    				// get year
+    				String year = "."+ff.substring(0, 4);
+    				ff = day+mounth+year;
+    				System.out.println("fff "+ff);
+    				//Petit petit = new Petit();
+    				//petit.setDateInput(ff);
+    				//petit.setUsername("auto");
+    				//petitService.addPetit(petit);
+    			}
+    		}
+    	}else{}
+    	System.out.println("WWWWWWW "+path);
         return "petit";
     }
     
@@ -181,6 +218,7 @@ public class PetitController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addPetit(@ModelAttribute("petit") @Valid Petit petit, BindingResult bindingResult,HttpServletRequest request) {
+    	
     	String para = request.getParameter("submit");
     	
     	// ловим с клинта нажатую кнопку

@@ -7,8 +7,8 @@
 
 	<http access-denied-page="/error403.jsp">
 		<intercept-url pattern="/" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO,ROLE_ER" />
-		<intercept-url pattern="/index*" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO,ROLE_ER" />
-		<intercept-url pattern="/add*" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO,ROLE_ER" />
+		<intercept-url pattern="/index*" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO,ROLE_ER,ROLE_NIGHT" />
+		<intercept-url pattern="/add*" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO,ROLE_ER,ROLE_NIGHT" />
 		<intercept-url pattern="/searching" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO" />
 		<intercept-url pattern="/reporting" access="ROLE_ADMIN,ROLE_TFOMS,ROLE_SMO" />
 		<intercept-url pattern="/delete/*" access="ROLE_ADMIN" />
@@ -41,6 +41,9 @@
 				<user name="call5001" password="5001" authorities="ROLE_ER" />
 				<user name="call5002" password="5002" authorities="ROLE_ER" />
 				<user name="call5003" password="5003" authorities="ROLE_ER" />
+				<user name="callnight5001" password="night5001" authorities="ROLE_ER,ROLE_NIGHT" />
+				<user name="callnight5002" password="night5002" authorities="ROLE_ER,ROLE_NIGHT" />
+				<user name="callnight5003" password="night5003" authorities="ROLE_ER,ROLE_NIGHT" />
 				
 				
 			</user-service>
