@@ -67,12 +67,14 @@ public class PetitDAOImpl implements PetitDAO {
  	            query.setParameter("username", username);
  	    	}
     	
-		if(username.equals("hamitov") || username.equals("mityanina") || username.equals("vasilyeva"))
+		if(username.equals("hamitov") || username.equals("mityanina") || username.equals("eremina"))
     	{
 			query = sessionFactory.getCurrentSession().createQuery(
 			"from Petit where (username = :username or username='"+"ртнля"+"') and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by id desc");
 			query.setParameter("username", username);
     	}
+		
+		
 		
 		if(username.equals("smo_ingos"))
     	{

@@ -53,6 +53,8 @@ public class BlockGER2016 {
 
 	// Дата изменения редактирования
 	private Date date_change;
+	// Ссылка на файл  звонка (ночного... )
+	private String filecall;
 	
 	public Date getDate_end() {
 		return date_end;
@@ -171,7 +173,7 @@ public class BlockGER2016 {
 				+ ", letter_out_date=" + letter_out_date + ", regsource_id="
 				+ regsource_id + ", regname=" + regname + ", regnum=" + regnum
 				+ ", date_create=" + date_create + ", date_change="
-				+ date_change + ", state=" + state + "]";
+				+ date_change + ", state=" + state + ",filecall ="+ filecall +"]";
 	}
 
 	public Date getDate_close() {
@@ -182,4 +184,13 @@ public class BlockGER2016 {
 		this.date_close = date_close;
 	}
 
+	public String getFilecall() {
+		return filecall;
+	}
+
+	public void setFilecall(String filecall) {
+		this.filecall = filecall;
+	}
+
+	
 }

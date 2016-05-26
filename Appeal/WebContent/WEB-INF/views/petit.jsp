@@ -47,6 +47,9 @@
 		location.reload();
 	 }	
 
+	function downcall() {
+		location.href='nightcallfile';
+	 }	
 		
 	$(document).ready(function() {
 			var user = '${principal.username}';
@@ -305,7 +308,10 @@
 		
 		
 		});
-		
+
+		 $(function() {
+			    $( "#draggable" ).draggable();
+			  });
 		</script>
 	
 </head>
@@ -335,7 +341,7 @@
 <i style="margin-left:10px;" class="fa fa-heartbeat fa-2x " aria-hidden="true"></i>
 <i style="margin-left:5px;" class="fa fa-phone-square fa-2x" aria-hidden="true"></i>
 <i style="margin-left:5px;" class="fa fa-headphones fa-2x" aria-hidden="true"></i>
-<h2 style="display: -webkit-inline-box; margin-left:10px;"><spring:message code="label.title" /></h2>
+<h2 style="display: -webkit-inline-box;display: -moz-inline-box;display: -o-inline-box; margin-left:10px;"><spring:message code="label.title" /></h2>
 </div>
 
 
@@ -349,9 +355,12 @@
 
 
 <div id ="main">
+<!-- <div id="draggable" class="ui-widget-content">
+  <p>Drag me around</p>
+</div> -->
+ 
 
-<sec:authorize access="!hasRole('ROLE_NIGHT')">
-<form:form method="post" action="add" commandName="petit" name='petit_form' class="register">
+<form:form method="post" action="add" commandName="petit" name='petit_form' class="register" id="draggable">
 
 	<form:errors path="*" cssClass="errorblock" element="div" />
 	<form:hidden path="id" name='id'/>
@@ -629,35 +638,40 @@
 	
 <!-- ============================================================================================  -->
 </form:form>
-</sec:authorize>  <!-- authorize access="!hasRole('ROLE_NIGHT -->
+
 
 
 <hr>
 <c:if test="${petit.id eq null}">
 <section>
+<sec:authorize access="!hasRole('ROLE_NIGHT')">
 <input type="button" id="refreshpage" onclick="refreshp()" value="Обновить" style="    float: right; margin-bottom: 10px;"></input>
+</sec:authorize>
+<sec:authorize access="hasRole('ROLE_NIGHT')">
+<input type="button" id="getdatanightcall" onclick="refreshnight()" value="Обновить" style="    float: right; margin-bottom: 10px;"></input>
+</sec:authorize>
 <table class="secondtab">
     <thead>
         <tr>
         <th><spring:message code="label.id" /></th>      
-		    <!-- <th><spring:message code="label.dateInput" /></th> --> <th>Дата поступления</th>
+		    <!-- <th><spring:message code="label.dateInput" /></th> --> <th>Дата поступления</th><th>Дата изменения</th>
 		    <!-- <th><spring:message code="label.dateBegin" /></th>
-		    <th><spring:message code="label.dateEnd" /></th>-->         
-		    <th><spring:message code="label.source" /></th>
+		    <th><spring:message code="label.dateEnd" /></th>         
+		    <th><spring:message code="label.source" /></th>-->
 		    <!-- <th><spring:message code="label.present" /></th> -->
-		    <!-- <th><spring:message code="label.letterNum" /></th> -->
-		    <th><spring:message code="label.mo" /></th>
+		    <!-- <th><spring:message code="label.letterNum" /></th>
+		    <th><spring:message code="label.mo" /></th> -->
 		    <!--<th><spring:message code="label.letterDate" /></th>
 		    <th><spring:message code="label.conect" /></th>
-		    <th><spring:message code="label.intermed" /></th>-->
-		    <th><spring:message code="label.type" /></th>
+		    <th><spring:message code="label.intermed" /></th>
+		    <th><spring:message code="label.type" /></th>-->
 		    <!-- <th><spring:message code="label.surname" /></th> --><th>Фамилия</th>
-		    <!-- <th><spring:message code="label.name" /></th><th>Имя</th>-->
-			    <!--<th><spring:message code="label.patrony" /></th>
-			    <th><spring:message code="label.policy" /></th>
+		    <!-- <th><spring:message code="label.name" /></th> --><th>Имя</th>
+			    <th><spring:message code="label.patrony" /></th>
 			    <th><spring:message code="label.tel" /></th>
-			    <th><spring:message code="label.adress" /></th> -->
-		    <th><spring:message code="label.ter" /></th>
+			    <!-- <th><spring:message code="label.policy" /></th>
+			    <th><spring:message code="label.adress" /></th> 
+		    <th><spring:message code="label.ter" /></th>-->
 			    <!--<th><spring:message code="label.terAnswer" /></th>
 			    <th><spring:message code="label.last1" /></th>
 			    <th><spring:message code="label.last2" /></th>
@@ -676,7 +690,8 @@
 			    <th><spring:message code="label.compensCode" /></th>
 			    <th><spring:message code="label.compensSum" /></th>
 			    <th><spring:message code="label.propos" /></th>-->
-		    <!-- <th><spring:message code="label.username" /></th> --><th>Пользователь</th>
+		    <!-- <th><spring:message code="label.username" /></th> --><th>Регистратор</th></th> --><th>Исполнитель</th>
+			<th></th>
 			<th></th>
 			<th></th>
 			<th></th>
@@ -708,10 +723,9 @@
 			    <td>${petit.intermedId}</td>
 			    
 			    
-			    <td>${petit.name}</td>
-			    <td>${petit.patrony}</td>
+			    
 			    <td>${petit.policy}</td>
-			    <td>${petit.tel}</td>
+			    
 			    <td>${petit.adress}</td>
 			    
 			    <td>${petit.terAnswer.terName}</td>
@@ -732,20 +746,25 @@
 			    <td>${petit.compensCode}</td>
 			    <td>${petit.compensSum}</td>
 			    <td>${petit.propos}</td>
-			     			    
+			    <td>${petit.source.sourceName}</td>
+				<td>${petit.mo.moName}</td>
+				<td>${petit.type.typeName}</td> 			    
 			    -->
 			    
 			    <td>${petit.id}</td>      
-			    <td>${petit.dateInput}</td>         
-				<td>${petit.source.sourceName}</td>
-				<td>${petit.mo.moName}</td>
-				<td>${petit.type.typeName}</td>
+			    <td>${petit.dateInput}</td>
+			    <td>${petit.blockger2016.date_change}</td>         
 				<td>${petit.surname}</td>
-				<td style="overflow-x: hidden; overflow-y: hidden; white-space: nowrap; max-width: 65px;">${petit.ter.terName}</td>
+				<td>${petit.name}</td>
+			    <td>${petit.patrony}</td>
+			    <td>${petit.tel}</td>
+				<!-- <td style="overflow-x: hidden; overflow-y: hidden; white-space: nowrap; max-width: 65px;">${petit.ter.terName}</td> -->
+				<td>${petit.blockger2016.regname}</td>
 				<td>${petit.username}</td>
 			    
 			    
 			    <c:if test="${(statecl != 4)}">
+			    	<td><a  href="nightcallfile/${petit.id}" title="Прослушать"><i class="fa fa-headphones fa-2x"></i></a></td>
 			    	<td><a id="iddel" href="delete/${petit.id}" title="Удалить"><i class="fa fa-trash-o fa-2x"></i></a></td>
 					<td><a id="iddel" href="refresh/${petit.id}" title="Редактировать"><i class="fa fa-pencil-square-o  fa-2x" aria-hidden="true"></i></a></td>
 					<sec:authorize access="hasRole('ROLE_ADMIN')">
@@ -757,6 +776,7 @@
 				</c:if>
 				
 				<c:if test="${(statecl == 4)}">
+					<td><i class="fa fa-headphones fa-2x noactive"></i></a></td>
 					<td><i class="fa fa-trash-o fa-2x noactive"></i></td>
 					<td><i class="fa fa-pencil-square-o  fa-2x noactive" aria-hidden="true"></i></td>
 					<sec:authorize access="hasRole('ROLE_ADMIN')">

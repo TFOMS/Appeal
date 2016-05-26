@@ -53,7 +53,9 @@ form.register{
     height:600px;
     background-color:#fff;
     padding:5px;
+    border-radius:20px;
     -moz-border-radius:20px;
+    -o-border-radius:20px;
     -webkit-border-radius:20px;
     box-shadow:
         0px 5px 5px rgba(0, 0, 0, 0.74), inset 0px 1px 0px rgba(38, 43, 37, 0.5);

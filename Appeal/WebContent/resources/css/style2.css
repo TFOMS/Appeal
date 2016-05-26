@@ -85,14 +85,27 @@ section{
     width: 6px;
 } 
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 } 
 ::-webkit-scrollbar-thumb {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
 
+::-o-scrollbar {
+    width: 6px;
+} 
+::-o-scrollbar-track {
+    -o-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+} 
+::-o-scrollbar-thumb {
+    -o-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+
 .tabmy thead { 
-    background: -webkit-linear-gradient(left, rgb(0, 0, 0) 0%, rgb(130, 135, 140) 20%, rgb(148, 190, 239) 80%, rgb(0, 103, 220) 100%); 
+    background: -webkit-linear-gradient(left, rgb(0, 0, 0) 0%, rgb(130, 135, 140) 20%, rgb(148, 190, 239) 80%, rgb(0, 103, 220) 100%);
+    background: -o-linear-gradient(left, rgb(0, 0, 0) 0%, rgb(130, 135, 140) 20%, rgb(148, 190, 239) 80%, rgb(0, 103, 220) 100%); 
+    background: -moz-linear-gradient(left, rgb(0, 0, 0) 0%, rgb(130, 135, 140) 20%, rgb(148, 190, 239) 80%, rgb(0, 103, 220) 100%);
     background-attachment:fixed;}
 
 .tabmy thead tr, .tabmy thead th { background:transparent; }
@@ -153,8 +166,14 @@ section{
  width:100%;
  border-spacing: 1px;
  }
- .secondtab thead{background: -webkit-linear-gradient(left, rgb(0, 0, 0) 0%, rgb(130, 135, 140) 20%, rgb(148, 190, 239) 80%, rgb(0, 103, 220) 100%);
+ .secondtab thead{
+ background: -webkit-linear-gradient(left, rgb(0, 0, 0) 0%, rgb(130, 135, 140) 20%, rgb(148, 190, 239) 80%, rgb(0, 103, 220) 100%);
     background-attachment: fixed;
+ background: -o-linear-gradient(left, rgb(0, 0, 0) 0%, rgb(130, 135, 140) 20%, rgb(148, 190, 239) 80%, rgb(0, 103, 220) 100%);
+ background-attachment: fixed;
+ background: -moz-linear-gradient(left, rgb(0, 0, 0) 0%, rgb(130, 135, 140) 20%, rgb(148, 190, 239) 80%, rgb(0, 103, 220) 100%);
+ background-attachment: fixed;
+ background-attachment: fixed;
  }
  .secondtab thead th {
   width: 100px;
@@ -181,13 +200,13 @@ section{
 	color: #E80404;
   }
   
-   .secondtab  td:nth-child(-n+8){
+   .secondtab  td:nth-child(-n+9){
     font-size: 10px;
     //width: 20px;
     white-space: nowrap;
    }
    
-     .secondtab  td:nth-child(n+9){
+     .secondtab  td:nth-child(n+10){
     //font-size: 20px;
     font-size: 10px;
     width: 1%;

@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -46,6 +47,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import res.Fields;
 import res.PetitID;
+import res.TransferFiles;
 import service.PetitService;
 import domain.BlockGER2016;
 import domain.Cause;
@@ -92,13 +94,14 @@ public class PetitController {
     }
     
 	@ModelAttribute
-	public ModelMap setupForm(ModelMap map) {
+	public ModelMap setupForm(ModelMap map,HttpServletRequest request) {
 
+		nightcallsprocess(request);
+		
     	map.put("petit", new Petit());
     	List<Petit> pl = petitService.listPetit(getUserName()); //new ArrayList<Petit>(); 
     	//Petit t = new Petit();
     	//pl.add(t);
-    	System.out.println("@@@ "+pl);
     	for(Petit pt : pl)
     	{
     		if(pt.getDateInput() !=null)
@@ -174,48 +177,10 @@ public class PetitController {
 	}
 
     @RequestMapping("/index")
-    public String listPetits(Map<String, Object> map,HttpServletRequest request) {
-    	String path = request.getServletContext().getRealPath("/")+"night_calls_working";
-    	File f = new File(path);
-    	if(f.isAbsolute()){
-    		String []d =f.list();
-    		for(int i=0;i < d.length; i++){
-    			if(d[i].contains(".wav")){
-    				// вытаскиваем дату
-    				String ff = d[i].substring(0,d[i].indexOf("_"));
-    				//check the day
-    				String day = ff.substring(ff.indexOf("-",5), ff.length()); 
-					if(day.length() ==2){  // e.g -4 or -9, not -25 or -18 etc
-						day = day.replace("-", "0");
-					}else{ if(day.length() ==3) {day = day.replace("-", "");}}
-    				// check the mounth
-					String mounth = "";
-    				if(ff.substring(1+ff.indexOf("-"), ff.indexOf("-", 1+ff.indexOf("-"))).length() == 1)
-    				{
-    					mounth = ".0"+ff.substring(1+ff.indexOf("-"), 2+ff.indexOf("-"));
-    				}else{
-    					mounth = "."+ff.substring(1+ff.indexOf("-"), ff.indexOf("-", 1+ff.indexOf("-")));
-    				}
-    				// get year
-    				String year = "."+ff.substring(0, 4);
-    				ff = day+mounth+year;
-    				System.out.println("fff "+ff);
-    				//Petit petit = new Petit();
-    				//petit.setDateInput(ff);
-    				//petit.setUsername("auto");
-    				//petitService.addPetit(petit);
-    			}
-    		}
-    	}else{}
-    	System.out.println("WWWWWWW "+path);
+    public String listPetits(Map<String, Object> map) {
         return "petit";
     }
-    
-    @RequestMapping("/")
-    public String home() {
-    	return "redirect:/index";
-    }
-
+   
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addPetit(@ModelAttribute("petit") @Valid Petit petit, BindingResult bindingResult,HttpServletRequest request) {
     	
@@ -228,6 +193,50 @@ public class PetitController {
     	}
     	
 		return adds(petit, bindingResult,request);
+    }
+    
+    
+    @RequestMapping(value = "/nightcallfile/{petitId}", method = RequestMethod.GET)
+    public void downloadcall(@PathVariable("petitId")Integer petitId,HttpServletRequest request,HttpServletResponse response) throws IOException
+    {
+    	Petit petit = petitService.getPetit(petitId);
+    	
+		ServletContext context = request.getServletContext();
+        String appPath = context.getRealPath("");
+        System.out.println("appPath = " + appPath);
+ 
+        //String fullPath = appPath + filePath ;      
+        String fullPath = petit.getBlockger2016().getFilecall();
+        File downloadFile = new File(fullPath);
+        FileInputStream inputStream = new FileInputStream(downloadFile);
+         
+        String mimeType = context.getMimeType(fullPath);
+        if (mimeType == null) {
+            mimeType = "application/octet-stream";
+        }
+        System.out.println("MIME type: " + mimeType);
+ 
+        response.setContentType(mimeType);
+        response.setContentLength((int) downloadFile.length());
+ 
+        String headerKey = "Content-Disposition";
+        String headerValue = String.format("attachment; filename=\"%s\"",
+                downloadFile.getName());
+        response.setHeader(headerKey, headerValue);
+ 
+        OutputStream outStream = response.getOutputStream();
+ 
+        byte[] buffer = new byte[4096];
+        int bytesRead = -1;
+ 
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outStream.write(buffer, 0, bytesRead);
+        }
+ 
+        inputStream.close();
+        outStream.close();
+	    	
+	    	
 	}
     
     @RequestMapping(value = "/refresh/add", method = RequestMethod.POST)
@@ -532,4 +541,56 @@ public class PetitController {
     	return "petit";
     }
     
+    
+    private void nightcallsprocess(HttpServletRequest request){
+    	String path = request.getServletContext().getRealPath("/")+"night_calls_working";
+    	String path_worked = request.getServletContext().getRealPath("/")+"night_calls_worked";
+    	File f = new File(path);
+    	if(f.isAbsolute()){
+    		if(f.list().length != 0){
+	    		String []d =f.list();
+	    		for(int i=0;i < d.length; i++){
+	    			if(d[i].contains(".wav")){
+	    				// вытаскиваем дату
+	    				String ff = d[i].substring(0,d[i].indexOf("_"));
+	    				//check the day
+	    				String day = ff.substring(ff.indexOf("-",5), ff.length()); 
+						if(day.length() ==2){  // e.g -4 or -9, not -25 or -18 etc
+							day = day.replace("-", "0");
+						}else{ if(day.length() ==3) {day = day.replace("-", "");}}
+	    				// check the mounth
+						String mounth = "";
+	    				if(ff.substring(1+ff.indexOf("-"), ff.indexOf("-", 1+ff.indexOf("-"))).length() == 1)
+	    				{
+	    					mounth = ".0"+ff.substring(1+ff.indexOf("-"), 2+ff.indexOf("-"));
+	    				}else{
+	    					mounth = "."+ff.substring(1+ff.indexOf("-"), ff.indexOf("-", 1+ff.indexOf("-")));
+	    				}
+	    				// get year
+	    				String year = "."+ff.substring(0, 4);
+	    				ff = day+mounth+year;
+	    				System.out.println("fff "+ff+"  ");
+	    				
+	    				new TransferFiles().copy(path + File.separator + d[i], path_worked + File.separator + d[i]);
+	    				new TransferFiles().delete(path + File.separator + d[i]);
+	    				
+	    				Petit petit = new Petit();
+	    				petit.setDateInput(ff);
+	    				petit.setUsername("auto");
+	    				BlockGER2016 blo = new BlockGER2016();
+	    				blo.setRegname("auto");
+	    				blo.setRegsource_id(2);
+	    				blo.setFilecall(path_worked + File.separator + d[i]);
+	    				blo.setState(1);
+	    				petit.setBlockger2016(blo);
+	    				petit.getBlockger2016().setPetit(petit);
+	    				System.out.println("Petit "+petit);
+	    				petitService.addPetit(petit);
+	    			}
+	    		}
+    		}else{System.out.println("equals 0");}	
+    	}else{}
+    	System.out.println("WWWWWWW "+path);
+    	
+    }
 }
