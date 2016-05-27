@@ -147,7 +147,7 @@ public class Petit {
     @Column(name = "DATE_END")
     private String dateEnd;
     
-    @Size(max = 200, message="Длина примечания не более 200 символов")
+    @Size(max =501, message="Длина примечания не более 500 символов")
     @Column(name = "CAUSE_NOTE")
     private String causeNote;
     

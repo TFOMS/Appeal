@@ -11,6 +11,7 @@
     -ms-animation: blink .9s linear infinite;
     -o-animation: blink .9s linear infinite;
     animation: blink .9s linear infinite;
+    background: #B59109;
 }
 
 @-webkit-keyframes blink {

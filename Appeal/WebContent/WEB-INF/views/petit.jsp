@@ -284,6 +284,7 @@
 	<script>
 		$(function() {
 			$( "#dateInput" ).datepicker({dateFormat:'dd.mm.yy'});
+			$( "#dateInput" ).datepicker( "setDate", new Date());
 		});
 	</script>
 	<script>
@@ -358,9 +359,15 @@
 <!-- <div id="draggable" class="ui-widget-content">
   <p>Drag me around</p>
 </div> -->
- 
+ <c:if test="${petit.id ne null}">
+  			<c:set value="foreditbackgr" var="cssforedit"></c:set>
+</c:if>
+<c:if test="${petit.id eq null}">
+  			<c:set value="register " var="cssforedit"></c:set>
+</c:if>
 
-<form:form method="post" action="add" commandName="petit" name='petit_form' class="register" id="draggable">
+
+<form:form method="post" action="add" commandName="petit" name='petit_form' class="${cssforedit}" id="draggable">
 
 	<form:errors path="*" cssClass="errorblock" element="div" />
 	<form:hidden path="id" name='id'/>
@@ -382,6 +389,7 @@
 	      <form:input id="dateInput" path="dateInput"/>
 	   	</c:if>
 	   	<c:if test="${petit.id ne null}">
+  			
 	   		<form:hidden id="dateInput" path="dateInput"/>
 			<spring:message code="label.id" />&nbsp<c:out value="${petit.num}" />&nbsp&nbsp&nbsp&nbsp<spring:message code="label.dateInput" />&nbsp<c:out value="${petit.dateInput}" />
 	   	</c:if>
@@ -702,7 +710,10 @@
           <c:forEach items="${petitList}" var="petit">
   			<c:set var="statecl" value="${petit.blockger2016.state}"/>
 			<c:if test="${(statecl == 1)}">
-	  			<c:set value="someclass blink" var="cssClass"></c:set>
+	  			<c:set value="someclass blink" var="cssClassonUser"></c:set>
+			</c:if>
+			<c:if test="${(statecl != 1)}">
+	  			<c:set value="" var="cssClassonUser"></c:set>
 			</c:if>
 			<c:if test="${(statecl == 2)}">
 	  			<c:set value="someclass2" var="cssClass"></c:set>
@@ -760,7 +771,7 @@
 			    <td>${petit.tel}</td>
 				<!-- <td style="overflow-x: hidden; overflow-y: hidden; white-space: nowrap; max-width: 65px;">${petit.ter.terName}</td> -->
 				<td>${petit.blockger2016.regname}</td>
-				<td>${petit.username}</td>
+				<td class="${cssClassonUser}">${petit.username}</td>
 			    
 			    
 			    <c:if test="${(statecl != 4)}">
