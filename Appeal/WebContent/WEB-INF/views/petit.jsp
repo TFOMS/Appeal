@@ -15,7 +15,18 @@
 
 <html>
 <head>
-	<script type="text/javascript" src="<c:url value="/resources/jquery/1.6/jquery-1.6.1.min.js" />"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf8">
+	<title><spring:message code="label.title" /></title>
+	
+	<link rel="stylesheet" href="<c:url value="/resources/css/styles.css"/>" type="text/css"/>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/logosheader.css" />
+	<link rel="stylesheet" href="<c:url value="/resources/jquery/ui/1.11.2/themes/smoothness/jquery-ui.css"/>">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome-4.6.1/css/font-awesome.min.css">
+	<link rel="stylesheet" href="<c:url value="/resources/css/bliking.css"/>" type="text/css"/>
+	<link rel="stylesheet" href="<c:url value="/resources/css/style2.css"/>" type="text/css"/>
+	<link rel="stylesheet" href="<c:url value="/resources/css/newform.css"/>" type="text/css"/>
+	<script src="<c:url value="/resources/jquery/jquery-1.10.2.js"/>"></script>
+	<script src="<c:url value="/resources/jquery/ui/1.11.2/jquery-ui.js"/>"></script>
 	
 	
 	<c:url var="findTypesURL" value="/types" />
@@ -32,7 +43,6 @@
 
 		
 	function numberone() {
-		console.log('@@ '+$('#sel').val());
 		if($('#sel').val() != '0'){
 			
 			$('#addpetit').prop('disabled', false);
@@ -46,12 +56,40 @@
 	function refreshp() {
 		location.reload();
 	 }	
+	function refreshnightcall() {
+		location.href='refnc';
+	 }	
 
 	function downcall() {
 		location.href='nightcallfile';
 	 }	
+
+	function changepresentId() {
+		if($("#presentId" ).val() !=1){
+			$('#inboundLetter').fadeIn();
+			$('#addpetit').fadeOut();
+			$('#sel').fadeOut();
+		}else{
+			$('#inboundLetter').fadeOut();
+			$('#addpetit').fadeIn();
+			$('#sel').fadeIn();
+			
+		}
+		
+	 }
 		
 	$(document).ready(function() {
+		
+			if($("#presentId" ).val() !=1){
+				$('#inboundLetter').fadeIn();
+				$('#addpetit').fadeOut();
+				$('#sel').fadeOut();
+			}else{
+				$('#inboundLetter').fadeOut();
+				$('#addpetit').fadeIn();
+				$('#sel').fadeIn();
+			}
+		
 			var user = '${principal.username}';
 			if(user != 'ernso' && user != 'call5001' && user != 'call5002' && user != 'call5003'
 				&& user != 'callnight5001'
@@ -69,6 +107,17 @@
 	
 					$('#type').html(html);
 				});
+			}
+
+			if(user =='callnight5001' || user =='callnight5002' || user =='callnight5003')
+			{
+				if(location.href.indexOf("index")>=0)
+				{
+					$('#draggable').hide();
+					$('#main').addClass('forrefresh');
+					console.log('test ');
+				}
+				
 			}
 	});
 		
@@ -266,26 +315,36 @@
 		        $(".hide").slideToggle("slow");
 		        $(this).toggleClass("active");
 		    });
+
+			$(".hide2").hide();
+			$(".btn-slide2").click(function(){
+		        $(".hide2").slideToggle("slow");
+		        $(this).toggleClass("active");
+		    });
 		});
 	</script>
 	
-	<meta http-equiv="Content-Type" content="text/html; charset=utf8">
-	<title><spring:message code="label.title" /></title>
-	
-	<link rel="stylesheet" href="<c:url value="/resources/css/styles.css"/>" type="text/css"/>
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/logosheader.css" />
-	<link rel="stylesheet" href="<c:url value="/resources/jquery/ui/1.11.2/themes/smoothness/jquery-ui.css"/>">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome-4.6.1/css/font-awesome.min.css">
-	<link rel="stylesheet" href="<c:url value="/resources/css/bliking.css"/>" type="text/css"/>
-	<link rel="stylesheet" href="<c:url value="/resources/css/style2.css"/>" type="text/css"/>
-	<link rel="stylesheet" href="<c:url value="/resources/css/newform.css"/>" type="text/css"/>
-	<script src="<c:url value="/resources/jquery/jquery-1.10.2.js"/>"></script>
-	<script src="<c:url value="/resources/jquery/ui/1.11.2/jquery-ui.js"/>"></script>
 	<script>
 		$(function() {
 			$( "#dateInput" ).datepicker({dateFormat:'dd.mm.yy'});
 			$( "#dateInput" ).datepicker( "setDate", new Date());
 		});
+		$(function() {
+			$( "#datebetween" ).datepicker({dateFormat:'dd.mm.yy'});
+		});
+		$(function() {
+			$( "#date_med_doc" ).datepicker({dateFormat:'dd.mm.yy'});
+		});
+		$(function() {
+			$( "#date_passOmer" ).datepicker({dateFormat:'dd.mm.yy'});
+		});
+		$(function() {
+			$( "#date_receive" ).datepicker({dateFormat:'dd.mm.yy'});
+		});
+		$(function() {
+			$( "#date_response" ).datepicker({dateFormat:'dd.mm.yy'});
+		});
+		
 	</script>
 	<script>
 		//setTimeout ("$('body').animate({opacity: 1}, 3000 );", 10);
@@ -371,6 +430,7 @@
 
 	<form:errors path="*" cssClass="errorblock" element="div" />
 	<form:hidden path="id" name='id'/>
+	<form:hidden path="blockger2016.filecall"/>
 	<form:hidden path="num"/>
 
 <h1>
@@ -402,12 +462,12 @@
 	  <p>
 		<form:label path="conectId"><spring:message code="label.conect" /></form:label>
 		<form:select path="conectId">
-			
-			<form:options items="${conectList}"/>
+			<form:option value="0" label="" />
+		<form:options items="${conectList}"/>
 		</form:select>  
 		
 		<form:label path="presentId"><spring:message code="label.present" /></form:label>
-		<form:select path="presentId">
+		<form:select id="presentId" onclick='changepresentId()' path="presentId">
 	 		<form:options items="${presentList}"/>
 		</form:select>
 	  </p>
@@ -562,25 +622,88 @@
                 </div>
                 <p>
                 	<input class='btn-slide' type="button" value="<spring:message code="label.more"/>"/>
+                </p><br>
+</sec:authorize>                
+                <div class="hide2">
+					<p>
+					<div style="float:left;">
+						<div class="blockoutletter">
+							<form:label style="float:none;" path="bloutboindletter2016.date_between">Дата промежуточного ответа</form:label><br>
+		      				<form:input style="float:none;" id="datebetween" path="bloutboindletter2016.date_between"/>
+	      				</div>
+	      				<div class="blockoutletter">
+							<form:label style="float:none;" path="bloutboindletter2016.date_querymedDoc">Дата запроса мед.документации</form:label><br>
+		      				<form:input style="float:none;" id="date_med_doc" path="bloutboindletter2016.date_querymedDoc"/>
+	      				</div>
+	      			</div>	
+					</p>                
+	      			<p>
+	      				<form:label path="bloutboindletter2016.date_passmedDoc">Дата передачи мед.документации в ОМЭР</form:label>
+	      				<form:input id="date_passOmer" path="bloutboindletter2016.date_passmedDoc"/>
+	      				
+	      				<form:label path="bloutboindletter2016.date_obtainAkt">Дата получения Актов МЭ</form:label>
+	      				<form:input id="date_receive" path="bloutboindletter2016.date_obtainAkt"/>
+	      			</p>
+	      			<p>	
+	      				<form:label path="bloutboindletter2016.date_response">Дата окончательного ответа</form:label>
+	      				<form:input id="date_response" path="bloutboindletter2016.date_response"/>
+	      				
+	      				<form:label path="bloutboindletter2016.numOutLetter">Номер письма</form:label>
+	      				<form:input path="bloutboindletter2016.numOutLetter"/>
+	      				
+	      				<form:label path="bloutboindletter2016.responsible">Отвественный</form:label>
+	      				<form:select path="bloutboindletter2016.responsible">
+	      					<form:option value="" label="" />
+							<form:option value="mityanina" label="mityanina" />
+							<form:option value="smyvin" label="smyvin" />
+							<form:option value="eremina" label="eremina" />
+							<form:option value="hamitov" label="hamitov" />
+						</form:select>
+                	</p>
+                	<p>
+                	</p>
+                </div>
+                <p>
+                	<input id="inboundLetter" class='btn-slide2' type="button" value="Исходящее письмо"/>
                 </p>
 </fieldset>
-</sec:authorize>
+
 <fieldset class="row777">
                 <legend>Выберите действие</legend>
                 <p>
                 	<c:if test="${petit.id ne null}">
-						<input name="cancel_button" onclick="cancelback()" type="button" value="<spring:message code="label.cancelpetit"/>"/>
-						<input name="submit" type="submit" value="<spring:message code="label.editpetit"/>" 
-							onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
-						/>
-						
-						<c:set var="gu" value="${petit.blockger2016.state}"/>
-						<c:if test="${(gu < 3)}">	
-							<input name="submit" type="submit" value="<spring:message code="label.endpetit"/>" 
+                		<sec:authorize access="hasRole('ROLE_NIGHT')">
+							<form:select  id="sel" path="username" onclick="numberone()">
+								<form:option label="Назначить"  value="0" />
+								<form:options items="${listassign}"/>
+							</form:select>
+							<input name="cancel_button" onclick="cancelback()" type="button" value="<spring:message code="label.cancelpetit"/>"/>
+							
+							<input type="submit"  id="addpetit" name="submit" value="Назначить" disabled="disabled" 
 								onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
 							/>
-						</c:if>	
 						
+							<input name="submit"  type="submit" value="<spring:message code="label.endpetit"/>" 
+								onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
+							/>
+							
+							<a  href="../nightcallfile/${petit.id}" class="blink" style=" float: right; background: none;" title="Прослушать">Прослушать</a>
+						</sec:authorize>
+						
+                		<sec:authorize access="!hasRole('ROLE_NIGHT')">
+							<input name="cancel_button" onclick="cancelback()" type="button" value="<spring:message code="label.cancelpetit"/>"/>
+							
+							<input name="submit" type="submit" value="<spring:message code="label.editpetit"/>" 
+								onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
+							/>
+							
+							<c:set var="gu" value="${petit.blockger2016.state}"/>
+							<c:if test="${(gu < 3)}">	
+								<input name="submit" type="submit" value="<spring:message code="label.endpetit"/>" 
+									onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
+								/>
+							</c:if>	
+						</sec:authorize>
 						<sec:authorize access="hasRole('ROLE_ADMIN')">
 						  		<input name="сlose_button" onclick="" type="button" value="Закрыть"/>
 						</sec:authorize>				
@@ -601,6 +724,7 @@
 							onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
 						/>
 					</c:if>
+					
                 </p>
 </fieldset>
                 
@@ -638,6 +762,8 @@
 	<form:hidden path="blockger2016.state" value="${2}" />
 	<form:hidden path="blockger2016.regsource_id"/>
 	<form:hidden path="blockger2016.regname"/>
+	
+	<form:hidden path="bloutboindletter2016.idletter"/>
 				
 	<!-- Если пользователь проваливается в форму редактирования  при state =3 (завершен)
 	то передаем тот же самый date_end по новой и в базе срабатывает триггер иначе в базу добавить пустая date_end-->
@@ -653,11 +779,12 @@
 <c:if test="${petit.id eq null}">
 <section>
 <sec:authorize access="!hasRole('ROLE_NIGHT')">
-<input type="button" id="refreshpage" onclick="refreshp()" value="Обновить" style="    float: right; margin-bottom: 10px;"></input>
+	<input type="button" id="refreshpage" onclick="refreshp()" value="Обновить" style="    float: right; margin-top: -40px;"></input>
 </sec:authorize>
 <sec:authorize access="hasRole('ROLE_NIGHT')">
-<input type="button" id="getdatanightcall" onclick="refreshnight()" value="Обновить" style="    float: right; margin-bottom: 10px;"></input>
+<!-- <input type="button" id="refreshnightcall" onclick="refreshnightcall()" value="Обновить НЧ"></input> -->	
 </sec:authorize>
+<div style="overflow:auto; height:500px;"> 
 <table class="secondtab">
     <thead>
         <tr>
@@ -672,8 +799,11 @@
 		    <!--<th><spring:message code="label.letterDate" /></th>
 		    <th><spring:message code="label.conect" /></th>
 		    <th><spring:message code="label.intermed" /></th>
-		    <th><spring:message code="label.type" /></th>-->
-		    <!-- <th><spring:message code="label.surname" /></th> --><th>Фамилия</th>
+		    -->
+		    <!-- <th><spring:message code="label.surname" /></th> -->
+		    <th><spring:message code="label.type" /></th>
+		    <!-- <th>Причина</th> -->
+		    <th>Фамилия</th>
 		    <!-- <th><spring:message code="label.name" /></th> --><th>Имя</th>
 			    <th><spring:message code="label.patrony" /></th>
 			    <th><spring:message code="label.tel" /></th>
@@ -709,8 +839,14 @@
     <tbody>
           <c:forEach items="${petitList}" var="petit">
   			<c:set var="statecl" value="${petit.blockger2016.state}"/>
+  			
+  			<c:if test="${(statecl == 3 || statecl == 4)}">
+		  		<c:set value="someclass3" var="cssClass"></c:set>
+			</c:if> 
+			
 			<c:if test="${(statecl == 1)}">
 	  			<c:set value="someclass blink" var="cssClassonUser"></c:set>
+	  			<c:set value="" var="cssClass"></c:set>
 			</c:if>
 			<c:if test="${(statecl != 1)}">
 	  			<c:set value="" var="cssClassonUser"></c:set>
@@ -718,9 +854,7 @@
 			<c:if test="${(statecl == 2)}">
 	  			<c:set value="someclass2" var="cssClass"></c:set>
 			</c:if> 
-			<c:if test="${(statecl != 1 && statecl != 2 )}">
-		  		<c:set value="someclass3" var="cssClass"></c:set>
-			</c:if> 
+			
     	<tr class="${cssClass}">
       			
 				<!-- <td>${petit.num}</td> -->
@@ -745,7 +879,6 @@
 			    <td>${petit.hspId}</td>
 			    <td>${petit.insurId}</td>	
 			    <td>${petit.placeId}</td>
-			    <td>${petit.cause.causeName}</td>
 			    <td>${petit.rectif1.rectif1Name}</td>
 			    <td>${petit.rectif2.rectif2Name}</td>
 			    <td>${petit.rectif3.rectif3Name}</td>
@@ -759,12 +892,14 @@
 			    <td>${petit.propos}</td>
 			    <td>${petit.source.sourceName}</td>
 				<td>${petit.mo.moName}</td>
-				<td>${petit.type.typeName}</td> 			    
+				 			    
 			    -->
 			    
 			    <td>${petit.id}</td>      
 			    <td>${petit.dateInput}</td>
-			    <td>${petit.blockger2016.date_change}</td>         
+			    <td>${petit.blockger2016.date_change}</td>
+			    <td>${petit.type.typeName}</td>
+			    <!-- <td>${petit.cause.causeName}</td> -->         
 				<td>${petit.surname}</td>
 				<td>${petit.name}</td>
 			    <td>${petit.patrony}</td>
@@ -772,6 +907,8 @@
 				<!-- <td style="overflow-x: hidden; overflow-y: hidden; white-space: nowrap; max-width: 65px;">${petit.ter.terName}</td> -->
 				<td>${petit.blockger2016.regname}</td>
 				<td class="${cssClassonUser}">${petit.username}</td>
+				
+				
 			    
 			    
 			    <c:if test="${(statecl != 4)}">
@@ -804,8 +941,12 @@
   </c:forEach>          
     </tbody>
 </table>
+</div>
 </section>
 </c:if>
-
+	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/libs/sockjs/sockjs.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/libs/stomp-websocket/lib/stomp.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/user_js/WS.js"></script>
 </body>
 </html>

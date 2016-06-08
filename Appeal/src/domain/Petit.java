@@ -12,10 +12,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Table(name = "T_PETIT")
@@ -41,7 +43,7 @@ public class Petit {
     
     @Column(name = "INTERMED")
     private int intermedId;
-    
+    //@Range(min = 1, max = 150, message="Поле Тип обязательно для заполнения")
     @Column(name = "TYPE_ID")
     private int typeId;
 
@@ -96,6 +98,7 @@ public class Petit {
     @Column(name = "USERNAME")
     private String username;
     
+    //@Range(min = 1, max = 150, message="Поле Причина обязательно для заполнения")
     @Column(name = "CAUSE_ID")
     private int causeId;
     
@@ -204,6 +207,8 @@ public class Petit {
 	
 	@OneToOne(mappedBy="petit",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private BlockGER2016 blockger2016;
+	@OneToOne(mappedBy="petit",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private blOutboindLETTER2016 bloutboindletter2016;
 	
 	
     public BlockGER2016 getBlockger2016() {
@@ -691,8 +696,16 @@ public class Petit {
 				+ ", blockger2016=" + blockger2016 + ", ter=" + ter
 				+ ", terAnswer=" + terAnswer + ", valid=" + valid + ", cause="
 				+ cause + ", rectif1=" + rectif1 + ", rectif2=" + rectif2
-				+ ", rectif3=" + rectif3 + ", rectif4=" + rectif4 + ", insur="
+				+ ",bloutboindletter2016="+ bloutboindletter2016+", rectif3=" + rectif3 + ", rectif4=" + rectif4 + ", insur="
 				+ insur + ", mo=" + mo + ", hsp=" + hsp + "]";
+	}
+
+	public blOutboindLETTER2016 getBloutboindletter2016() {
+		return bloutboindletter2016;
+	}
+
+	public void setBloutboindletter2016(blOutboindLETTER2016 bloutboindletter2016) {
+		this.bloutboindletter2016 = bloutboindletter2016;
 	}
 	
 }

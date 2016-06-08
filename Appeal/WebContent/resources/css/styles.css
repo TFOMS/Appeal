@@ -72,3 +72,13 @@ hr {
    border-bottom: 1px solid #0000;
 }
 
+
+
+.blockoutletter{
+	font-size: 9pt;
+    clear: both;
+    margin: 0;
+    color: gray;
+    padding: 4px;
+    text-align: center;
+}

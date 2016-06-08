@@ -42,7 +42,7 @@ public class PetitDAOImpl implements PetitDAO {
     	
     	if(username.equals("callnight5001") || username.equals("callnight5002") || username.equals("callnight5003")){
     		query = sessionFactory.getCurrentSession().createQuery(
-        			"select t from Petit t, BlockGER2016 t2  where (t.username = :username or t.username = '"+"callnight5003"+"' or t.username = '"+"callnight5001"+"' or t.username = '"+"callnight5002"+"' or t.username='"+"auto"+"')and t.id=t2.idblockger2016 and t2.regname='"+"auto"+"' and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by t.id desc");
+        			"select t from Petit t, BlockGER2016 t2  where (t.username = :username or t.username = '"+"callnight5003"+"' or t.username = '"+"ÒÔÎÌÑ"+"' or t.username = '"+"callnight5001"+"' or t.username = '"+"callnight5002"+"' or t.username='"+"auto"+"'   or t.username='"+"ÑÈÌÀÇ"+"' or t.username='"+"ĞÎÑÍÎ"+"' or t.username='"+"ÈÍÃÎÑÑÒĞÀÕ"+"') and t.id=t2.idblockger2016 and (t2.regname='"+"auto"+"' or t2.regname='"+"callnight5001"+"' or t2.regname='"+"callnight5002"+"' or t2.regname='"+"callnight5003"+"') and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by t.id desc");
             query.setParameter("username", username);
     	}
     	
@@ -71,6 +71,13 @@ public class PetitDAOImpl implements PetitDAO {
     	{
 			query = sessionFactory.getCurrentSession().createQuery(
 			"from Petit where (username = :username or username='"+"ÒÔÎÌÑ"+"') and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by id desc");
+			query.setParameter("username", username);
+    	}
+    	
+    	if(username.equals("kuznetsova"))
+    	{
+			query = sessionFactory.getCurrentSession().createQuery(
+			"from Petit where (username = :username  or username='"+"ÒÔÎÌÑ"+"') and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by id desc");
 			query.setParameter("username", username);
     	}
 		
@@ -109,12 +116,17 @@ public class PetitDAOImpl implements PetitDAO {
 					+ "or username='"+"smo_rosno"+"'"
 					+ "or username='"+"hamitov"+"' "
 					+ "or username='"+"mityanina"+"' "
+					+ "or username='"+"kuznetsova"+"' "
 					+ "or username='"+"vasilyeva"+"' "
 					+ "or username='"+"smyvin"+"' "
 					+ "or username='"+"ernso"+"' "
 					+ "or username='"+"call5001"+"' "
 					+ "or username='"+"call5002"+"' "
 					+ "or username='"+"call5003"+"' "
+					+ "or username='"+"callnight5001"+"' "
+					+ "or username='"+"callnight5002"+"' "
+					+ "or username='"+"callnight5003"+"' "
+					+ "or username='"+"auto"+"' "
 					+ "or username='"+"eremina"+"') and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by id desc");
 			query.setParameter("username", username);
     	}

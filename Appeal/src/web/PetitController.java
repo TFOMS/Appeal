@@ -45,6 +45,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import pylypiv.tfoms.ftp.FTPDownloadFileDemo;
 import res.Fields;
 import res.PetitID;
 import res.TransferFiles;
@@ -99,7 +100,7 @@ public class PetitController {
 		nightcallsprocess(request);
 		
     	map.put("petit", new Petit());
-    	List<Petit> pl = petitService.listPetit(getUserName()); //new ArrayList<Petit>(); 
+    	List<Petit> pl = petitService.listPetit(getUserName());// new ArrayList<Petit>(); 
     	//Petit t = new Petit();
     	//pl.add(t);
     	for(Petit pt : pl)
@@ -109,21 +110,24 @@ public class PetitController {
     		//pt.getBlockger2016().setDate_close(pt.getBlockger2016().getDate_close().substring(8, 10) + "."+pt.getBlockger2016().getDate_close().substring(5, 7) + "."+pt.getBlockger2016().getDate_close().substring(0, 4));
     	}
         map.put("petitList", pl);
-        System.out.println("@@TEST "+pl);
 		if(getUserName().equals("sasha") ||
 				getUserName().equals("mityanina") ||
 				getUserName().equals("vasilyeva") ||
 				getUserName().equals("smyvin") ||
 				getUserName().equals("popova") ||
+				getUserName().equals("kuznetsova") ||
 				getUserName().equals("eremina") ||
 				getUserName().equals("hamitov") ||
 				getUserName().equals("filimonova") ||
 				getUserName().equals("osipova")) {
 			
 													map.put("sourceList", source1);
-													map.put("listassign", Fields.getfirsttfoms());
 													map.put("conectList", Fields.getConect());
 													map.put("presentList", Fields.getPresent());
+				if(getUserName().equals("vasilyeva") || getUserName().equals("smyvin"))
+				{
+					map.put("listassign", Fields.getProperties());
+				}else{	map.put("listassign", Fields.getfirsttfoms());	}
 		} else {
 			if(getUserName().equals("ernso") 
 					|| getUserName().equals("call5001")
@@ -186,7 +190,7 @@ public class PetitController {
     	
     	String para = request.getParameter("submit");
     	
-    	// ловим с клинта нажатую кнопку
+    	// ловим с клиЕнта нажатую кнопку
     	if(para.trim().equals("Завершить")){
     		petit.getBlockger2016().setState(3);
     		petit.getBlockger2016().setDate_end(new Date());
@@ -195,6 +199,13 @@ public class PetitController {
 		return adds(petit, bindingResult,request);
     }
     
+    @RequestMapping(value = "/refnc", method = RequestMethod.GET)
+    public String refreshnightcall() throws IOException
+    {
+    	FTPDownloadFileDemo ftp = new FTPDownloadFileDemo();
+    	ftp.startFtp();
+    	return "redirect:/index";
+    }
     
     @RequestMapping(value = "/nightcallfile/{petitId}", method = RequestMethod.GET)
     public void downloadcall(@PathVariable("petitId")Integer petitId,HttpServletRequest request,HttpServletResponse response) throws IOException
@@ -242,6 +253,7 @@ public class PetitController {
     @RequestMapping(value = "/refresh/add", method = RequestMethod.POST)
     public String refreshAddPetit(@ModelAttribute("petit") @Valid Petit petit, BindingResult bindingResult,HttpServletRequest request) {
     	String pa = request.getParameter("submit");
+    	
     	if(pa.trim().equals("Завершить")){
     		petit.getBlockger2016().setState(3);
     		petit.getBlockger2016().setDate_end(new Date());
@@ -271,19 +283,32 @@ public class PetitController {
   		  	try { date = df.parse(ff); } catch (ParseException e) { e.printStackTrace(); }
     		petit.getBlockger2016().setDate_end(date);
 		}
+		String para = request.getParameter("submit");
+		
 		/* Если нажата кнопка сохранить то в поле username добавляется ключ (ключ приходит с клиента input select - "назначить")
 		 * Ключ - это значение при котором записи из базы будут доступны определенным группам пользователей
 		 */
-		String para = request.getParameter("submit");
+		/*
+		 * Обрабатывается нажатие клавиши назначить в режиме редактирования ночным 
+		 */
+	   	
 		if(para.trim().equals("Сохранить"))
 		{
-			System.out.println("@@!!@@@@@@@!!!!!!!!     "+petit.getUsername());
+			//System.out.println("@@!!@@@@@@@!!!!!!!!     "+petit.getUsername());
 		}else
-		{
-			petit.setUsername(getUserName());
+		{ 
+			if(para.trim().equals("Назначить"))
+			{
+	    		petit.getBlockger2016().setState(1);
+	    		petit.getBlockger2016().setRegname(getUserName());
+	    	}else
+	    	{
+	    		petit.setUsername(getUserName());
+	    	}	
 		}
 	    
 	    petit.getBlockger2016().setPetit(petit);
+	    petit.getBloutboindletter2016().setPetit(petit);
 	    System.out.println("@@@@@@@@@@@@@@@@@@@@  "+petit);
 		petitService.addPetit(petit);
 		return "redirect:/index";
@@ -551,6 +576,7 @@ public class PetitController {
 	    		String []d =f.list();
 	    		for(int i=0;i < d.length; i++){
 	    			if(d[i].contains(".wav")){
+	    				String tel = parsenumTel(d[i]);
 	    				// вытаскиваем дату
 	    				String ff = d[i].substring(0,d[i].indexOf("_"));
 	    				//check the day
@@ -576,6 +602,7 @@ public class PetitController {
 	    				
 	    				Petit petit = new Petit();
 	    				petit.setDateInput(ff);
+	    				petit.setTel(tel);
 	    				petit.setUsername("auto");
 	    				BlockGER2016 blo = new BlockGER2016();
 	    				blo.setRegname("auto");
@@ -593,4 +620,25 @@ public class PetitController {
     	System.out.println("WWWWWWW "+path);
     	
     }
+    
+    private String parsenumTel(String val){
+    	
+		// вытаскиваем дату
+    	char []t = val.toCharArray();
+    	int count = 0;
+    	int startsubstr = 0;
+    	int endsubstr = 0;
+    	for (int j = 0; j < t.length; j++) {
+			if(t[j] == '_') count++;
+			if(count ==2 && t[j] == '_'){
+				startsubstr = j;
+			}
+			if(count == 3 && t[j] == '_'){
+				endsubstr = j;
+			}
+		}
+		String ff = val.substring(startsubstr+1,endsubstr);
+		
+		return ff;
+    } 
 }

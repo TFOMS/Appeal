@@ -5,8 +5,9 @@
 
 <hibernate-configuration>
 	<session-factory>
-        <property name="show_sql">false</property>
+        
         <property name="hbm2ddl.auto">update</property>
+
 	
 		<mapping class="domain.Petit" />
 		<mapping class="domain.Source" />
@@ -23,6 +24,8 @@
  		<mapping class="domain.Rectif3" />
  		<mapping class="domain.Rectif4" />
  		<mapping class="domain.Insur" />
- 		<mapping class="domain.BlockGER2016" /> 		
+ 		<mapping class="domain.BlockGER2016" />
+ 		<mapping class="domain.blOutboindLETTER2016" />
+ 		<mapping class="domain.Outboundmany" /> 		
 	</session-factory>
 </hibernate-configuration>
