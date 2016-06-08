@@ -449,9 +449,9 @@
 	      <form:input id="dateInput" path="dateInput"/>
 	   	</c:if>
 	   	<c:if test="${petit.id ne null}">
-  			
-	   		<form:hidden id="dateInput" path="dateInput"/>
-			<spring:message code="label.id" />&nbsp<c:out value="${petit.num}" />&nbsp&nbsp&nbsp&nbsp<spring:message code="label.dateInput" />&nbsp<c:out value="${petit.dateInput}" />
+			<spring:message code="label.id" />&nbsp<c:out value="${petit.num}" />&nbsp&nbsp&nbsp&nbsp
+			<spring:message code="label.dateInput" />&nbsp<c:out value="${petit.dateInput}" />
+			<form:hidden id="tupin" path="dateInput" value="${petit.dateInput}"/>
 	   	</c:if>
 	   	
 	 	<form:label path="sourceId"><spring:message code="label.source" /></form:label>
@@ -945,8 +945,5 @@
 </section>
 </c:if>
 	
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/libs/sockjs/sockjs.min.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/libs/stomp-websocket/lib/stomp.min.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/user_js/WS.js"></script>
 </body>
 </html>
