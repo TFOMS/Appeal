@@ -344,6 +344,11 @@
 		$(function() {
 			$( "#date_response" ).datepicker({dateFormat:'dd.mm.yy'});
 		});
+		$(function() {
+			$( "#date_subresponse" ).datepicker({dateFormat:'dd.mm.yy'});
+			$( "#date_subresponse1" ).datepicker({dateFormat:'dd.mm.yy'});
+			$( "#date_subresponse2" ).datepicker({dateFormat:'dd.mm.yy'});
+		});
 		
 	</script>
 	<script>
@@ -626,23 +631,36 @@
 </sec:authorize>                
                 <div class="hide2">
 					<p>
-					<div style="float:left;">
-						<div class="blockoutletter">
 							<form:label style="float:none;" path="bloutboindletter2016.date_between">Дата промежуточного ответа</form:label><br>
-		      				<form:input style="float:none;" id="datebetween" path="bloutboindletter2016.date_between"/>
-	      				</div>
-	      				<div class="blockoutletter">
+		      				<form:input style="float:none;" id="datebetween"  path="bloutboindletter2016.date_between"/>
+<br>
 							<form:label style="float:none;" path="bloutboindletter2016.date_querymedDoc">Дата запроса мед.документации</form:label><br>
 		      				<form:input style="float:none;" id="date_med_doc" path="bloutboindletter2016.date_querymedDoc"/>
-	      				</div>
-	      			</div>	
 					</p>                
 	      			<p>
-	      				<form:label path="bloutboindletter2016.date_passmedDoc">Дата передачи мед.документации в ОМЭР</form:label>
-	      				<form:input id="date_passOmer" path="bloutboindletter2016.date_passmedDoc"/>
-	      				
 	      				<form:label path="bloutboindletter2016.date_obtainAkt">Дата получения Актов МЭ</form:label>
 	      				<form:input id="date_receive" path="bloutboindletter2016.date_obtainAkt"/>
+	      				
+	      				<form:label path="bloutboindletter2016.date_passmedDoc">Дата передачи мед.документации в ОМЭР</form:label>
+      					<form:input id="date_passOmer" path="bloutboindletter2016.date_passmedDoc"/>
+	      			</p>
+	      			<p>
+	      				<form:label path="bloutboindletter2016.many[0].date_subquery">Дата дополнительного запроса/ответа</form:label>
+	      				<form:input id="date_subresponse"  path="bloutboindletter2016.many[0].date_subquery"/>
+	      				<form:label path="bloutboindletter2016.many[0].note">Заметка</form:label>
+	      				<form:input type="text"  path="bloutboindletter2016.many[0].note"/>
+	      			</p>
+	      			<p>
+	      				<form:label path="bloutboindletter2016.many[1].date_subquery">Дата дополнительного запроса/ответа</form:label>
+	      				<form:input id="date_subresponse1"  path="bloutboindletter2016.many[1].date_subquery"/>
+	      				<form:label path="bloutboindletter2016.many[1].note">Заметка</form:label>
+	      				<form:input type="text"  path="bloutboindletter2016.many[1].note"/>
+	      			</p>
+	      			<p>
+	      				<form:label path="bloutboindletter2016.many[2].date_subquery">Дата дополнительного запроса/ответа</form:label>
+	      				<form:input id="date_subresponse2"  path="bloutboindletter2016.many[2].date_subquery"/>
+	      				<form:label path="bloutboindletter2016.many[2].note">Заметка</form:label>
+	      				<form:input type="text"  path="bloutboindletter2016.many[2].note"/>
 	      			</p>
 	      			<p>	
 	      				<form:label path="bloutboindletter2016.date_response">Дата окончательного ответа</form:label>
@@ -660,8 +678,7 @@
 							<form:option value="hamitov" label="hamitov" />
 						</form:select>
                 	</p>
-                	<p>
-                	</p>
+                	
                 </div>
                 <p>
                 	<input id="inboundLetter" class='btn-slide2' type="button" value="Исходящее письмо"/>
@@ -691,6 +708,7 @@
 						</sec:authorize>
 						
                 		<sec:authorize access="!hasRole('ROLE_NIGHT')">
+                		<c:if test="${(petit.presentId == 2)}">
 							<input name="cancel_button" onclick="cancelback()" type="button" value="<spring:message code="label.cancelpetit"/>"/>
 							
 							<input name="submit" type="submit" value="<spring:message code="label.editpetit"/>" 
@@ -702,7 +720,22 @@
 								<input name="submit" type="submit" value="<spring:message code="label.endpetit"/>" 
 									onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
 								/>
-							</c:if>	
+							</c:if>
+						</c:if>
+						<c:if test="${(petit.presentId != 2)}">
+							<input name="cancel_button" onclick="cancelback()" type="button" value="<spring:message code="label.cancelpetit"/>"/>
+							
+							<input name="submit" type="submit" value="<spring:message code="label.editpetit"/>" 
+								onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
+							/>
+							
+							<c:set var="gu" value="${petit.blockger2016.state}"/>
+							<c:if test="${(gu < 3)}">	
+								<input name="submit" type="submit" value="<spring:message code="label.endpetit"/>" 
+									onclick="document.getElementById('typeWarning').hidden = false;document.getElementById('causeWarning').hidden = false;document.getElementById('rectif1Warning').hidden = false;"
+								/>
+							</c:if>
+						</c:if>
 						</sec:authorize>
 						<sec:authorize access="hasRole('ROLE_ADMIN')">
 						  		<input name="сlose_button" onclick="" type="button" value="Закрыть"/>
@@ -759,12 +792,16 @@
 	</c:if>				
 				
 	<form:hidden path="blockger2016.idblockger2016"/>
-	<form:hidden path="blockger2016.state" value="${2}" />
+	<form:hidden path="blockger2016.state" value="${petit.blockger2016.state}" />
 	<form:hidden path="blockger2016.regsource_id"/>
 	<form:hidden path="blockger2016.regname"/>
 	
 	<form:hidden path="bloutboindletter2016.idletter"/>
-				
+	<c:if test="${petit.presentId == 2}">	
+		<form:hidden path="bloutboindletter2016.many[0].idlettermany"/>
+		<form:hidden path="bloutboindletter2016.many[1].idlettermany"/>
+		<form:hidden path="bloutboindletter2016.many[2].idlettermany"/>
+	</c:if>
 	<!-- Если пользователь проваливается в форму редактирования  при state =3 (завершен)
 	то передаем тот же самый date_end по новой и в базе срабатывает триггер иначе в базу добавить пустая date_end-->
 	<input type="hidden" name="fil" value="${petit.blockger2016.date_end}"/>
@@ -837,7 +874,7 @@
         </tr>
     </thead>
     <tbody>
-          <c:forEach items="${petitList}" var="petit">
+          <c:forEach items="${petitList}" var="petit" >
   			<c:set var="statecl" value="${petit.blockger2016.state}"/>
   			
   			<c:if test="${(statecl == 3 || statecl == 4)}">
@@ -916,7 +953,17 @@
 			    	<td><a id="iddel" href="delete/${petit.id}" title="Удалить"><i class="fa fa-trash-o fa-2x"></i></a></td>
 					<td><a id="iddel" href="refresh/${petit.id}" title="Редактировать"><i class="fa fa-pencil-square-o  fa-2x" aria-hidden="true"></i></a></td>
 					<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<c:if test="${(petit.presentId == 2)}">
+					    <c:if test="${(statecl != 2)}">
+							<td><a id="iddel" href="close/${petit.id}" title="Закрыть обращение"><i class="fa fa-unlock  fa-2x" aria-hidden="true"></i></a></td>
+						</c:if>
+						<c:if test="${(statecl == 2)}">
+							<td><i class="fa fa-unlock  fa-2x noactive" aria-hidden="true"></i></td>
+						</c:if>
+					</c:if>
+					<c:if test="${(petit.presentId != 2)}">
 						<td><a id="iddel" href="close/${petit.id}" title="Закрыть обращение"><i class="fa fa-unlock  fa-2x" aria-hidden="true"></i></a></td>
+					</c:if>
 					</sec:authorize>
 					<sec:authorize access="!hasRole('ROLE_ADMIN')">
 						<td><i class="fa fa-unlock  fa-2x noactive" aria-hidden="true"></i></td>

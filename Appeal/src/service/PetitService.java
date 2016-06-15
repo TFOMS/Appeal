@@ -18,6 +18,8 @@ import domain.TypeL;
 
 public interface PetitService {
 
+	 public void removeOldmanyNotes(Integer id);
+	
     public void addPetit(Petit petit);
 
     public List<Petit> listPetit(String username);

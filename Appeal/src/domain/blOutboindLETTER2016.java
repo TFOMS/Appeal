@@ -20,6 +20,8 @@ import javax.persistence.Table;
 
 
 
+
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -167,7 +169,7 @@ public class blOutboindLETTER2016 {
 
 
 
-	@Override
+/*	@Override
 	public String toString() {
 		return "blOutboindLETTER2016 [idletter=" + idletter + ", "
 				+ "date_between=" + date_between
@@ -176,7 +178,7 @@ public class blOutboindLETTER2016 {
 				+ date_obtainAkt + ", date_response=" + date_response
 				+ ", numOutLetter=" + numOutLetter + ", responsible="
 				+ responsible + "]";
-	}
+	}*/
 
 	@OneToMany(mappedBy="bloutboindletter2016", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@ElementCollection(targetClass=Outboundmany.class)
@@ -190,6 +192,34 @@ public class blOutboindLETTER2016 {
 		this.many = many;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("blOutboindLETTER2016 [idletter=");
+		builder.append(idletter);
+		//builder.append(", petit=");
+		//builder.append(petit);
+		builder.append(", date_between=");
+		builder.append(date_between);
+		builder.append(", date_querymedDoc=");
+		builder.append(date_querymedDoc);
+		builder.append(", date_passmedDoc=");
+		builder.append(date_passmedDoc);
+		builder.append(", date_obtainAkt=");
+		builder.append(date_obtainAkt);
+		builder.append(", date_response=");
+		builder.append(date_response);
+		builder.append(", numOutLetter=");
+		builder.append(numOutLetter);
+		builder.append(", responsible=");
+		builder.append(responsible);
+		builder.append(", many=");
+		builder.append(many);
+		builder.append("]");
+		return builder.toString();
+	}
+
+	
 
 
 	

@@ -15,6 +15,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import domain.Outboundmany;
 import domain.Petit;
 
 @Repository
@@ -77,7 +78,7 @@ public class PetitDAOImpl implements PetitDAO {
     	if(username.equals("kuznetsova"))
     	{
 			query = sessionFactory.getCurrentSession().createQuery(
-			"from Petit where (username = :username  or username='"+"ртнля"+"') and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by id desc");
+			"select t from Petit t, BlockGER2016 t2 where t2.regname = :username and t.id=t2.idblockger2016 and to_char(date_input, 'yyyy')>=to_char(sysdate, 'yyyy')  order by id desc");
 			query.setParameter("username", username);
     	}
 		
@@ -146,6 +147,15 @@ public class PetitDAOImpl implements PetitDAO {
         if (null != petit) {
             sessionFactory.getCurrentSession().delete(petit);
         }
+    }
+    
+    public void removeOutboundmany(Integer id) {
+        Query query = null;
+		query = sessionFactory.getCurrentSession().createQuery("delete from Outboundmany t where (t.idlettermany = :id");
+        query.setParameter("id", id);
+        
+        query.executeUpdate();
+    	
     }
     
     @SuppressWarnings("unchecked")

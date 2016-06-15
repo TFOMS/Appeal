@@ -28,6 +28,7 @@ import javax.validation.Valid;
 
 import net.sf.jasperreports.engine.JRException;
 
+import org.apache.commons.codec.net.QCodec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -57,6 +58,7 @@ import domain.Conect;
 import domain.Hsp;
 import domain.Insur;
 import domain.Mo;
+import domain.Outboundmany;
 import domain.Petit;
 import domain.Present;
 import domain.Rectif1;
@@ -186,14 +188,31 @@ public class PetitController {
     }
    
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addPetit(@ModelAttribute("petit") @Valid Petit petit, BindingResult bindingResult,HttpServletRequest request) {
+    public String addPetit(@ModelAttribute("petit") @Valid Petit petit, BindingResult bindingResult,HttpServletRequest request) throws ParseException {
     	
     	String para = request.getParameter("submit");
     	
-    	// ловим с клиЕнта нажатую кнопку
+    	/* ловим с клиЕнта нажатую кнопку
+    	 * ЕСЛИ с клиента прилетает письменное обращение petit.getConectId() ==2  и дата исходящего пустая getDate_response() то статус = 2(в работе) и date_end = ""
+    	 * Если письменное и дата ответа не пустая то статус = 3
+    	 */
     	if(para.trim().equals("Завершить")){
-    		petit.getBlockger2016().setState(3);
-    		petit.getBlockger2016().setDate_end(new Date());
+    		if(petit.getPresentId() == 2 && petit.getBloutboindletter2016().getDate_response().equals("")){
+    			petit.getBlockger2016().setState(2);
+    		}else{
+    			
+    			if(petit.getPresentId() == 2 && !petit.getBloutboindletter2016().getDate_response().equals(""))
+    			{
+    				petit.getBlockger2016().setState(3);
+    				
+    	  		  	DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss.S");
+	        		petit.getBlockger2016().setDate_end(df.parse(petit.getBloutboindletter2016().getDate_response().concat(" 01:00:00.123")));
+    			}
+    			else{
+		    			petit.getBlockger2016().setState(3);
+		        		petit.getBlockger2016().setDate_end(new Date());
+    			}
+    		}
     	}
     	
 		return adds(petit, bindingResult,request);
@@ -255,8 +274,19 @@ public class PetitController {
     	String pa = request.getParameter("submit");
     	
     	if(pa.trim().equals("Завершить")){
-    		petit.getBlockger2016().setState(3);
-    		petit.getBlockger2016().setDate_end(new Date());
+    		if(petit.getPresentId() == 2 && petit.getBloutboindletter2016().getDate_response().equals("")){
+    			petit.getBlockger2016().setState(2);
+    		}
+    		else if(petit.getPresentId() == 2 && !petit.getBloutboindletter2016().getDate_response().equals("")){
+    			petit.getBlockger2016().setState(3);
+    			DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss.S");
+        		try { petit.getBlockger2016().setDate_end(df.parse(petit.getBloutboindletter2016().getDate_response().concat(" 01:00:00.123")));} catch (ParseException e) {
+					e.printStackTrace();
+				}
+    		}else{
+    			petit.getBlockger2016().setState(3);
+    			petit.getBlockger2016().setDate_end(new Date());
+    		}
     	}
 		return adds(petit, bindingResult,request);
 	}
@@ -292,6 +322,8 @@ public class PetitController {
 		 * Обрабатывается нажатие клавиши назначить в режиме редактирования ночным 
 		 */
 	   	
+		System.out.println("hjdthrf "+petit.getPresentId()+" "+para.trim()+" "+petit.getBlockger2016().getState());
+		
 		if(para.trim().equals("Сохранить"))
 		{
 			//System.out.println("@@!!@@@@@@@!!!!!!!!     "+petit.getUsername());
@@ -303,12 +335,40 @@ public class PetitController {
 	    		petit.getBlockger2016().setRegname(getUserName());
 	    	}else
 	    	{
-	    		petit.setUsername(getUserName());
+	    		if(petit.getPresentId() == 2 && para.trim().equals("Изменить") && petit.getBlockger2016().getState() == 3 ){
+	    			
+	    			DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss.S");
+	        		try { petit.getBlockger2016().setDate_end(df.parse(petit.getBloutboindletter2016().getDate_response().concat(" 01:00:00.123")));} catch (ParseException e) {
+						e.printStackTrace();
+					}
+	        		petit.setUsername(getUserName());
+	    		}
+	    		else{
+	    			
+	    			if(petit.getPresentId() != 2 && para.trim().equals("Изменить") && petit.getBlockger2016().getState() == 1 ){
+	    				
+	    				petit.getBlockger2016().setState(2);
+		        		petit.setUsername(getUserName());
+		    		}
+	    			
+	    			petit.setUsername(getUserName());
+	    		}
 	    	}	
 		}
-	    
+
+		if(petit.getPresentId() == 2){
+			petit.getBloutboindletter2016().getMany().get(0).setBloutboindletter2016(petit.getBloutboindletter2016());
+			petit.getBloutboindletter2016().getMany().get(1).setBloutboindletter2016(petit.getBloutboindletter2016());
+			petit.getBloutboindletter2016().getMany().get(2).setBloutboindletter2016(petit.getBloutboindletter2016());
+			petit.getBloutboindletter2016().setPetit(petit);
+			
+		}else{
+			petit.setBloutboindletter2016(null);
+		}
+		
+		
 	    petit.getBlockger2016().setPetit(petit);
-	    petit.getBloutboindletter2016().setPetit(petit);
+	    
 	    System.out.println("@@@@@@@@@@@@@@@@@@@@  "+petit);
 		petitService.addPetit(petit);
 		return "redirect:/index";

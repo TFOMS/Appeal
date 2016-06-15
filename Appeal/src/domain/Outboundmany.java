@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -59,8 +60,8 @@ public class Outboundmany {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Outboundmany [idlettermany=");
 		builder.append(idlettermany);
-		builder.append(", bloutboindletter2016=");
-		builder.append(bloutboindletter2016);
+		//builder.append(", bloutboindletter2016=");
+		//builder.append(bloutboindletter2016);
 		builder.append(", date_subquery=");
 		builder.append(date_subquery);
 		builder.append(", note=");
@@ -68,5 +69,7 @@ public class Outboundmany {
 		builder.append("]");
 		return builder.toString();
 	}
-
+	
+	
+	
 }

@@ -63,6 +63,14 @@ public class PetitServiceImpl implements PetitService {
     	petitDAO.removePetit(id);
     }
     
+    /*
+     * Remove old records 
+     */
+    @Transactional
+    public void removeOldmanyNotes(Integer id) {
+    	petitDAO.removePetit(id);
+    }
+    
     private Map<Integer, TypeL> types = new LinkedHashMap<Integer, TypeL>();
     private Map<Integer, CauseL> causes = new LinkedHashMap<Integer, CauseL>();
     private Map<Integer, Rectif1L> rectifs1 = new LinkedHashMap<Integer, Rectif1L>();
