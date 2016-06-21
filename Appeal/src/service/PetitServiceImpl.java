@@ -183,14 +183,14 @@ public class PetitServiceImpl implements PetitService {
     	Connection conn = connectForJasper();
 		Map mapReport = mapForJasper(dateReport, username);
 			
-		JasperReport jasperReport = JasperCompileManager.compileReport("D:\\Appeals3\\Appeal\\reports\\pg_form_1_1.jrxml");
+		JasperReport jasperReport = JasperCompileManager.compileReport("D:\\Appeals3\\Appeal\\reports\\pg_form_1_1dop.jrxml");
 		jasperReport.setProperty(JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT, "true");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, mapReport, conn);
 		JRXlsExporter exporter = new JRXlsExporter();
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("D:\\Appeals3\\Appeal\\reports\\pg_form_1_1.xls"));
 		exporter.exportReport();
-		
+	/*	
 		jasperReport = JasperCompileManager.compileReport("D:\\Appeals3\\Appeal\\reports\\pg_form_1_2.jrxml");
 		jasperReport.setProperty(JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT, "true");
 		jasperPrint = JasperFillManager.fillReport(jasperReport, mapReport, conn);
@@ -214,7 +214,7 @@ public class PetitServiceImpl implements PetitService {
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("D:\\Appeals3\\Appeal\\reports\\pg_form_2_1.xls"));
 		exporter.exportReport();
-		
+	*/	
    		disconnectForJasper(conn);
 	}
 
@@ -328,7 +328,7 @@ public class PetitServiceImpl implements PetitService {
 		
 		Properties properties = new Properties();
 		try {
-			properties.load(new FileInputStream("D:\\Appeals3\\Appeal\\WebContent\\WEB-INF\\jdbc.properties"));
+			properties.load(new FileInputStream("D:\\Appeals3\\Appeal\\WebContent\\WEB-INF\\jdbc2.properties"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -338,6 +338,7 @@ public class PetitServiceImpl implements PetitService {
 		 // Class.forName(properties.getProperty("jdbc.driverClassName")).newInstance();
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 	
+			System.out.println("############################ "+properties.getProperty("jdbc.databaseurl") +" --------- "+properties.getProperty("jdbc.username"));
       	conn = DriverManager.getConnection(
       			properties.getProperty("jdbc.databaseurl"), 
       			properties.getProperty("jdbc.username"), 
