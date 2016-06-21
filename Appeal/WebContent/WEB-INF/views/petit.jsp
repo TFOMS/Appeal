@@ -676,6 +676,9 @@
 							<form:option value="smyvin" label="smyvin" />
 							<form:option value="eremina" label="eremina" />
 							<form:option value="hamitov" label="hamitov" />
+							<form:option value="hamitov" label="smo_simaz" />
+							<form:option value="hamitov" label="smo_ingos" />
+							<form:option value="hamitov" label="smo_rosno" />
 						</form:select>
                 	</p>
                 	

@@ -199,6 +199,8 @@ public class PetitController {
     	if(para.trim().equals("Завершить")){
     		if(petit.getPresentId() == 2 && petit.getBloutboindletter2016().getDate_response().equals("")){
     			petit.getBlockger2016().setState(2);
+    			if(petit.getBloutboindletter2016().getResponsible().equals("")){ petit.setUsername(getUserName());}
+        		else{petit.setUsername(petit.getBloutboindletter2016().getResponsible());}
     		}else{
     			
     			if(petit.getPresentId() == 2 && !petit.getBloutboindletter2016().getDate_response().equals(""))
@@ -207,6 +209,9 @@ public class PetitController {
     				
     	  		  	DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss.S");
 	        		petit.getBlockger2016().setDate_end(df.parse(petit.getBloutboindletter2016().getDate_response().concat(" 01:00:00.123")));
+	        		
+	        		if(petit.getBloutboindletter2016().getResponsible().equals("")){ petit.setUsername(getUserName());}
+	        		else{petit.setUsername(petit.getBloutboindletter2016().getResponsible());}
     			}
     			else{
 		    			petit.getBlockger2016().setState(3);
@@ -276,6 +281,8 @@ public class PetitController {
     	if(pa.trim().equals("Завершить")){
     		if(petit.getPresentId() == 2 && petit.getBloutboindletter2016().getDate_response().equals("")){
     			petit.getBlockger2016().setState(2);
+    			if(petit.getBloutboindletter2016().getResponsible().equals("")){ petit.setUsername(getUserName());}
+        		else{petit.setUsername(petit.getBloutboindletter2016().getResponsible());}
     		}
     		else if(petit.getPresentId() == 2 && !petit.getBloutboindletter2016().getDate_response().equals("")){
     			petit.getBlockger2016().setState(3);
@@ -283,6 +290,8 @@ public class PetitController {
         		try { petit.getBlockger2016().setDate_end(df.parse(petit.getBloutboindletter2016().getDate_response().concat(" 01:00:00.123")));} catch (ParseException e) {
 					e.printStackTrace();
 				}
+        		if(petit.getBloutboindletter2016().getResponsible().equals("")){ petit.setUsername(getUserName());}
+        		else{petit.setUsername(petit.getBloutboindletter2016().getResponsible());}
     		}else{
     			petit.getBlockger2016().setState(3);
     			petit.getBlockger2016().setDate_end(new Date());
@@ -341,17 +350,25 @@ public class PetitController {
 	        		try { petit.getBlockger2016().setDate_end(df.parse(petit.getBloutboindletter2016().getDate_response().concat(" 01:00:00.123")));} catch (ParseException e) {
 						e.printStackTrace();
 					}
-	        		petit.setUsername(getUserName());
+	        		
+	        		if(petit.getBloutboindletter2016().getResponsible().equals("")){ petit.setUsername(getUserName());}
+	        		else{petit.setUsername(petit.getBloutboindletter2016().getResponsible());}
 	    		}
 	    		else{
 	    			
+	    			if(petit.getPresentId() == 2 && para.trim().equals("Изменить") && petit.getBlockger2016().getState() == 2 ){
+	    				petit.setUsername(getUserName());
+		    		}
+	    			else{
 	    			if(petit.getPresentId() != 2 && para.trim().equals("Изменить") && petit.getBlockger2016().getState() == 1 ){
 	    				
 	    				petit.getBlockger2016().setState(2);
 		        		petit.setUsername(getUserName());
 		    		}
 	    			
+	    			if(petit.getPresentId() != 2)
 	    			petit.setUsername(getUserName());
+	    			}
 	    		}
 	    	}	
 		}
@@ -617,6 +634,15 @@ public class PetitController {
     public String close(@PathVariable("petitId") Integer petitId, ModelMap map) {
     	petitService.closeAppeal(petitId);
     	
+    	return "redirect:/index";
+    }
+
+    @RequestMapping(value = "/open/{petitId}")
+    public String open(@PathVariable("petitId") Integer petitId) {
+    	
+    	Petit pt = petitService.getPetit(petitId);
+    	pt.getBlockger2016().setState(3);
+    	petitService.addPetit(pt);
     	return "redirect:/index";
     }
     
