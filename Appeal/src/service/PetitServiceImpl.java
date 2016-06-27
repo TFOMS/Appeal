@@ -190,16 +190,16 @@ public class PetitServiceImpl implements PetitService {
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("D:\\Appeals3\\Appeal\\reports\\pg_form_1_1.xls"));
 		exporter.exportReport();
-	/*	
-		jasperReport = JasperCompileManager.compileReport("D:\\Appeals3\\Appeal\\reports\\pg_form_1_2.jrxml");
+		
+		jasperReport = JasperCompileManager.compileReport("D:\\Appeals3\\Appeal\\reports\\pg_form_1_2dop.jrxml");
 		jasperReport.setProperty(JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT, "true");
 		jasperPrint = JasperFillManager.fillReport(jasperReport, mapReport, conn);
 		exporter = new JRXlsExporter();
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("D:\\Appeals3\\Appeal\\reports\\pg_form_1_2.xls"));
 		exporter.exportReport();
-		
-		jasperReport = JasperCompileManager.compileReport("D:\\Appeals3\\Appeal\\reports\\pg_form_2_3.jrxml");
+	
+		jasperReport = JasperCompileManager.compileReport("D:\\Appeals3\\Appeal\\reports\\pg_form_2_3dop.jrxml");
 		jasperReport.setProperty(JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT, "true");
 		jasperPrint = JasperFillManager.fillReport(jasperReport, mapReport, conn);
 		exporter = new JRXlsExporter();
@@ -207,14 +207,14 @@ public class PetitServiceImpl implements PetitService {
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("D:\\Appeals3\\Appeal\\reports\\pg_form_2_3.xls"));
 		exporter.exportReport();
 		
-		jasperReport = JasperCompileManager.compileReport("D:\\Appeals3\\Appeal\\reports\\pg_form_2_1.jrxml");
+		jasperReport = JasperCompileManager.compileReport("D:\\Appeals3\\Appeal\\reports\\pg_form_2_1dop.jrxml");
 		jasperReport.setProperty(JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT, "true");
 		jasperPrint = JasperFillManager.fillReport(jasperReport, mapReport, conn);
 		exporter = new JRXlsExporter();
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("D:\\Appeals3\\Appeal\\reports\\pg_form_2_1.xls"));
 		exporter.exportReport();
-	*/	
+		
    		disconnectForJasper(conn);
 	}
 

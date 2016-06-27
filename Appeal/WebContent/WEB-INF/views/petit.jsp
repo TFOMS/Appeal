@@ -609,7 +609,12 @@
 					<form:input class="css-input" path="compens" />
 	
 					<form:label path="satisf"><spring:message code="label.satisf" /></form:label>
-					<form:input class="css-input" path="satisf" />
+					<form:select class="css-input" path="satisf">
+	      					<form:option value="" label="" />
+							<form:option value="ДА" label="ДА" />
+							<form:option value="НЕТ" label="НЕТ" />
+					</form:select>
+					
 	
 					<form:label path="compensSource"><spring:message code="label.compensSource" /></form:label>
 					<form:input class="css-input" path="compensSource" placeholder="СМО МО или ТФОМС"/>
